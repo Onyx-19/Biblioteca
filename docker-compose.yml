@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  backend-springboot:
+    build:
+      context: ./backend
+    container_name: backend-springboot
+    restart: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
