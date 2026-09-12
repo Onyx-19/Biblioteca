@@ -5,18 +5,18 @@ import com.bibliored.demo.dto.SucursalResponseDTO;
 
 import java.util.List;
 
-public interface SucursaleService {
+public interface SucursalService {
 
     SucursalResponseDTO crear (SucursalRequestDTO request);
 
-    List<SucursalRequestDTO> listarTodas();
+    List<SucursalResponseDTO> listarTodas();
 
 //    Test
 //    SucursalResponseDTO obtenerPorNombre(String nombreSucursal);
 
-    SucursalResponseDTO obtenerPorId(Integer id);
+    SucursalResponseDTO obtenerPorId(Long id);
 
-    SucursalResponseDTO actualizar(Integer id, SucursalRequestDTO request);
+    SucursalResponseDTO actualizar(Long id, SucursalRequestDTO request);
 
-    void eliminar(Integer id);
+    void eliminar(Long id);
 }

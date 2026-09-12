@@ -1,6 +1,6 @@
 package com.bibliored.demo.dto;
 
-public record test2(
+public record SucursalResponseDTO(
         Long idSucursal,
         String nombreSucursal,
         String direccionSucursal,

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record SucursalRequesDTO(
+public record SucursalRequestDTO(
         @NotBlank(message = "El nombre de la sucursal es obligatorio")
         @Size(max = 100)
         String nombreSucursal,

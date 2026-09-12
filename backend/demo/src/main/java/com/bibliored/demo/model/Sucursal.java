@@ -1,4 +1,4 @@
-package com.blibliored.demo.model;
+package com.bibliored.demo.model;
 
 import jakarta.persistence.*;
 
@@ -11,7 +11,7 @@ public class Sucursal {
     @Column(name = "id_sucursal")
     private Long idSucursal;
 
-    @Column(name = "")
+    @Column(name = "nombre_sucursal")
     private String nombreSucursal;
 
 //    @Column(name = "administrador_sucursal", nullable = false, length = 100)
