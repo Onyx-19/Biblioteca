@@ -26,7 +26,7 @@ public class AutorController {
     }
 
     @GetMapping
-    public ResponseEntity <List<AutorResponseDTO>> listarTodas (){
+    public ResponseEntity <List<AutorResponseDTO>> listarTodos (){
         return ResponseEntity.ok(autorService.listarTodos());
     }
 

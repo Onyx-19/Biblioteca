@@ -12,9 +12,9 @@ public class Autor {
     private Long idAutor;
     @Column(name = "nombre_autor", nullable = false, length =100)
     private String nombreAutor;
-    @Column(name = "anno_nacimiento", nullable = false, length = 4)
+    @Column(name = "anno_nacimiento", length = 4)
     private String annoNacimiento;
-    @Column(name = "anno_deceso", nullable = false, length = 4)
+    @Column(name = "anno_deceso", length = 4)
     private String annoDeceso;
 
     public Autor(Long idAutor, String nombreAutor, String annoNacimiento, String annoDeceso) {
