@@ -18,9 +18,9 @@ public class Usuario {
     private String correoUsuario;
     @Column (name = "contrasena", nullable = false, length = 150)
     private String contrasena;
-    @Column (name = "direccion_usuario", nullable = false, length = 100)
+    @Column (name = "direccion_usuario", length = 100)
     private String direccionUsuario;
-    @Column (name = "telefono_usuario", nullable = false, length = 15)
+    @Column (name = "telefono_usuario", length = 15)
     private String telefonoUsuario;
     @Column (name = "rol_usuario", nullable = false, length = 50)
     private String rolUsuario;
