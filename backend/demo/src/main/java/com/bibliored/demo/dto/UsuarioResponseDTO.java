@@ -1,7 +1,5 @@
 package com.bibliored.demo.dto;
 
-import com.bibliored.demo.model.Sucursal;
-
 public record UsuarioResponseDTO(
     Long idUsuario,
     String identificacionUsuario ,

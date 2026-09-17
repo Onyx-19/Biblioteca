@@ -10,7 +10,7 @@ public class Autor {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id_autor")
     private Long idAutor;
-    @Column(name = "nombre_autor", nullable = false, length =100)
+    @Column(name = "nombre_autor", nullable = false, length = 100)
     private String nombreAutor;
     @Column(name = "anno_nacimiento", length = 4)
     private String annoNacimiento;

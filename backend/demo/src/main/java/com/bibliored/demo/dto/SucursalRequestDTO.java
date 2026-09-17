@@ -8,11 +8,14 @@ public record SucursalRequestDTO(
         @NotBlank(message = "El nombre de la sucursal es obligatorio")
         @Size(max = 100)
         String nombreSucursal,
+        @NotBlank(message = "La direccion de la sucursal es obligatoria")
         @Size (max = 100)
         String direccionSucursal,
-        @Email(message = "El correo no tiene un formato valido")
+        @NotBlank (message = "El correo de la sucursal es obligatorio")
+        @Email (message = "El correo no tiene un formato valido")
         @Size (max = 100)
         String correoSucursal,
+        @NotBlank(message = "El telefono de la sucursal es obligatorio")
         @Size (max = 15)
         String telefonoSucursal
 ) {
