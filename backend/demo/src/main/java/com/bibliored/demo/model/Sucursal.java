@@ -11,11 +11,8 @@ public class Sucursal {
     @Column(name = "id_sucursal")
     private Long idSucursal;
 
-    @Column(name = "nombre_sucursal")
+    @Column(name = "nombre_sucursal", nullable = false, length = 100)
     private String nombreSucursal;
-
-//    @Column(name = "administrador_sucursal", nullable = false, length = 100)
-//    private String administradorSucursal;
 
     @Column(name = "direccion_sucursal", nullable = false, length = 100)
     private String direccionSucursal;
@@ -29,10 +26,9 @@ public class Sucursal {
     public Sucursal(){
     }
 
-    public Sucursal(Long idSucursal, String nombreSucursal, /*String administradorSucursal,*/ String direccionSucursal, String correoSucursal, String telefonoSucursal) {
+    public Sucursal(Long idSucursal, String nombreSucursal, String direccionSucursal, String correoSucursal, String telefonoSucursal) {
         this.idSucursal = idSucursal;
         this.nombreSucursal = nombreSucursal;
-//        this.administradorSucursal = administradorSucursal;
         this.direccionSucursal = direccionSucursal;
         this.correoSucursal = correoSucursal;
         this.telefonoSucursal = telefonoSucursal;
@@ -53,14 +49,6 @@ public class Sucursal {
     public void setNombreSucursal(String nombreSucursal) {
         this.nombreSucursal = nombreSucursal;
     }
-
-//    public String getAdministradorSucursal() {
-//        return administradorSucursal;
-//    }
-//
-//    public void setAdministradorSucursal(String administradorSucursal) {
-//        this.administradorSucursal = administradorSucursal;
-//    }
 
     public String getDireccionSucursal() {
         return direccionSucursal;

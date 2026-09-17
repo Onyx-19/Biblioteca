@@ -1,6 +1,5 @@
 package com.bibliored.demo.dto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -14,8 +13,8 @@ public record ClienteRequestDTO(
         String nombreCliente,
         @Size (max = 100)
         String direccionCliente,
-        @Email
         @NotBlank (message = "El correo del cliente es obligatorio")
+        @Email (message = "El correo no tiene un formato valido")
         @Size (max = 100)
         String correoCliente,
         @NotBlank (message = "El telefono de contacto del cliente es obligatorio")

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record AutorRequestDTO(
-        @NotBlank
+        @NotBlank (message = "El nombre del autor es obligatorio")
         @Size(max = 100)
         String nombreAutor,
         @Size(max = 4)
