@@ -17,21 +17,30 @@ public class Libro {
     private String isbn;
     @Column (name = "anno_publicacion")
     private Integer annoPublicacion;
+    @Column (name = "stock")
+    private Integer stock;
+
     @ManyToOne
     @JoinColumn (name = "id_autor")
     private Autor autor;
     @ManyToOne
     @JoinColumn (name = "id_categoria")
     private Categoria categoria;
+    @ManyToOne
+    @JoinColumn(name = "id_sucursal")
+    private Sucursal sucursal;
 
-    public Libro(Long idLibro, String tituloLibro, String editorial, String isbn, Integer annoPublicacion, Autor autor, Proveedor proveedor, Categoria categoria) {
+
+    public Libro(Long idLibro, String tituloLibro, String editorial, String isbn, Integer annoPublicacion, Integer stock, Autor autor, Categoria categoria, Sucursal sucursal) {
         this.idLibro = idLibro;
         this.tituloLibro = tituloLibro;
         this.editorial = editorial;
         this.isbn = isbn;
         this.annoPublicacion = annoPublicacion;
+        this.stock = stock;
         this.autor = autor;
         this.categoria = categoria;
+        this.sucursal = sucursal;
     }
 
     public Libro(){
@@ -77,6 +86,14 @@ public class Libro {
         this.annoPublicacion = annoPublicacion;
     }
 
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
     public Autor getAutor() {
         return autor;
     }
@@ -91,5 +108,13 @@ public class Libro {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Sucursal getSucursal() {
+        return sucursal;
+    }
+
+    public void setSucursal(Sucursal sucursal) {
+        this.sucursal = sucursal;
     }
 };

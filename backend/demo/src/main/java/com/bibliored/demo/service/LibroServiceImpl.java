@@ -5,9 +5,11 @@ import com.bibliored.demo.dto.LibroResponseDTO;
 import com.bibliored.demo.model.Autor;
 import com.bibliored.demo.model.Categoria;
 import com.bibliored.demo.model.Libro;
+import com.bibliored.demo.model.Sucursal;
 import com.bibliored.demo.repository.AutorRepository;
 import com.bibliored.demo.repository.CategoriaRepository;
 import com.bibliored.demo.repository.LibroRepository;
+import com.bibliored.demo.repository.SucursalRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +20,23 @@ public class LibroServiceImpl implements LibroService {
     private LibroRepository libroRespository;
     private AutorRepository autorRepository;
     private CategoriaRepository categoriaRepository;
+    private SucursalRepository sucursalRepository;
 
     public LibroServiceImpl(LibroRepository libroRepository,
                             AutorRepository autorRepository,
-                            CategoriaRepository categoriaRepository) {
+                            CategoriaRepository categoriaRepository,
+                            SucursalRepository sucursalRepository) {
         this.libroRespository = libroRepository;
         this.autorRepository = autorRepository;
         this.categoriaRepository = categoriaRepository;
+        this.sucursalRepository = sucursalRepository;
     }
 
     @Override
     public LibroResponseDTO crear(LibroRequestDTO request) {
         Autor autor = buscarAutor(request.idAutor());
         Categoria categoria = buscarCategoria(request.idCategoria());
+        Sucursal sucursal = buscarSucursal(request.idSucursal());
         Libro libro = new Libro();
 
         libro.setTituloLibro(request.tituloLibro());
@@ -39,6 +45,7 @@ public class LibroServiceImpl implements LibroService {
         libro.setAnnoPublicacion(request.annoPublicacion());
         libro.setAutor(autor);
         libro.setCategoria(categoria);
+        libro.setSucursal(sucursal);
 
         Libro guardado = libroRespository.save(libro);
         return toRespondeDTO(guardado);
@@ -62,6 +69,7 @@ public class LibroServiceImpl implements LibroService {
     public LibroResponseDTO actualizar(Long id, LibroRequestDTO request) {
         Autor autor = buscarAutor(request.idAutor());
         Categoria categoria = buscarCategoria(request.idCategoria());
+        Sucursal sucursal = buscarSucursal(request.idSucursal());
         Libro libro = validacionPorId(id);
 
         libro.setTituloLibro(request.tituloLibro());
@@ -70,6 +78,7 @@ public class LibroServiceImpl implements LibroService {
         libro.setAnnoPublicacion(request.annoPublicacion());
         libro.setAutor(autor);
         libro.setCategoria(categoria);
+        libro.setSucursal(sucursal);
 
         Libro actualizado = libroRespository.save(libro);
         return toRespondeDTO(actualizado);
@@ -96,6 +105,11 @@ public class LibroServiceImpl implements LibroService {
                 .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado una categoria con id: " + id));
     }
 
+    private Sucursal buscarSucursal(Long id){
+        return sucursalRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado una sucursal con id: " + id));
+    }
+
     private LibroResponseDTO toRespondeDTO(Libro libro) {
         return new LibroResponseDTO (
                 libro.getIdLibro(),
@@ -103,10 +117,13 @@ public class LibroServiceImpl implements LibroService {
                 libro.getEditorial(),
                 libro.getIsbn(),
                 libro.getAnnoPublicacion(),
+                libro.getStock(),
                 libro.getAutor().getIdAutor(),
                 libro.getAutor().getNombreAutor(),
                 libro.getCategoria().getIdCategoria(),
-                libro.getCategoria().getNombreCategoria()
+                libro.getCategoria().getNombreCategoria(),
+                libro.getSucursal().getIdSucursal(),
+                libro.getSucursal().getNombreSucursal()
         );
     }
 }
