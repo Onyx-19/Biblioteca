@@ -13,9 +13,13 @@ public record LibroRequestDTO(
         @Size (max = 15)
         String isbn,
         Integer annoPublicacion,
+        @NotNull (message = "El stock es obligatorio")
+        Integer stock,
         @NotNull (message = "El autor del libro es obligatorio")
         Long idAutor,
         @NotNull (message = "La categoria del libro es obligatoria")
-        Long idCategoria
+        Long idCategoria,
+        @NotNull (message = "La sucursal es obligatoria")
+        Long idSucursal
 ) {
 }
