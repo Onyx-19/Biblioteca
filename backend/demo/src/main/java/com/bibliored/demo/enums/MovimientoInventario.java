@@ -1,6 +1,6 @@
 package com.bibliored.demo.enums;
 
-public enum TransaccionInventario {
+public enum MovimientoInventario {
     ENTRADA,
     SALIDA
 }
