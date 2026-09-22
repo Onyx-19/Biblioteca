@@ -1,6 +1,6 @@
 package com.bibliored.demo.model;
 
-import com.bibliored.demo.enums.TransaccionInventario;
+import com.bibliored.demo.enums.MovimientoInventario;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -13,12 +13,10 @@ public class Inventario {
     @Column(name = "id_transaccion")
     private Long idTransaccion;
     @Enumerated(EnumType.STRING)
-    @Column(name = "transaccion_inventario", nullable = false)
-    private TransaccionInventario transaccionInventario;
+    @Column(name = "movimiento_inventario", nullable = false)
+    private MovimientoInventario movimientoInventario;
     @Column(name = "unidades", nullable = false)
     private Integer unidades;
-    @Column(name = "valor_libro", nullable = false)
-    private Integer valorLibro;
     @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;
 
@@ -35,11 +33,10 @@ public class Inventario {
     @JoinColumn(name = "id_proveedor")
     private Proveedor proveedor;
 
-    public Inventario(Long idTransaccion, TransaccionInventario transaccionInventario, Integer unidades, Integer valorLibro, LocalDateTime fechaHora, Sucursal sucursal, Usuario usuario, Libro libro, Proveedor proveedor) {
+    public Inventario(Long idTransaccion, MovimientoInventario movimientoInventario, Integer unidades, LocalDateTime fechaHora, Sucursal sucursal, Usuario usuario, Libro libro, Proveedor proveedor) {
         this.idTransaccion = idTransaccion;
-        this.transaccionInventario = transaccionInventario;
+        this.movimientoInventario = movimientoInventario;
         this.unidades = unidades;
-        this.valorLibro = valorLibro;
         this.fechaHora = fechaHora;
         this.sucursal = sucursal;
         this.usuario = usuario;
@@ -58,12 +55,12 @@ public class Inventario {
         this.idTransaccion = idTransaccion;
     }
 
-    public TransaccionInventario getTransaccionInventario() {
-        return transaccionInventario;
+    public MovimientoInventario getMovimientoInventario() {
+        return movimientoInventario;
     }
 
-    public void setTransaccionInventario(TransaccionInventario transaccionInventario) {
-        this.transaccionInventario = transaccionInventario;
+    public void setMovimientoInventario(MovimientoInventario movimientoInventario) {
+        this.movimientoInventario = movimientoInventario;
     }
 
     public Integer getUnidades() {
@@ -72,14 +69,6 @@ public class Inventario {
 
     public void setUnidades(Integer unidades) {
         this.unidades = unidades;
-    }
-
-    public Integer getValorLibro() {
-        return valorLibro;
-    }
-
-    public void setValorLibro(Integer valorLibro) {
-        this.valorLibro = valorLibro;
     }
 
     public LocalDateTime getFechaHora() {

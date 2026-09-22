@@ -40,9 +40,8 @@ public class InventarioServiceImpl implements InventarioService{
         Libro libro = buscarLibro(request.idLibro());
         Proveedor proveedor = buscarProveedor(request.idProveedor());
 
-        inventario.setTransaccionInventario(request.transaccionInventario());
+        inventario.setMovimientoInventario(request.movimientoInventario());
         inventario.setUnidades(request.unidades());
-        inventario.setValorLibro(request.valorLibro());
         inventario.setFechaHora(LocalDateTime.now());
         inventario.setSucursal(sucursal);
         inventario.setUsuario(usuario);
@@ -75,9 +74,8 @@ public class InventarioServiceImpl implements InventarioService{
         Proveedor proveedor = buscarProveedor(request.idProveedor());
         Inventario inventario = validacionPorId(id);
 
-        inventario.setTransaccionInventario(request.transaccionInventario());
+        inventario.setMovimientoInventario(request.movimientoInventario());
         inventario.setUnidades(request.unidades());
-        inventario.setValorLibro(request.valorLibro());
         inventario.setFechaHora(LocalDateTime.now());
         inventario.setSucursal(sucursal);
         inventario.setUsuario(usuario);
@@ -125,9 +123,8 @@ public class InventarioServiceImpl implements InventarioService{
     private InventarioResponseDTO toResponseDTO(Inventario inventario) {
         return new InventarioResponseDTO(
                 inventario.getIdTransaccion(),
-                inventario.getTransaccionInventario(),
+                inventario.getMovimientoInventario(),
                 inventario.getUnidades(),
-                inventario.getValorLibro(),
                 inventario.getFechaHora(),
                 inventario.getSucursal().getIdSucursal(),
                 inventario.getSucursal().getNombreSucursal(),

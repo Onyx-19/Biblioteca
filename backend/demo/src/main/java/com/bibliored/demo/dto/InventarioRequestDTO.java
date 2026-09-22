@@ -1,17 +1,15 @@
 package com.bibliored.demo.dto;
 
-import com.bibliored.demo.enums.TransaccionInventario;
+import com.bibliored.demo.enums.MovimientoInventario;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 public record InventarioRequestDTO(
-        @NotNull(message = "El tipo de transaccion es obligatorio")
-        TransaccionInventario transaccionInventario,
+        @NotNull(message = "El tipo de movimiento de inventario es obligatorio")
+        MovimientoInventario movimientoInventario,
         @NotNull(message = "La cantidad de unidades es obligatoria")
         Integer unidades,
-        @NotNull(message = "El valor del libro es obligatorio")
-        Integer valorLibro,
         LocalDateTime fechaHora,
         @NotNull(message = "La sucursal es obligatoria")
         Long idSucursal,
