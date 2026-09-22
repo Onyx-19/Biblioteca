@@ -41,6 +41,7 @@ public class InventarioServiceImpl implements InventarioService{
         Proveedor proveedor = buscarProveedor(request.idProveedor());
 
         inventario.setMovimientoInventario(request.movimientoInventario());
+        inventario.setMotivoMovimiento(request.motivoMovimiento());
         inventario.setUnidades(request.unidades());
         inventario.setFechaHora(LocalDateTime.now());
         inventario.setSucursal(sucursal);
@@ -75,6 +76,7 @@ public class InventarioServiceImpl implements InventarioService{
         Inventario inventario = validacionPorId(id);
 
         inventario.setMovimientoInventario(request.movimientoInventario());
+        inventario.setMotivoMovimiento(request.motivoMovimiento());
         inventario.setUnidades(request.unidades());
         inventario.setFechaHora(LocalDateTime.now());
         inventario.setSucursal(sucursal);
@@ -97,7 +99,6 @@ public class InventarioServiceImpl implements InventarioService{
         return inventarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado un registro de inventario con id: " + id));
     }
-
 
     private Sucursal buscarSucursal(Long id) {
         return sucursalRepository.findById(id)
@@ -124,6 +125,7 @@ public class InventarioServiceImpl implements InventarioService{
         return new InventarioResponseDTO(
                 inventario.getIdTransaccion(),
                 inventario.getMovimientoInventario(),
+                inventario.getMotivoMovimiento(),
                 inventario.getUnidades(),
                 inventario.getFechaHora(),
                 inventario.getSucursal().getIdSucursal(),

@@ -1,5 +1,6 @@
 package com.bibliored.demo.dto;
 
+import com.bibliored.demo.enums.MotivoMovimiento;
 import com.bibliored.demo.enums.MovimientoInventario;
 
 import java.time.LocalDateTime;
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 public record InventarioResponseDTO(
         Long idTransaccion,
         MovimientoInventario movimientoInventario,
+        MotivoMovimiento motivoMovimiento,
         Integer unidades,
         LocalDateTime fechaHora,
         Long idSucursal,

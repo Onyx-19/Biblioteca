@@ -1,5 +1,6 @@
 package com.bibliored.demo.model;
 
+import com.bibliored.demo.enums.MotivoMovimiento;
 import com.bibliored.demo.enums.MovimientoInventario;
 import jakarta.persistence.*;
 
@@ -15,6 +16,9 @@ public class Inventario {
     @Enumerated(EnumType.STRING)
     @Column(name = "movimiento_inventario", nullable = false)
     private MovimientoInventario movimientoInventario;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "motivo_movimiento", nullable = false)
+    private MotivoMovimiento motivoMovimiento;
     @Column(name = "unidades", nullable = false)
     private Integer unidades;
     @Column(name = "fecha_hora")
@@ -33,9 +37,10 @@ public class Inventario {
     @JoinColumn(name = "id_proveedor")
     private Proveedor proveedor;
 
-    public Inventario(Long idTransaccion, MovimientoInventario movimientoInventario, Integer unidades, LocalDateTime fechaHora, Sucursal sucursal, Usuario usuario, Libro libro, Proveedor proveedor) {
+    public Inventario(Long idTransaccion, MovimientoInventario movimientoInventario, MotivoMovimiento motivoMovimiento, Integer unidades, LocalDateTime fechaHora, Sucursal sucursal, Usuario usuario, Libro libro, Proveedor proveedor) {
         this.idTransaccion = idTransaccion;
         this.movimientoInventario = movimientoInventario;
+        this.motivoMovimiento = motivoMovimiento;
         this.unidades = unidades;
         this.fechaHora = fechaHora;
         this.sucursal = sucursal;
@@ -73,6 +78,14 @@ public class Inventario {
 
     public LocalDateTime getFechaHora() {
         return fechaHora;
+    }
+
+    public MotivoMovimiento getMotivoMovimiento() {
+        return motivoMovimiento;
+    }
+
+    public void setMotivoMovimiento(MotivoMovimiento motivoMovimiento) {
+        this.motivoMovimiento = motivoMovimiento;
     }
 
     public void setFechaHora(LocalDateTime fechaHora) {
