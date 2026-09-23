@@ -19,6 +19,8 @@ public class Libro {
     private Integer annoPublicacion;
     @Column (name = "stock")
     private Integer stock;
+    @Column(name = "valor_libro", nullable = false)
+    private Integer valorLibro;
 
     @ManyToOne
     @JoinColumn (name = "id_autor")
@@ -31,13 +33,14 @@ public class Libro {
     private Sucursal sucursal;
 
 
-    public Libro(Long idLibro, String tituloLibro, String editorial, String isbn, Integer annoPublicacion, Integer stock, Autor autor, Categoria categoria, Sucursal sucursal) {
+    public Libro(Long idLibro, String tituloLibro, String editorial, String isbn, Integer annoPublicacion, Integer stock, Integer valorLibro, Autor autor, Categoria categoria, Sucursal sucursal) {
         this.idLibro = idLibro;
         this.tituloLibro = tituloLibro;
         this.editorial = editorial;
         this.isbn = isbn;
         this.annoPublicacion = annoPublicacion;
         this.stock = stock;
+        this.valorLibro = valorLibro;
         this.autor = autor;
         this.categoria = categoria;
         this.sucursal = sucursal;
@@ -92,6 +95,13 @@ public class Libro {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+    public Integer getValorLibro() {
+        return valorLibro;
+    }
+
+    public void setValorLibro(Integer valorLibro) {
+        this.valorLibro = valorLibro;
     }
 
     public Autor getAutor() {

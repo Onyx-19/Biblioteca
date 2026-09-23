@@ -15,6 +15,8 @@ public record LibroRequestDTO(
         Integer annoPublicacion,
         @NotNull (message = "El stock es obligatorio")
         Integer stock,
+        @NotNull(message = "El valor del libro es obligatorio")
+        Integer valorLibro,
         @NotNull (message = "El autor del libro es obligatorio")
         Long idAutor,
         @NotNull (message = "La categoria del libro es obligatoria")

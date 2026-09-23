@@ -7,6 +7,7 @@ public record LibroResponseDTO(
         String isbn,
         Integer annoPublicacion,
         Integer stock,
+        Integer valorLibro,
         Long idAutor,
         String nombreAutor,
         Long idCategoria,

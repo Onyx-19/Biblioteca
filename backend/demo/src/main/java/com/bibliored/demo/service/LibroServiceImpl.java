@@ -43,6 +43,8 @@ public class LibroServiceImpl implements LibroService {
         libro.setEditorial(request.editorial());
         libro.setIsbn(request.isbn());
         libro.setAnnoPublicacion(request.annoPublicacion());
+        libro.setStock(request.stock());
+        libro.setValorLibro(request.valorLibro());
         libro.setAutor(autor);
         libro.setCategoria(categoria);
         libro.setSucursal(sucursal);
@@ -76,6 +78,8 @@ public class LibroServiceImpl implements LibroService {
         libro.setEditorial(request.editorial());
         libro.setIsbn(request.isbn());
         libro.setAnnoPublicacion(request.annoPublicacion());
+        libro.setStock(request.stock());
+        libro.setValorLibro(request.valorLibro());
         libro.setAutor(autor);
         libro.setCategoria(categoria);
         libro.setSucursal(sucursal);
@@ -118,6 +122,7 @@ public class LibroServiceImpl implements LibroService {
                 libro.getIsbn(),
                 libro.getAnnoPublicacion(),
                 libro.getStock(),
+                libro.getValorLibro(),
                 libro.getAutor().getIdAutor(),
                 libro.getAutor().getNombreAutor(),
                 libro.getCategoria().getIdCategoria(),
