@@ -3,6 +3,7 @@ package com.bibliored.demo.service;
 import com.bibliored.demo.dto.UsuarioPassinicialDTO;
 import com.bibliored.demo.dto.UsuarioRequestDTO;
 import com.bibliored.demo.dto.UsuarioResponseDTO;
+import com.bibliored.demo.model.Categoria;
 import com.bibliored.demo.model.Usuario;
 import com.bibliored.demo.repository.UsuarioRepository;
 import com.bibliored.demo.model.Sucursal;
@@ -20,7 +21,9 @@ public class UsuarioServiceImpl implements UsuarioService{
     private SucursalRepository sucursalRepository;
     private PasswordEncoder passwordEncoder;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, SucursalRepository sucursalRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository,
+                              SucursalRepository sucursalRepository,
+                              PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.sucursalRepository = sucursalRepository;
         this.passwordEncoder = passwordEncoder;
@@ -28,8 +31,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public UsuarioResponseDTO crear(UsuarioRequestDTO request) {
-        Sucursal sucursal = sucursalRepository.findById(request.idSucursal()).orElseThrow(() -> new EntityNotFoundException("No se encontraron sucursales con id: " + request.idSucursal()));
-
+        Sucursal sucursal = buscarSucursal(request.idSucursal());
         Usuario usuario = new Usuario();
 
         usuario.setIdentificacionUsuario(request.identificacionUsuario());
@@ -62,8 +64,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public UsuarioResponseDTO actualizar(Long id, UsuarioRequestDTO request) {
-        Sucursal sucursal = sucursalRepository.findById(request.idSucursal()).orElseThrow(() -> new EntityNotFoundException("No se encontraron sucursales con id: " + request.idSucursal()));
-
+        Sucursal sucursal = buscarSucursal(request.idSucursal());
         Usuario usuario = validacionPorId(id);
 
         usuario.setIdentificacionUsuario(request.identificacionUsuario());
@@ -97,6 +98,11 @@ public class UsuarioServiceImpl implements UsuarioService{
                 .orElseThrow(() -> new EntityNotFoundException("No se encontraron usuarios con id:" + id));
     }
 
+    private Sucursal buscarSucursal(Long id) {
+        return sucursalRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontraron sucursales con id: " + id));
+    }
+
     private UsuarioResponseDTO toResponseDTO (Usuario usuario){
         return new UsuarioResponseDTO(
                 usuario.getIdUsuario(),
@@ -106,7 +112,8 @@ public class UsuarioServiceImpl implements UsuarioService{
                 usuario.getDireccionUsuario(),
                 usuario.getTelefonoUsuario(),
                 usuario.getRolUsuario(),
-                usuario.getSucursal().getIdSucursal()
+                usuario.getSucursal().getIdSucursal(),
+                usuario.getSucursal().getNombreSucursal()
         );
     }
 }

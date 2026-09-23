@@ -8,6 +8,7 @@ public record UsuarioResponseDTO(
     String direccionUsuario,
     String telefonoUsuario,
     String rolUsuario,
-    Long idSucursal
+    Long idSucursal,
+    String nombreSucursal
 ) {
 }

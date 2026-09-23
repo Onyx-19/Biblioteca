@@ -66,7 +66,7 @@ public class CategoriaServiceImpl implements CategoriaService{
 
     private CategoriaResponseDTO toResponseDTO(Categoria categoria) {
         return new CategoriaResponseDTO(
-                categoria.getIdSucursales(),
+                categoria.getIdCategoria(),
                 categoria.getNombreCategoria(),
                 categoria.getCodigoEstante()
         );
