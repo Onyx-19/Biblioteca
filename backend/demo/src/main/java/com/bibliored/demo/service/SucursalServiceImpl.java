@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class SucursalServiceImpl implements SucursalService{
 
-    private SucursalRepository sucursalRepository;
+    private final SucursalRepository sucursalRepository;
 
     public SucursalServiceImpl(SucursalRepository sucursalRepository){
         this.sucursalRepository = sucursalRepository;

@@ -12,11 +12,11 @@ import java.util.List;
 
 @Service
 public class InventarioServiceImpl implements InventarioService{
-    private InventarioRepository inventarioRepository;
-    private SucursalRepository sucursalRepository;
-    private UsuarioRepository usuarioRepository;
-    private LibroRepository libroRepository;
-    private ProveedorRepository proveedorRepository;
+    private final InventarioRepository inventarioRepository;
+    private final SucursalRepository sucursalRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final LibroRepository libroRepository;
+    private final ProveedorRepository proveedorRepository;
 
     public InventarioServiceImpl(InventarioRepository inventarioRepository,
                                  SucursalRepository sucursalRepository,

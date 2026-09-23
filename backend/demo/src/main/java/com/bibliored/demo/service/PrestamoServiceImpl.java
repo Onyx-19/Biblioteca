@@ -12,11 +12,11 @@ import java.util.List;
 
 @Service
 public class PrestamoServiceImpl implements PrestamoService{
-    private PrestamoRepository prestamoRepository;
-    private SucursalRepository sucursalRepository;
-    private UsuarioRepository usuarioRepository;
-    private LibroRepository libroRepository;
-    private ClienteRepository clienteRepository;
+    private final PrestamoRepository prestamoRepository;
+    private final SucursalRepository sucursalRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final LibroRepository libroRepository;
+    private final ClienteRepository clienteRepository;
 
     public PrestamoServiceImpl(PrestamoRepository prestamoRepository,
                                SucursalRepository sucursalRepository,

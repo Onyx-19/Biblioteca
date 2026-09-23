@@ -3,7 +3,6 @@ package com.bibliored.demo.service;
 import com.bibliored.demo.dto.UsuarioPassinicialDTO;
 import com.bibliored.demo.dto.UsuarioRequestDTO;
 import com.bibliored.demo.dto.UsuarioResponseDTO;
-import com.bibliored.demo.model.Categoria;
 import com.bibliored.demo.model.Usuario;
 import com.bibliored.demo.repository.UsuarioRepository;
 import com.bibliored.demo.model.Sucursal;
@@ -17,9 +16,9 @@ import java.util.List;
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
 
-    private UsuarioRepository usuarioRepository;
-    private SucursalRepository sucursalRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UsuarioRepository usuarioRepository;
+    private final SucursalRepository sucursalRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UsuarioServiceImpl(UsuarioRepository usuarioRepository,
                               SucursalRepository sucursalRepository,
