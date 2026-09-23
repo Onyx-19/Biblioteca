@@ -17,10 +17,10 @@ import java.util.List;
 
 @Service
 public class LibroServiceImpl implements LibroService {
-    private LibroRepository libroRespository;
-    private AutorRepository autorRepository;
-    private CategoriaRepository categoriaRepository;
-    private SucursalRepository sucursalRepository;
+    private final LibroRepository libroRespository;
+    private final AutorRepository autorRepository;
+    private final CategoriaRepository categoriaRepository;
+    private final SucursalRepository sucursalRepository;
 
     public LibroServiceImpl(LibroRepository libroRepository,
                             AutorRepository autorRepository,

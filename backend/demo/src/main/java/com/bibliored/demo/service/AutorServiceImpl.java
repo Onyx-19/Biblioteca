@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class AutorServiceImpl implements AutorService{
 
-    private AutorRepository autorRepository;
+    private final AutorRepository autorRepository;
 
     private AutorServiceImpl (AutorRepository autorRepository){
         this.autorRepository = autorRepository;

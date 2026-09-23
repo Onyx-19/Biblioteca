@@ -1,4 +1,4 @@
-package com.bibliored.demo.security;
+package com.bibliored.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

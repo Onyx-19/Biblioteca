@@ -12,11 +12,11 @@ import java.util.List;
 
 @Service
 public class InventarioServiceImpl implements InventarioService{
-    private InventarioRepository inventarioRepository;
-    private SucursalRepository sucursalRepository;
-    private UsuarioRepository usuarioRepository;
-    private LibroRepository libroRepository;
-    private ProveedorRepository proveedorRepository;
+    private final InventarioRepository inventarioRepository;
+    private final SucursalRepository sucursalRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final LibroRepository libroRepository;
+    private final ProveedorRepository proveedorRepository;
 
     public InventarioServiceImpl(InventarioRepository inventarioRepository,
                                  SucursalRepository sucursalRepository,
@@ -41,6 +41,7 @@ public class InventarioServiceImpl implements InventarioService{
         Proveedor proveedor = buscarProveedor(request.idProveedor());
 
         inventario.setMovimientoInventario(request.movimientoInventario());
+        inventario.setMotivoMovimiento(request.motivoMovimiento());
         inventario.setUnidades(request.unidades());
         inventario.setFechaHora(LocalDateTime.now());
         inventario.setSucursal(sucursal);
@@ -75,6 +76,7 @@ public class InventarioServiceImpl implements InventarioService{
         Inventario inventario = validacionPorId(id);
 
         inventario.setMovimientoInventario(request.movimientoInventario());
+        inventario.setMotivoMovimiento(request.motivoMovimiento());
         inventario.setUnidades(request.unidades());
         inventario.setFechaHora(LocalDateTime.now());
         inventario.setSucursal(sucursal);
@@ -97,7 +99,6 @@ public class InventarioServiceImpl implements InventarioService{
         return inventarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado un registro de inventario con id: " + id));
     }
-
 
     private Sucursal buscarSucursal(Long id) {
         return sucursalRepository.findById(id)
@@ -124,6 +125,7 @@ public class InventarioServiceImpl implements InventarioService{
         return new InventarioResponseDTO(
                 inventario.getIdTransaccion(),
                 inventario.getMovimientoInventario(),
+                inventario.getMotivoMovimiento(),
                 inventario.getUnidades(),
                 inventario.getFechaHora(),
                 inventario.getSucursal().getIdSucursal(),

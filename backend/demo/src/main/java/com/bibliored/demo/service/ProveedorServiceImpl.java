@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class ProveedorServiceImpl implements ProveedorService{
 
-    private ProveedorRepository proveedorRepository;
+    private final ProveedorRepository proveedorRepository;
 
     public ProveedorServiceImpl (ProveedorRepository proveedorRepository){
         this.proveedorRepository = proveedorRepository;
