@@ -1,4 +1,5 @@
 @import url(nav.css);
+@import url(contain.css);
 
 :root{
     /* --naranja: #FF9B51;
@@ -6,23 +7,20 @@
     --gris: #BFC9D1;
     --blanco: #EAEFEF;
     --white: #FFFFFF; */
-
-
     --alt1: #041411;
     --alt2: #0B2020;
     --alt3: #F48F36;
     --alt4: #E2F0E9;
-
-
 }
 
 body{
     background-color: var(--alt1);
     margin: 0;
     padding: 0;
-    width: 100vh;
+    width: 100%;
     height: 100vh;
     font-family: Inter, sans-serif;
+    display: flex;
 }
 
 p{

@@ -1,7 +1,7 @@
 .nav{
     background-color: var(--alt2);
     color: var(--alt4);
-    width: 30%;
+    width: 20%;
     height: 100%;
     font-size: 15px;
     box-sizing: border-box;
@@ -32,8 +32,8 @@
 }
 
 .logo{
-    width: 80%;
-    height: 80%;
+    width: 70%;
+    height: 85%;
 }
 
 .sucursal_cont{
@@ -94,8 +94,8 @@ select{
 }
 
 .perfil_cont{
-    border-top: solid 2px var(--gris);
-    color: var(--blanco);
+    /* border-top: solid 2px var(--gris);
+    color: var(--blanco); */
     width: 100%;
     height: 15%;
     box-sizing: border-box;
@@ -107,13 +107,13 @@ select{
 
 .perfil_mini_cont{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
 }
 
 .bi-person-gear{
-    background-color: var(--gris);
-    border: solid 2px var(--azul);
+    background-color: var(--alt1);
+    border: solid 2px var(--alt1);
     color: var(--azul);
     border-radius: 100%;
     height: 100%;
@@ -123,12 +123,16 @@ select{
     align-items: center;
 }
 
+.perfil{
+    margin: 0 10px;
+}
+
 .perfil_rol{
     font-size: 12px;
 }
 
 .btn_cerrar_sesion{
-        background: var(--alt1);
+    background: var(--alt1);
     color: var(--alt4);
     padding: 7px;
     border-radius: 5px;
