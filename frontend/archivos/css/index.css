@@ -1,0 +1,34 @@
+@import url(nav.css);
+
+:root{
+    /* --naranja: #FF9B51;
+    --azul: #25343F;
+    --gris: #BFC9D1;
+    --blanco: #EAEFEF;
+    --white: #FFFFFF; */
+
+
+    --alt1: #041411;
+    --alt2: #0B2020;
+    --alt3: #F48F36;
+    --alt4: #E2F0E9;
+
+
+}
+
+body{
+    background-color: var(--alt1);
+    margin: 0;
+    padding: 0;
+    width: 100vh;
+    height: 100vh;
+    font-family: Inter, sans-serif;
+}
+
+p{
+    margin: 0;
+}
+i{
+    font-size: 20px;
+    padding: 0 7.5px;
+}

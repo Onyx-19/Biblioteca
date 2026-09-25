@@ -1,0 +1,141 @@
+.nav{
+    background-color: var(--alt2);
+    color: var(--alt4);
+    width: 30%;
+    height: 100%;
+    font-size: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+    align-items: center;
+    font-weight: 600;
+}
+.sucrusal_encabezado, .modulo_encabezado,.perfil_rol{
+    color: var(--alt3);
+    margin: 0;
+    padding: 0 6%;
+    font-weight: 600;
+    font-size: 12px;
+    opacity: .7;
+    letter-spacing: 1px;
+}
+
+.logo_cont{
+    border-bottom: solid 2px var(--alt1);
+    width: 100%;
+    height: 12%;
+    border-radius: 2.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.logo{
+    width: 80%;
+    height: 80%;
+}
+
+.sucursal_cont{
+    border-bottom: solid 2px var(--alt1);
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.sucursal_mini_cont{
+    color: var(--blanco);
+    padding: 0 4%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+select{
+    background: var(--alt1);
+    border: solid 2px var(--alt3);
+    color: var(--alt4);
+    width: 80%;
+    height: 150%;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 900;
+}
+
+.modulos_cont{
+    border-bottom: solid 2px var(--alt1);
+    width: 100%;
+    height: 65%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 5% 0%;
+    box-sizing: border-box;
+}
+
+.modulos_list{
+    list-style: none;
+    padding: 0;
+}
+
+.modulo{
+    color: var(--blanco);
+    padding: 10px 7%;
+    display: flex;
+    align-items: center;
+}
+
+.modulo:hover{
+    background-color: var(--alt1);
+    color: var(--alt3);
+}
+
+.perfil_cont{
+    border-top: solid 2px var(--gris);
+    color: var(--blanco);
+    width: 100%;
+    height: 15%;
+    box-sizing: border-box;
+    padding: 7%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.perfil_mini_cont{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.bi-person-gear{
+    background-color: var(--gris);
+    border: solid 2px var(--azul);
+    color: var(--azul);
+    border-radius: 100%;
+    height: 100%;
+    font-size: 25px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+}
+
+.perfil_rol{
+    font-size: 12px;
+}
+
+.btn_cerrar_sesion{
+        background: var(--alt1);
+    color: var(--alt4);
+    padding: 7px;
+    border-radius: 5px;
+    border: solid 2px;
+    font-weight: 900;
+}
+
+.btn_cerrar_sesion:hover{
+    color: var(--alt3);
+}
