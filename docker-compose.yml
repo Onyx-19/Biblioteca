@@ -3,10 +3,22 @@ version: '3.8'
 services:
   backend-springboot:
     build:
-      context: ./backend
+      context: ./backend/demo
     container_name: backend-springboot
     restart: always
     ports:
       - "8080:8080"
     env_file:
       - .env
+
+  frontend:
+    image: nginx:latest
+    container_name: frontend-nginx
+    ports:
+      - "5500:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+
+networks:
+  biblored-network:
+    driver: bridge
