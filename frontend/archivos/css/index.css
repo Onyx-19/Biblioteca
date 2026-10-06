@@ -11,22 +11,36 @@
     --alt2: #0B2020;
     --alt3: #F48F36;
     --alt4: #E2F0E9;
+    --alt5: #d81f1f;
 }
 
 body{
     background-color: var(--alt1);
     margin: 0;
     padding: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     font-family: Inter, sans-serif;
     display: flex;
 }
 
-p{
+p, h1, h2, h3{
     margin: 0;
 }
 i{
     font-size: 20px;
     padding: 0 7.5px;
+}
+table, th, td{
+    background-color: var(--alt2);
+    border-bottom: solid 1px var(--alt3);
+    text-align: left;
+    border-collapse: collapse;
+    border-radius: 10px;
+    padding: 1%;
+    min-width: 25px;
+}
+
+.h3{
+    margin: 7%;
 }

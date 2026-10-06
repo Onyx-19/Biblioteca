@@ -1,10 +1,11 @@
 package com.bibliored.demo.service;
 
+import com.bibliored.demo.component.ValidadorNegocio;
 import com.bibliored.demo.dto.SucursalRequestDTO;
 import com.bibliored.demo.dto.SucursalResponseDTO;
+import com.bibliored.demo.exceptions.ResourceNotFoundException;
 import com.bibliored.demo.model.Sucursal;
 import com.bibliored.demo.repository.SucursalRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,17 +14,25 @@ import java.util.List;
 public class SucursalServiceImpl implements SucursalService{
 
     private final SucursalRepository sucursalRepository;
+    private final ValidadorNegocio validadorNegocio;
 
-    public SucursalServiceImpl(SucursalRepository sucursalRepository){
+    public SucursalServiceImpl(SucursalRepository sucursalRepository, ValidadorNegocio validadorNegocio){
         this.sucursalRepository = sucursalRepository;
+        this.validadorNegocio = validadorNegocio;
     }
 
     @Override
     public SucursalResponseDTO crear(SucursalRequestDTO request) {
         Sucursal sucursal = new Sucursal();
-        sucursal.setNombreSucursal(request.nombreSucursal());
+        String nombre = validadorNegocio.formatoNombre(request.nombreSucursal());
+        String correo = validadorNegocio.formatoCorreo(request.correoSucursal());
+
+        validadorNegocio.validarNombreDuplicado(nombre, null, "Sucursal");
+        validadorNegocio.validarCorreoDuplicado(correo, null, "Sucursal");
+
+        sucursal.setNombreSucursal(nombre);
         sucursal.setDireccionSucursal(request.direccionSucursal());
-        sucursal.setCorreoSucursal(request.correoSucursal());
+        sucursal.setCorreoSucursal(correo);
         sucursal.setTelefonoSucursal(request.telefonoSucursal());
 
         Sucursal guardada = sucursalRepository.save(sucursal);
@@ -47,10 +56,15 @@ public class SucursalServiceImpl implements SucursalService{
     @Override
     public SucursalResponseDTO actualizar(Long id, SucursalRequestDTO request) {
         Sucursal sucursal = validacionId(id);
+        String nombre = validadorNegocio.formatoNombre(request.nombreSucursal());
+        String correo = validadorNegocio.formatoCorreo(request.correoSucursal());
 
-        sucursal.setNombreSucursal(request.nombreSucursal());
+        validadorNegocio.validarNombreDuplicado(nombre, id, "Sucursal");
+        validadorNegocio.validarCorreoDuplicado(correo, id, "Sucursal");
+
+        sucursal.setNombreSucursal(nombre);
         sucursal.setDireccionSucursal(request.direccionSucursal());
-        sucursal.setCorreoSucursal(request.correoSucursal());
+        sucursal.setCorreoSucursal(correo);
         sucursal.setTelefonoSucursal(request.telefonoSucursal());
 
         Sucursal actualizada = sucursalRepository.save(sucursal);
@@ -65,7 +79,7 @@ public class SucursalServiceImpl implements SucursalService{
 
     private Sucursal validacionId(Long id) {
         return sucursalRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No se encontraron sucursales con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontraron sucursales con id: " + id));
     }
 
     private SucursalResponseDTO toResponseDTO(Sucursal sucursal){

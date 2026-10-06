@@ -1,5 +1,211 @@
 .contain{
+    color: var(--alt4);
+    box-sizing: content-box;
+    height: 100vh;
+    width: 82%;
+    overflow-y: auto
+}
 
-    background: blue;
+.header{
+    border-bottom: solid 2px var(--alt2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2%;
+}
+
+.input_buscar{
+    background: var(--alt2);
+    color: var(--alt4);
+    border: solid 1px var(--alt4);
+    border-radius: 15px;
+    padding: 0.7%;
+    width: 25%;
+    font-family: 'Inter';
+    font-weight: 500;
+}
+.input_buscar:hover{
+    border: solid 1px var(--alt3);
+}
+
+.btn_annadir{
+    background: var(--alt2);
+    color: var(--alt3);
+    border: solid 2px var(--alt3);
+    border-radius: 15px;
+    padding: 0.8% 2%;
+    font-weight: 600;
+}
+
+.btn_annadir:hover, .btn_annadir:focus{
+    color: var(--alt4);
+    border: solid 2px var(--alt4);
+}
+
+
+
+.form{
+    background-color: var(--alt2);
+    border: solid 2px transparent;
+    border-radius: 5px;
+    margin: 5% 10%;
+    /* width: 80%; */
+    padding: 3.5%;
+    box-sizing: border-box;
+}
+
+.form_header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.form_header_h3{
+    /* text-decoration: underline; */
+
+    border-bottom: 2px solid #F48F36; /* Tu naranja de acento */
+    padding-bottom: 6px;
+    display: inline-block;
+}
+
+.btn_close{
+    background: transparent;
+    color: var(--alt4);
+    border: solid 2px;
+    border-radius: 100%;
+    height: 30px;
+    display: flex;
+    width: 30px;
+    justify-content: center;
+}
+
+.btn_close:hover, .btn_close:focus{
+    background-color: var(--alt4);
+    color: var(--alt1);
+}
+
+.bi-x{
+    font-size: 23px;
+}
+
+.form_cont{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 1% 0;
+}
+
+.input_cont{
+    margin: 2% 0;
+    width: 46%;
+}
+
+.campo_formulario {
+    background-color: var(--alt1);
+    color: var(--alt4);
+    border: solid 2px var(--alt3);
+    border-radius: 5px;
+    box-sizing: border-box;
+    height: 35px;
+    width: 100%;
+    font-family: 'Inter';
+    margin: 2% 0;
+    padding: 1%;
+}
+
+.campo_formulario::placeholder{
+    color: var(--alt4);
+    opacity: 0.5;
+}
+
+.btn_guardar_cont{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn_guardar{
+    background: var(--alt2);
+    color: var(--alt3);
+    border: solid 2px var(--alt3);
+    border-radius: 10px;
+    padding: 0.8% 2%;
+    font-weight: 600;
+    width: 20%;
+    margin: 0 2%;
+}
+
+.btn_guardar:hover, .btn_guardar:focus{
+    color: var(--alt1);
+    background-color: var(--alt3);
+}
+
+.btn_cancelar{
+    background: var(--alt2);
+    color: var(--alt4);
+    border: solid 2px var(--alt4);
+    border-radius: 10px;
+    padding: 0.8% 2%;
+    font-weight: 600;
+    width: 20%;
+}
+
+.btn_cancelar:hover, .btn_cancelar:focus{
+    color: var(--alt1);
+    background-color: var(--alt4);
+}
+
+
+
+
+.contenido_table{
+    border-bottom: solid 1px var(--alt3);
+    margin: 5% 10%;
     width: 80%;
+}
+.center{
+    text-align: center;
+}
+
+.left{
+    text-align: left;
+}
+
+.btn_editar{
+    background: transparent;
+    color: var(--alt4);
+    border: none;
+}
+
+.btn_eliminar{
+    background: var(--alt2);
+    color: var(--alt5);
+    border: solid 2px;
+    border-radius: 10px;
+    padding: 0.8% 2%;
+    font-weight: 600;
+    width: 20%;
+    margin: 0 2%;
+}
+
+.btn_eliminar:hover, .btn_eliminar:focus{
+    background-color: var(--alt5);
+    color: var(--alt1);
+}
+
+
+
+.modal-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* z-index: 1000; */
+}
+
+.modal-contenido {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    min-width: 400px;
 }

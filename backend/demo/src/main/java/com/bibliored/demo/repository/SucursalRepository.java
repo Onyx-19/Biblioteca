@@ -8,12 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface SucursalRepository extends JpaRepository<Sucursal,Long> {
-
-    Optional<Sucursal> findByCorreoSucursal(String correoSucursal);
-    boolean existsByCorreoSucursal(String correoSucursal);
-
     Optional<Sucursal> findById(Long id);
-//    Test
-//    Optional<Sucursal> findByName(String nombreSucursal);
-//    Optional<Sucursal> findByAddress(String direccionSucursal);
+    Optional<Sucursal> findByNombreSucursal(String nombreSucursal);
+    Optional<Sucursal> findByCorreoSucursal(String correoSucursal);
 }

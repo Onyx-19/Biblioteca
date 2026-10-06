@@ -1,0 +1,42 @@
+<div class="header">
+    <h2>Gestión de Sucursales</h2>
+    <input id="input_buscar" class="input_buscar" type="text" placeholder="Buscar sucursal por nombre">
+    <button type="button" class="btn_annadir" onclick="abrirModal()">Añadir</button>
+</div>
+
+<div id="modalSucursal" class="modal-overlay" style="display: none;">
+    <form id="formSucursal" class="form">
+        <div class="form_header">
+            <h3 class="form_header_h3">Creación de sucursal</h3>
+            <button type="button" class="btn_close" onclick="cerrarModal()"><i class="bi bi-x"></i></button>
+        </div>
+        <div class="form_cont">
+            <input id="idSucursal" class="campo_formulario" type="hidden">
+            <div class="input_cont">
+                <p>Nombre:</p>
+                <input type="text" id="nombreSucursal" class="campo_formulario" placeholder="Nombre" required>
+            </div>
+            <div class="input_cont">
+                <p>Dirección:</p>
+                <input type="text" id="direccionSucursal" class="campo_formulario" placeholder="Direccion" required>
+            </div>
+            <div class="input_cont">
+                <p>Correo:</p>
+                <input type="email" id="correoSucursal" class="campo_formulario" placeholder="Correo" required>
+            </div>
+            <div class="input_cont">
+                <p>Teléfono:</p>
+                <input type="text" id="telefonoSucursal" class="campo_formulario" placeholder="Telefono" required>
+            </div>
+        </div>
+        <div class="btn_guardar_cont">
+            <button type="submit" class="btn_guardar">Guardar</button>
+            <button type="button" class="btn_cancelar" onclick="cerrarModal()">Cancelar</button>
+        </div>
+        <button type="button" class="btn_eliminar" onclick="eliminarSucursal()">Eliminar</button>
+    </form>
+</div>
+
+<table id="tablaSucursales" class="contenido_table">
+
+</table>

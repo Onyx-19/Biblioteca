@@ -24,10 +24,10 @@ public class DataSeeder implements CommandLineRunner {
         if (usuarioRepository.count() > 0) return;
 
         Sucursal matriz = new Sucursal();
-        matriz.setNombreSucursal("Matriz");
-        matriz.setDireccionSucursal("null");
-        matriz.setCorreoSucursal("null");
-        matriz.setTelefonoSucursal("null");
+        matriz.setNombreSucursal("Central");
+        matriz.setDireccionSucursal("Cll 13 n 31 - 25");
+        matriz.setCorreoSucursal("central@correo.com");
+        matriz.setTelefonoSucursal("6017500000");
         Sucursal matrizInicial = sucursalRepository.save(matriz);
 
         Usuario usuario = new Usuario();

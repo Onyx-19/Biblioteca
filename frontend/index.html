@@ -19,24 +19,26 @@
             <p class="sucrusal_encabezado">SUCURSAL</p>
             <div class="sucursal_mini_cont">
                 <i class="bi bi-building-check"></i>
-                <select>
-                    <option value="">Sucursal centro</option>
+                <select id="selectSucursal">
+                    <!-- <option value="">Sucursal Norte</option>
+                    <option value="">Sucursal Centro</option>
+                    <option value="">Sucursal Sur</option> -->
                 </select>
             </div>
         </div>
         <div class="modulos_cont"> 
             <p class="modulo_encabezado">MODULOS</p>
             <ul class="modulos_list">
-                <li class="modulo"><i class="bi bi-search"></i>Consultas</li>
-                <li class="modulo"><i class="bi bi-arrow-left-right"></i>Prestamos</li>
-                <li class="modulo"><i class="bi bi-person-check"></i>Clientes</li>
-                <li class="modulo"><i class="bi bi-box-seam"></i>Inventarios</li>
-                <li class="modulo"><i class="bi bi-truck"></i>Proveedores</li>
-                <li class="modulo"><i class="bi bi-book"></i>Libros</li>
-                <li class="modulo"><i class="bi bi-pen"></i>Autores</li>
-                <li class="modulo"><i class="bi bi-tags"></i>Categorias</li>
-                <li class="modulo"><i class="bi bi-person-circle"></i>Usuarios</li>
-                <li class="modulo"><i class="bi bi-building-gear"></i>Sucursales</li>
+                <li class="modulo" onclick="navegar('')"><i class="bi bi-search"></i>Consultas</li>
+                <li class="modulo" onclick="navegar('')"><i class="bi bi-arrow-left-right"></i>Prestamos</li>
+                <li class="modulo" onclick="navegar('')"><i class="bi bi-person-check"></i>Clientes</li>
+                <li class="modulo" onclick="navegar('')"><i class="bi bi-box-seam"></i>Inventarios</li>
+                <li class="modulo" onclick="navegar('')"><i class="bi bi-truck"></i>Proveedores</li>
+                <li class="modulo" onclick="navegar('')"><i class="bi bi-book"></i>Libros</li>
+                <li class="modulo" onclick="navegar('')"><i class="bi bi-pen"></i>Autores</li>
+                <li class="modulo" onclick="navegar('')"><i class="bi bi-tags"></i>Categorias</li>
+                <li class="modulo" onclick="navegar('')"><i class="bi bi-person-circle"></i>Usuarios</li>
+                <li class="modulo" onclick="navegar('sucursales')"><i class="bi bi-building-gear"></i>Sucursales</li>
             </ul>
         </div>
         <div class="perfil_cont">
@@ -50,11 +52,10 @@
             <button class="btn_cerrar_sesion">Cerrar sesion</button>
         </div>
     </nav>
-    <div class="contain">
-        <h1>
-            contenido
-
-        </h1>
-    </div>
+    <div class="contain" id="contenido"></div>
+    
+    <script src="archivos/js/config.js"></script>
+    <script src="archivos/js/sucursales.js"></script>
+    <script src="archivos/js/index.js"></script>
 </body>
 </html>
