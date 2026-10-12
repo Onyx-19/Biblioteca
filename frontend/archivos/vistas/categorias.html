@@ -1,0 +1,37 @@
+<div class="header">
+    <h2>Gestión de Categorias</h2>
+    <input id="input_buscar" class="input_buscar" type="text" placeholder="Buscar categoria">
+    <button type="button" class="btn_annadir" onclick="abrirModalCategoria()">Añadir</button>
+</div>
+
+
+<div id="modalCategoria" class="modal-overlay" style="display: none;">
+    <form id="formCategoria" class="form">
+        <div class="form_header">
+            <h3 class="form_header_h3">Creación de categorias</h3>
+            <button type="button" class="btn_close" onclick="cerrarModalCategoria()"><i class="bi bi-x"></i></button>
+        </div>
+        <div class="form_cont">
+            <input id="idCategoria" class="campo_formulario" type="hidden">
+            <div class="input_cont">
+                <p>Nombre:</p>
+                <input type="text" id="nombreCategoria" class="campo_formulario" placeholder="Nombre" required>
+            </div>
+            <div class="input_cont">
+                <p>Codigo estanteria:</p>
+                <input type="text" id="estanteriaCategoria" class="campo_formulario" placeholder="Estanteria">
+            </div>
+
+        </div>
+        <div class="btn_guardar_cont">
+            <button type="submit" class="btn_guardar">Guardar</button>
+            <button type="button" class="btn_cancelar" onclick="cerrarModalCategoria()">Cancelar</button>
+        </div>
+        <button type="button" class="btn_eliminar" onclick="eliminarCategoria()">Eliminar</button>
+    </form>
+</div>
+
+<div class="table_cont">
+    <table id="tablaCategorias" class="list_table">
+    </table>
+</div>

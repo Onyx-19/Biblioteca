@@ -1,5 +1,6 @@
 package com.bibliored.demo.service;
 
+import com.bibliored.demo.component.ValidadorNegocio;
 import com.bibliored.demo.dto.CategoriaRequestDTO;
 import com.bibliored.demo.dto.CategoriaResponseDTO;
 import com.bibliored.demo.model.Categoria;
@@ -12,16 +13,21 @@ import java.util.List;
 @Service
 public class CategoriaServiceImpl implements CategoriaService{
     private final CategoriaRepository categoriaRepository;
+    private final ValidadorNegocio validadorNegocio;
 
-    public CategoriaServiceImpl(CategoriaRepository categoriaRepository) {
+    public CategoriaServiceImpl(CategoriaRepository categoriaRepository, ValidadorNegocio validadorNegocio) {
         this.categoriaRepository = categoriaRepository;
+        this.validadorNegocio = validadorNegocio;
     }
 
     @Override
     public CategoriaResponseDTO crear(CategoriaRequestDTO request) {
         Categoria categoria = new Categoria();
+        String nombre = validadorNegocio.formatoNombre(request.nombreCategoria());
 
-        categoria.setNombreCategoria(request.nombreCategoria());
+        validadorNegocio.validarNombreDuplicadoCategoria(nombre, null);
+
+        categoria.setNombreCategoria(nombre);
         categoria.setCodigoEstante(request.codigoEstante());
 
         Categoria guardada = categoriaRepository.save(categoria);
@@ -45,8 +51,11 @@ public class CategoriaServiceImpl implements CategoriaService{
     @Override
     public CategoriaResponseDTO actualizar(Long id, CategoriaRequestDTO request) {
         Categoria categoria = validacionId(id);
+        String nombre = validadorNegocio.formatoNombre(request.nombreCategoria());
 
-        categoria.setNombreCategoria(request.nombreCategoria());
+        validadorNegocio.validarNombreDuplicadoCategoria(nombre, id);
+
+        categoria.setNombreCategoria(nombre);
         categoria.setCodigoEstante(request.codigoEstante());
 
         Categoria actualizada = categoriaRepository.save(categoria);
