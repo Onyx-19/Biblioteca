@@ -1,14 +1,14 @@
 <div class="header">
     <h2>Gestión de Sucursales</h2>
     <input id="input_buscar" class="input_buscar" type="text" placeholder="Buscar sucursal por nombre">
-    <button type="button" class="btn_annadir" onclick="abrirModal()">Añadir</button>
+    <button type="button" class="btn_annadir" onclick="abrirModalSucursal()">Añadir</button>
 </div>
 
 <div id="modalSucursal" class="modal-overlay" style="display: none;">
     <form id="formSucursal" class="form">
         <div class="form_header">
             <h3 class="form_header_h3">Creación de sucursal</h3>
-            <button type="button" class="btn_close" onclick="cerrarModal()"><i class="bi bi-x"></i></button>
+            <button type="button" class="btn_close" onclick="cerrarModalSucursal()"><i class="bi bi-x"></i></button>
         </div>
         <div class="form_cont">
             <input id="idSucursal" class="campo_formulario" type="hidden">
@@ -31,12 +31,13 @@
         </div>
         <div class="btn_guardar_cont">
             <button type="submit" class="btn_guardar">Guardar</button>
-            <button type="button" class="btn_cancelar" onclick="cerrarModal()">Cancelar</button>
+            <button type="button" class="btn_cancelar" onclick="cerrarModalSucursal()">Cancelar</button>
         </div>
         <button type="button" class="btn_eliminar" onclick="eliminarSucursal()">Eliminar</button>
     </form>
 </div>
 
-<table id="tablaSucursales" class="contenido_table">
-
-</table>
+<div class="table_cont">
+    <table id="tablaSucursales" class="list_table">  
+    </table>
+</div>

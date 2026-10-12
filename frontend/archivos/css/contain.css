@@ -155,18 +155,74 @@
 
 
 
-
-.contenido_table{
-    border-bottom: solid 1px var(--alt3);
-    margin: 5% 10%;
+.table_cont{
+    overflow-x: auto;
+    overflow-y: hidden;
     width: 80%;
+    margin: 5% 10%;
+    display: flex;
+    box-sizing: border-box;
 }
-.center{
+
+.list_table{
+    background-color: var(--alt2);
+    border-bottom: solid 1px var(--alt3);
+    border-radius: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.table_cont::-webkit-scrollbar {
+    height: 7px;
+}
+
+.table_cont::-webkit-scrollbar-track {
+    background: var(--alt2);
+    border-radius: 10px;
+}
+
+.table_cont::-webkit-scrollbar-thumb {
+    background: var(--alt1);
+    border: 1px solid var(--alt3);
+    border-radius: 10px;
+}
+
+.table_cont::-webkit-scrollbar-thumb:hover {
+    background: var(--alt3);
+}
+
+.col_xs{
+    width: 33px;
     text-align: center;
 }
 
-.left{
+.col_ms{
+    width: 80px;
+    text-align: center;
+}
+
+.col_ml{
+    width: 135px;
     text-align: left;
+}
+
+.col_lm{
+    width: 200px;
+    text-align: left;
+}
+
+.col_lg{
+    width: 290px;
+    text-align: left;
+}
+
+th, td{
+    border-bottom: solid 1px var(--alt3);
+    white-space: nowrap;
+    padding: 7px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .btn_editar{

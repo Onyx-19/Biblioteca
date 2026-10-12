@@ -27,8 +27,8 @@ public class SucursalServiceImpl implements SucursalService{
         String nombre = validadorNegocio.formatoNombre(request.nombreSucursal());
         String correo = validadorNegocio.formatoCorreo(request.correoSucursal());
 
-        validadorNegocio.validarNombreDuplicado(nombre, null, "Sucursal");
-        validadorNegocio.validarCorreoDuplicado(correo, null, "Sucursal");
+        validadorNegocio.validarNombreDuplicadoSucursal(nombre, null);
+        validadorNegocio.validarCorreoDuplicadoSucursal(correo, null);
 
         sucursal.setNombreSucursal(nombre);
         sucursal.setDireccionSucursal(request.direccionSucursal());
@@ -59,8 +59,8 @@ public class SucursalServiceImpl implements SucursalService{
         String nombre = validadorNegocio.formatoNombre(request.nombreSucursal());
         String correo = validadorNegocio.formatoCorreo(request.correoSucursal());
 
-        validadorNegocio.validarNombreDuplicado(nombre, id, "Sucursal");
-        validadorNegocio.validarCorreoDuplicado(correo, id, "Sucursal");
+        validadorNegocio.validarNombreDuplicadoSucursal(nombre, id);
+        validadorNegocio.validarCorreoDuplicadoSucursal(correo, id);
 
         sucursal.setNombreSucursal(nombre);
         sucursal.setDireccionSucursal(request.direccionSucursal());

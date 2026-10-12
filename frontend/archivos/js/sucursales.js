@@ -3,10 +3,11 @@
 const API_SUCURSALES = `${CONFIG.API_URL}/sucursales`;
 
 // --Funcion conectada con el index.js el cual inicializa los procesos alojados de forma automatica en cuanto se ingresa una nueva vista.
-function inicializar() {
+function inicializarSucursales() {
 
     // --Listado de las sucursales registradas en la tabla de la vista.
     listarSucursales();
+
 
     // FILTRAR SUCURSAL
     // --Busqueda de la sucursal por nombre.
@@ -19,6 +20,7 @@ function inicializar() {
             f.style.display = nombre.includes(filtro) ? "" : "none";
         })
     })
+    
     
     // CREAR SUCURSAL
     // --Proceso de creacion de una nueva sucursal desde el boton "Añadir".
@@ -46,7 +48,7 @@ function inicializar() {
 
         // --Respuesta si el backend procesa la peticion con exito.
         if(respuesta.ok){
-            cerrarModal();
+            cerrarModalSucursal();
             listarSucursales();
         }
 
@@ -69,23 +71,23 @@ async function listarSucursales() {
     const tabla = document.getElementById("tablaSucursales");
     tabla.innerHTML = `
         <tr>
-            <th class="center">Id</th>
-            <th class="left">Nombre</th>
-            <th class="left">Dirección</th>
-            <th class="left">Correo</th>
-            <th class="left">Teléfono</th>
-            <th class="center">Acciones</th>
+            <th class="col_xs">Id</th>
+            <th class="col_lm">Nombre</th>
+            <th class="col_ml">Dirección</th>
+            <th class="col_lg">Correo</th>
+            <th class="col_ml">Teléfono</th>
+            <th class="col_ms">Acciones</th>           
         </tr>
     `;
     datos.forEach(s => {
         const fila = document.createElement("tr");
         fila.innerHTML = `
-            <td class="center">${s.idSucursal ?? ""}</td>
-            <td class="left">${s.nombreSucursal ?? ""}</td>
-            <td class="left">${s.direccionSucursal  ?? ""}</td>
-            <td class="left">${s.correoSucursal ?? ""}</td>
-            <td class="left">${s.telefonoSucursal ?? ""}</td>
-            <td class="center">
+            <td class="col_xs">${s.idSucursal ?? ""}</td>
+            <td class="col_lm">${s.nombreSucursal ?? ""}</td>
+            <td class="col_ml">${s.direccionSucursal  ?? ""}</td>
+            <td class="col_lg">${s.correoSucursal ?? ""}</td>
+            <td class="col_ml">${s.telefonoSucursal ?? ""}</td>
+            <td class="col_ms">
                 <button class="btn_editar" onclick="editarSucursal(${s.idSucursal})">
                     <i class="bi bi-pencil-square"></i>
                 </button>
@@ -108,7 +110,7 @@ async function editarSucursal(id){
     document.getElementById("correoSucursal").value = sucursal.correoSucursal;
     document.getElementById("telefonoSucursal").value = sucursal.telefonoSucursal;
 
-    abrirModal();
+    abrirModalSucursal();
 }
 
 // ELIMINAR SUCURSAL.
@@ -119,11 +121,10 @@ async function eliminarSucursal(){
     const respuesta = await fetch(API_SUCURSALES + `/${id}`, {method: "DELETE"})
 
     if (respuesta.ok){
-        cerrarModal();
+        cerrarModalSucursal();
         listarSucursales();
     } else {
-           const error = await respuesta.json();
-           console.log(error); // verifica la estructura exacta
+        const error = await respuesta.json();
         alert("Error: " + error.mensaje || "No se pudo eliminar la sucursal");
     }
 }
@@ -131,7 +132,7 @@ async function eliminarSucursal(){
 
 // FUNCIONALIDAD DE LA MODAL.
 // --Apertura de la modal de creacion y modificacion de sucursal.
-function abrirModal() {
+function abrirModalSucursal() {
     let id = document.getElementById("idSucursal").value;
     const titulo = document.querySelector(".form_header_h3");
     const btnEliminar = document.querySelector(".btn_eliminar");
@@ -148,17 +149,17 @@ function abrirModal() {
 }
 
 // --Proceso de cierre de modal.
-function cerrarModal() {
+function cerrarModalSucursal() {
     document.getElementById("modalSucursal").style.display = "none";
     document.getElementById("formSucursal").reset();
     document.getElementById("idSucursal").value = "";
 }
 
 // --Utilizar la tecla esc para cerrar la modal.
-function escModal(e){
+function escModalSucursal(e){
     if (e.key === 'Escape'){
-        cerrarModal();
+        cerrarModalSucursal();
     }
 }
 
-document.addEventListener("keydown", escModal);
+document.addEventListener("keydown", escModalSucursal);

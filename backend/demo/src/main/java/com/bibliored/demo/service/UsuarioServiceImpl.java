@@ -1,5 +1,6 @@
 package com.bibliored.demo.service;
 
+import com.bibliored.demo.component.ValidadorNegocio;
 import com.bibliored.demo.dto.UsuarioPassinicialDTO;
 import com.bibliored.demo.dto.UsuarioRequestDTO;
 import com.bibliored.demo.dto.UsuarioResponseDTO;
@@ -19,23 +20,32 @@ public class UsuarioServiceImpl implements UsuarioService{
     private final UsuarioRepository usuarioRepository;
     private final SucursalRepository sucursalRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ValidadorNegocio validadorNegocio;
 
     public UsuarioServiceImpl(UsuarioRepository usuarioRepository,
                               SucursalRepository sucursalRepository,
-                              PasswordEncoder passwordEncoder) {
+                              PasswordEncoder passwordEncoder,
+                              ValidadorNegocio validadorNegocio) {
         this.usuarioRepository = usuarioRepository;
         this.sucursalRepository = sucursalRepository;
         this.passwordEncoder = passwordEncoder;
+        this.validadorNegocio = validadorNegocio;
     }
 
     @Override
     public UsuarioResponseDTO crear(UsuarioRequestDTO request) {
-        Sucursal sucursal = buscarSucursal(request.idSucursal());
         Usuario usuario = new Usuario();
+        Sucursal sucursal = buscarSucursal(request.idSucursal());
+        String identificacion = request.identificacionUsuario();
+        String nombre = validadorNegocio.formatoNombre(request.nombreUsuario());
+        String correo = validadorNegocio.formatoCorreo(request.correoUsuario());
 
-        usuario.setIdentificacionUsuario(request.identificacionUsuario());
-        usuario.setNombreUsuario(request.nombreUsuario());
-        usuario.setCorreoUsuario(request.correoUsuario());
+        validadorNegocio.validarIdentificacionDuplicadoUsuario(identificacion, null);
+        validadorNegocio.validarCorreoDuplicadoUsuario(correo, null);
+
+        usuario.setIdentificacionUsuario(identificacion);
+        usuario.setNombreUsuario(nombre);
+        usuario.setCorreoUsuario(correo);
         usuario.setContrasena(passwordEncoder.encode(request.identificacionUsuario()));
         usuario.setDireccionUsuario(request.direccionUsuario());
         usuario.setTelefonoUsuario(request.telefonoUsuario());
@@ -63,19 +73,26 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public UsuarioResponseDTO actualizar(Long id, UsuarioRequestDTO request) {
-        Sucursal sucursal = buscarSucursal(request.idSucursal());
         Usuario usuario = validacionPorId(id);
+        Sucursal sucursal = buscarSucursal(request.idSucursal());
 
-        usuario.setIdentificacionUsuario(request.identificacionUsuario());
-        usuario.setNombreUsuario(request.nombreUsuario());
-        usuario.setCorreoUsuario(request.correoUsuario());
+        String identificacion = request.identificacionUsuario();
+        String nombre = validadorNegocio.formatoNombre(request.nombreUsuario());
+        String correo = validadorNegocio.formatoCorreo(request.correoUsuario());
+
+        validadorNegocio.validarIdentificacionDuplicadoUsuario(identificacion, null);
+        validadorNegocio.validarCorreoDuplicadoUsuario(correo, null);
+
+        usuario.setIdentificacionUsuario(identificacion);
+        usuario.setNombreUsuario(nombre);
+        usuario.setCorreoUsuario(correo);
         usuario.setDireccionUsuario(request.direccionUsuario());
         usuario.setTelefonoUsuario(request.telefonoUsuario());
         usuario.setRolUsuario(request.rolUsuario());
         usuario.setSucursal(sucursal);
 
-        Usuario actualizada = usuarioRepository.save(usuario);
-        return toResponseDTO(actualizada);
+        Usuario actualizado = usuarioRepository.save(usuario);
+        return toResponseDTO(actualizado);
     }
 
     @Override

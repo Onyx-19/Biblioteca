@@ -31,11 +31,11 @@ public class DataSeeder implements CommandLineRunner {
         Sucursal matrizInicial = sucursalRepository.save(matriz);
 
         Usuario usuario = new Usuario();
-        usuario.setIdentificacionUsuario("900152284");
-        usuario.setNombreUsuario("ADMINISTRADOR");
-        usuario.setCorreoUsuario("null");
-        usuario.setContrasena(passwordEncoder.encode("900152284"));
-        usuario.setRolUsuario("ADMINISTRADOR");
+        usuario.setIdentificacionUsuario("890000001");
+        usuario.setNombreUsuario("Administrador");
+        usuario.setCorreoUsuario("administracion@correo.com");
+        usuario.setContrasena(passwordEncoder.encode("890000001"));
+        usuario.setRolUsuario("Administrador");
         usuario.setCambioPassInicial(true);
         usuario.setSucursal(matrizInicial);
 

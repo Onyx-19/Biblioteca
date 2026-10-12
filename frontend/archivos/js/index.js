@@ -1,25 +1,21 @@
-// CARGAR SUCURSALES EN EL SELECT 
-let selectSucursales = [];
-// --Accede a el endpoint de sucursales obteniendo los datos.
-async function cargarSelectSucursales() {
+// NAVBAR SUCURSALES
+async function navbarSucursales(idSelect) {
+    // --Accede a el endpoint de sucursales obteniendo los datos.
     const respuesta = await fetch(`${CONFIG.API_URL}/sucursales`);
-    selectSucursales = await respuesta.json();
-
-    llenarSelectSucursales();
-}
-// --Lista los datos de sucursales obtenidos previamente.
-function llenarSelectSucursales() {
-    const select = document.getElementById("selectSucursal");
-
-    selectSucursales.forEach(s => {
+    const sucursales = await respuesta.json();
+    
+    const select = document.getElementById(idSelect);
+    
+    // --Lista los datos de sucursales obtenidos previamente.
+    sucursales.forEach(s => {
         const option = document.createElement("option");
+        option.value = s.idSucursal;
         option.textContent = s.nombreSucursal;
         select.appendChild(option);
     });
 }
 // --Carga los datos de sucursales en el navbar.
-document.addEventListener("DOMContentLoaded", cargarSelectSucursales);
-
+navbarSucursales("selectSucursal");
 
 // MODULOS
 // --Accede y renderiza la "vista" del modulo activo en el apartado del contenido.
@@ -31,8 +27,15 @@ async function navegar(modulo){
     contendor.innerHTML = html;
     
     // --Ejecuta la función de inicialización alojada en cada "modulo.js" ejecutando procesos automaticos de carga.
-    if (typeof inicializar === 'function') {
-        inicializar();
+    switch (modulo) {
+        case "sucursales":
+                inicializarSucursales();
+            break;
+            case "usuarios":
+                inicializarUsuarios();
+            break;
+        default:
+            break;
     }
 }
 // --Resalta el modulo activo en el navbar para diferenciarlo del resto.

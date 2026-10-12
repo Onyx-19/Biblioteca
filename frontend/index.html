@@ -20,9 +20,6 @@
             <div class="sucursal_mini_cont">
                 <i class="bi bi-building-check"></i>
                 <select id="selectSucursal">
-                    <!-- <option value="">Sucursal Norte</option>
-                    <option value="">Sucursal Centro</option>
-                    <option value="">Sucursal Sur</option> -->
                 </select>
             </div>
         </div>
@@ -37,7 +34,7 @@
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-book"></i>Libros</li>
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-pen"></i>Autores</li>
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-tags"></i>Categorias</li>
-                <li class="modulo" onclick="navegar('')"><i class="bi bi-person-circle"></i>Usuarios</li>
+                <li class="modulo" onclick="navegar('usuarios')"><i class="bi bi-person-circle"></i>Usuarios</li>
                 <li class="modulo" onclick="navegar('sucursales')"><i class="bi bi-building-gear"></i>Sucursales</li>
             </ul>
         </div>
@@ -52,10 +49,12 @@
             <button class="btn_cerrar_sesion">Cerrar sesion</button>
         </div>
     </nav>
-    <div class="contain" id="contenido"></div>
-    
+    <div class="contain" id="contenido">
+        <h3 class="h3">A quien corresponda.<br><br>Actualmente solo encuentran funcionales los modulos de sucursales y usuarios permitiendo realizar un crud validado en casi su totalidad, asi como la implementacion de validaciones y reglas de negocio.</h3>
+    </div>
     <script src="archivos/js/config.js"></script>
     <script src="archivos/js/sucursales.js"></script>
+    <script src="archivos/js/usuarios.js"></script>
     <script src="archivos/js/index.js"></script>
 </body>
 </html>

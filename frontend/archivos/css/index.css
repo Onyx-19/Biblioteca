@@ -31,15 +31,6 @@ i{
     font-size: 20px;
     padding: 0 7.5px;
 }
-table, th, td{
-    background-color: var(--alt2);
-    border-bottom: solid 1px var(--alt3);
-    text-align: left;
-    border-collapse: collapse;
-    border-radius: 10px;
-    padding: 1%;
-    min-width: 25px;
-}
 
 .h3{
     margin: 7%;
