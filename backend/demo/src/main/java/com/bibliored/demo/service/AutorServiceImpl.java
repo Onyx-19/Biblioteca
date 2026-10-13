@@ -1,5 +1,6 @@
 package com.bibliored.demo.service;
 
+import com.bibliored.demo.component.ValidadorNegocio;
 import com.bibliored.demo.dto.AutorRequestDTO;
 import com.bibliored.demo.dto.AutorResponseDTO;
 import com.bibliored.demo.model.Autor;
@@ -13,16 +14,20 @@ import java.util.List;
 public class AutorServiceImpl implements AutorService{
 
     private final AutorRepository autorRepository;
+    private final ValidadorNegocio validadorNegocio;
 
-    private AutorServiceImpl (AutorRepository autorRepository){
+    private AutorServiceImpl (AutorRepository autorRepository,
+                              ValidadorNegocio validadorNegocio){
         this.autorRepository = autorRepository;
+        this.validadorNegocio = validadorNegocio;
     }
 
     @Override
     public AutorResponseDTO crear(AutorRequestDTO request) {
         Autor autor = new Autor();
+        String nombre = validadorNegocio.formatoNombre(request.nombreAutor());
 
-        autor.setNombreAutor(request.nombreAutor());
+        autor.setNombreAutor(nombre);
         autor.setAnnoNacimiento(request.annoNacimiento());
         autor.setAnnoDeceso(request.annoDeceso());
 
@@ -47,8 +52,9 @@ public class AutorServiceImpl implements AutorService{
     @Override
     public AutorResponseDTO actualizar(Long id, AutorRequestDTO request) {
         Autor autor = validacionId(id);
+        String nombre = validadorNegocio.formatoNombre(request.nombreAutor());
 
-        autor.setNombreAutor(request.nombreAutor());
+        autor.setNombreAutor(nombre);
         autor.setAnnoNacimiento(request.annoNacimiento());
         autor.setAnnoDeceso(request.annoDeceso());
 

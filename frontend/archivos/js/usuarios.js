@@ -151,7 +151,7 @@ async function editarUsuario(id){
 
 // ELIMINAR USUARIO.
 async function eliminarUsuario(){
-    if (!confirm("¿Eliminar esta usuario?")) return;
+    if (!confirm("¿Eliminar este usuario?")) return;
 
     const id = document.getElementById("idUsuario").value;
     const respuesta = await fetch(API_USUARIOS + `/${id}`, {method: "DELETE"})

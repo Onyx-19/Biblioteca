@@ -8,10 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="archivos/css/index.css">
-    <title>Document</title>
+    <title>Bibliored</title>
 </head>
 <body>
-    <nav class="nav" >
+    <nav class="nav">
         <div class="logo_cont">
             <img class="logo" src="archivos/img/LogoTexto.png" alt="">
         </div>
@@ -23,7 +23,7 @@
                 </select>
             </div>
         </div>
-        <div class="modulos_cont"> 
+        <div class="modulos_cont">
             <p class="modulo_encabezado">MODULOS</p>
             <ul class="modulos_list">
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-search"></i>Consultas</li>
@@ -32,7 +32,7 @@
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-box-seam"></i>Inventarios</li>
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-truck"></i>Proveedores</li>
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-book"></i>Libros</li>
-                <li class="modulo" onclick="navegar('')"><i class="bi bi-pen"></i>Autores</li>
+                <li class="modulo" onclick="navegar('autores')"><i class="bi bi-pen"></i>Autores</li>
                 <li class="modulo" onclick="navegar('categorias')"><i class="bi bi-tags"></i>Categorias</li>
                 <li class="modulo" onclick="navegar('usuarios')"><i class="bi bi-person-circle"></i>Usuarios</li>
                 <li class="modulo" onclick="navegar('sucursales')"><i class="bi bi-building-gear"></i>Sucursales</li>
@@ -50,12 +50,28 @@
         </div>
     </nav>
     <div class="contain" id="contenido">
-        <h3 class="h3">A quien corresponda.<br><br>Actualmente solo encuentran funcionales los modulos de sucursales y usuarios permitiendo realizar un crud validado en casi su totalidad, asi como la implementacion de validaciones y reglas de negocio.</h3>
+        <h3 class="h3">A quien corresponda.
+            <br><br>Actualmente solo encuentran funcionales los siguientes modulos:
+            <br></br>- 01 Sucursales (independiente)
+            <br></br>- 02 Usuarios (dependiente de sucursales)
+            <br></br>- 05 Autores (independiente)
+            <br></br>- 06 Categorias (independiente)
+            <br></br>Cumpliendo funcionalidades como la busqueda de elementos por nombre o el manejo tipo CRUD validando
+            la existencia previa del elemento por nombre, correo o numero de identidad segun corresponda.
+            <br></br>
+            <br></br> Modulos faltantes o en proceso:
+            <br></br>- 03 Clientes (independiente)
+            <br></br>- 04 Proveedores (independiente)
+            <br></br>- 07 Libros (dependiente de sucursales, autores y categorias)
+            <br></br>- 08 Inventarios (Sucursales, usuarios, proveedores y libros)
+            <br></br>- 09 Prestamos (dependiente de sucursales, usuarios, libros y clientes)
+        </h3>
     </div>
     <script src="archivos/js/config.js"></script>
     <script src="archivos/js/sucursales.js"></script>
     <script src="archivos/js/usuarios.js"></script>
     <script src="archivos/js/categorias.js"></script>
+    <script src="archivos/js/autores.js"></script>
     <script src="archivos/js/index.js"></script>
 </body>
 </html>

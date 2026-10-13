@@ -37,6 +37,9 @@ async function navegar(modulo){
             case "categorias":
                 inicializarCategorias();
             break;
+            case "autores":
+                inicializarAutores();
+            break;
         default:
             break;
     }
