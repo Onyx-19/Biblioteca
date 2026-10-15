@@ -1,5 +1,6 @@
 package com.bibliored.demo.service;
 
+import com.bibliored.demo.component.ValidadorNegocio;
 import com.bibliored.demo.dto.ProveedorRequestDTO;
 import com.bibliored.demo.dto.ProveedorResponseDTO;
 import com.bibliored.demo.model.Proveedor;
@@ -13,19 +14,28 @@ import java.util.List;
 public class ProveedorServiceImpl implements ProveedorService{
 
     private final ProveedorRepository proveedorRepository;
+    private final ValidadorNegocio validadorNegocio;
 
-    public ProveedorServiceImpl (ProveedorRepository proveedorRepository){
+    public ProveedorServiceImpl (ProveedorRepository proveedorRepository,
+                                 ValidadorNegocio validadorNegocio){
         this.proveedorRepository = proveedorRepository;
+        this.validadorNegocio = validadorNegocio;
     }
 
     @Override
     public ProveedorResponseDTO crear(ProveedorRequestDTO request) {
         Proveedor proveedor = new Proveedor();
+        String identificacion = request.identificacionProveedor();
+        String nombre = validadorNegocio.formatoNombre(request.nombreProveedor());
+        String correo = validadorNegocio.formatoCorreo(request.correoProveedor());
 
-        proveedor.setIdentificacionProveedor(request.identificacionProveedor());
-        proveedor.setNombreProveedor(request.nombreProveedor());
+        validadorNegocio.validarIdentificacionDuplicadoProveedor(identificacion, null);
+        validadorNegocio.validarCorreoDuplicadoProveedor(correo, null);
+
+        proveedor.setIdentificacionProveedor(identificacion);
+        proveedor.setNombreProveedor(nombre);
+        proveedor.setCorreoProveedor(correo);
         proveedor.setDireccionProveedor(request.direccionProveedor());
-        proveedor.setCorreoProveedor(request.correoProveedor());
         proveedor.setTelefonoProveedor(request.telefonoProveedor());
 
         Proveedor guardado = proveedorRepository.save(proveedor);
@@ -49,11 +59,17 @@ public class ProveedorServiceImpl implements ProveedorService{
     @Override
     public ProveedorResponseDTO actualizar(Long id, ProveedorRequestDTO request) {
         Proveedor proveedor = validacionId(id);
+        String identificacion = request.identificacionProveedor();
+        String nombre = validadorNegocio.formatoNombre(request.nombreProveedor());
+        String correo = validadorNegocio.formatoCorreo(request.correoProveedor());
 
-        proveedor.setIdentificacionProveedor(request.identificacionProveedor());
-        proveedor.setNombreProveedor(request.nombreProveedor());
+        validadorNegocio.validarIdentificacionDuplicadoProveedor(identificacion, id);
+        validadorNegocio.validarCorreoDuplicadoProveedor(correo, id);
+
+        proveedor.setIdentificacionProveedor(identificacion);
+        proveedor.setNombreProveedor(nombre);
+        proveedor.setCorreoProveedor(correo);
         proveedor.setDireccionProveedor(request.direccionProveedor());
-        proveedor.setCorreoProveedor(request.correoProveedor());
         proveedor.setTelefonoProveedor(request.telefonoProveedor());
 
         Proveedor actualizado = proveedorRepository.save(proveedor);

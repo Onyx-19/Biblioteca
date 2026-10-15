@@ -1,5 +1,6 @@
 package com.bibliored.demo.service;
 
+import com.bibliored.demo.component.ValidadorNegocio;
 import com.bibliored.demo.dto.ClienteRequestDTO;
 import com.bibliored.demo.dto.ClienteResponseDTO;
 import com.bibliored.demo.model.Cliente;
@@ -13,19 +14,28 @@ import java.util.List;
 public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
+    private final ValidadorNegocio validadorNegocio;
 
-    private ClienteServiceImpl(ClienteRepository clienteRepository) {
+    private ClienteServiceImpl(ClienteRepository clienteRepository,
+                               ValidadorNegocio validadorNegocio) {
         this.clienteRepository = clienteRepository;
+        this.validadorNegocio = validadorNegocio;
     }
 
     @Override
     public ClienteResponseDTO crear(ClienteRequestDTO request) {
         Cliente cliente = new Cliente();
+        String identificacion = request.identificacionCliente();
+        String nombre = validadorNegocio.formatoNombre(request.nombreCliente());
+        String correo = validadorNegocio.formatoCorreo(request.correoCliente());
 
-        cliente.setIdentificacionCliente(request.identificacionCliente());
-        cliente.setNombreCliente(request.nombreCliente());
+        validadorNegocio.validarIdentificacionDuplicadoCliente(identificacion, null);
+        validadorNegocio.validarCorreoDuplicadoCliente(correo, null);
+
+        cliente.setIdentificacionCliente(identificacion);
+        cliente.setNombreCliente(nombre);
+        cliente.setCorreoCliente(correo);
         cliente.setDireccionCliente(request.direccionCliente());
-        cliente.setCorreoCliente(request.correoCliente());
         cliente.setTelefonoCliente(request.telefonoCliente());
 
         Cliente guardado = clienteRepository.save(cliente);
@@ -49,11 +59,17 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClienteResponseDTO actualizar(Long id, ClienteRequestDTO request) {
         Cliente cliente = validacionId(id);
+        String identificacion = request.identificacionCliente();
+        String nombre = validadorNegocio.formatoNombre(request.nombreCliente());
+        String correo = validadorNegocio.formatoCorreo(request.correoCliente());
 
-        cliente.setIdentificacionCliente(request.identificacionCliente());
-        cliente.setNombreCliente(request.nombreCliente());
+        validadorNegocio.validarIdentificacionDuplicadoCliente(identificacion, id);
+        validadorNegocio.validarIdentificacionDuplicadoCliente(correo, id);
+
+        cliente.setIdentificacionCliente(identificacion);
+        cliente.setNombreCliente(nombre);
+        cliente.setCorreoCliente(correo);
         cliente.setDireccionCliente(request.direccionCliente());
-        cliente.setCorreoCliente(request.correoCliente());
         cliente.setTelefonoCliente(request.telefonoCliente());
 
         Cliente actualizado = clienteRepository.save(cliente);

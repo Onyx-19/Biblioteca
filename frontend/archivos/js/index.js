@@ -40,6 +40,12 @@ async function navegar(modulo){
             case "autores":
                 inicializarAutores();
             break;
+            case "proveedores":
+                inicializarProveedores();
+            break;
+            case "clientes":
+                inicializarClientes();
+            break;
         default:
             break;
     }

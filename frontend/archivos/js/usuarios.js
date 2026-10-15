@@ -22,8 +22,9 @@ function inicializarUsuarios() {
 
         const fila = document.querySelectorAll("#tablaUsuarios tr:not(:first-child)");
         fila.forEach(f => {
+            const identificacion = f.cells[1].textContent.trim();
             const nombre = f.cells[2].textContent.toLowerCase();
-            f.style.display = nombre.includes(filtro) ? "" : "none";
+            f.style.display = nombre.includes(filtro) || identificacion.includes(filtro) ? "" : "none";
         })
     })
     

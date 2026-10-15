@@ -28,9 +28,9 @@
             <ul class="modulos_list">
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-search"></i>Consultas</li>
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-arrow-left-right"></i>Prestamos</li>
-                <li class="modulo" onclick="navegar('')"><i class="bi bi-person-check"></i>Clientes</li>
+                <li class="modulo" onclick="navegar('clientes')"><i class="bi bi-person-check"></i>Clientes</li>
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-box-seam"></i>Inventarios</li>
-                <li class="modulo" onclick="navegar('')"><i class="bi bi-truck"></i>Proveedores</li>
+                <li class="modulo" onclick="navegar('proveedores')"><i class="bi bi-truck"></i>Proveedores</li>
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-book"></i>Libros</li>
                 <li class="modulo" onclick="navegar('autores')"><i class="bi bi-pen"></i>Autores</li>
                 <li class="modulo" onclick="navegar('categorias')"><i class="bi bi-tags"></i>Categorias</li>
@@ -51,20 +51,23 @@
     </nav>
     <div class="contain" id="contenido">
         <h3 class="h3">A quien corresponda.
+            <br><br>
             <br><br>Actualmente solo encuentran funcionales los siguientes modulos:
-            <br></br>- 01 Sucursales (independiente)
-            <br></br>- 02 Usuarios (dependiente de sucursales)
-            <br></br>- 05 Autores (independiente)
-            <br></br>- 06 Categorias (independiente)
-            <br></br>Cumpliendo funcionalidades como la busqueda de elementos por nombre o el manejo tipo CRUD validando
+            <br><br>- 01 Sucursales (independiente)
+            <br><br>- 02 Usuarios (dependiente de sucursales)
+            <br><br>- 03 Clientes (independiente)
+            <br><br>- 04 Proveedores (independiente)
+            <br><br>- 05 Autores (independiente)
+            <br><br>- 06 Categorias (independiente)
+            <br><br>Cumpliendo funcionalidades como la busqueda de elementos por nombre o el manejo tipo CRUD validando
             la existencia previa del elemento por nombre, correo o numero de identidad segun corresponda.
-            <br></br>
-            <br></br> Modulos faltantes o en proceso:
-            <br></br>- 03 Clientes (independiente)
-            <br></br>- 04 Proveedores (independiente)
-            <br></br>- 07 Libros (dependiente de sucursales, autores y categorias)
-            <br></br>- 08 Inventarios (Sucursales, usuarios, proveedores y libros)
-            <br></br>- 09 Prestamos (dependiente de sucursales, usuarios, libros y clientes)
+            <br><br>
+            <br><br> Modulos faltantes o en proceso:
+            <br><br>- 07 Libros (dependiente de sucursales, autores y categorias)
+            <br><br>- 08 Inventarios (Sucursales, usuarios, proveedores y libros)
+            <br><br>- 09 Prestamos (dependiente de sucursales, usuarios, libros y clientes)
+            <br><br>- 10 Consultas (Tecnicamente depende de los demas modulos aunque no esta confirmado su desarrollo)
+            <br><br> PD: Durante el desarrollo se ha implementado H2 como base de datos temporal, para ejecutarla es necesario inicializar el backend permitiendo almacenar los datos correspondientes, asi mismo esta sera eliminada una vez el back sea detenido.
         </h3>
     </div>
     <script src="archivos/js/config.js"></script>
@@ -72,6 +75,8 @@
     <script src="archivos/js/usuarios.js"></script>
     <script src="archivos/js/categorias.js"></script>
     <script src="archivos/js/autores.js"></script>
+    <script src="archivos/js/proveedores.js"></script>
+    <script src="archivos/js/clientes.js"></script>
     <script src="archivos/js/index.js"></script>
 </body>
 </html>

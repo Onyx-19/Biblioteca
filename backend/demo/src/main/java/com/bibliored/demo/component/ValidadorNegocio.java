@@ -14,14 +14,20 @@ public class ValidadorNegocio {
     private final SucursalRepository sucursalRepository;
     private final UsuarioRepository usuarioRepository;
     private final CategoriaRepository categoriaRepository;
+    private final ProveedorRepository proveedorRepository;
+    private final ClienteRepository clienteRepository;
 
 
     public ValidadorNegocio (SucursalRepository sucursalRepository,
                              UsuarioRepository usuarioRepository,
-                             CategoriaRepository categoriaRepository){
+                             CategoriaRepository categoriaRepository,
+                             ProveedorRepository proveedorRepository,
+                             ClienteRepository clienteRepository){
         this.sucursalRepository = sucursalRepository;
         this.usuarioRepository = usuarioRepository;
         this.categoriaRepository = categoriaRepository;
+        this.proveedorRepository = proveedorRepository;
+        this.clienteRepository = clienteRepository;
     }
 
 //  GLOBALES
@@ -74,4 +80,35 @@ public class ValidadorNegocio {
             throw new BusinessExceptions("La categoria ya ha sido registrada previamente.");
         }
     }
+
+//  PROVEEDORES
+    public void validarIdentificacionDuplicadoProveedor(String identificacion, Long idExcluido) {
+        Optional<Proveedor> existeIdentificacion = proveedorRepository.findByIdentificacionProveedor(identificacion);
+        if (existeIdentificacion.isPresent() && !existeIdentificacion.get().getIdProveedor().equals(idExcluido)) {
+            throw new BusinessExceptions("El numero de identificacion ya ha sido registrado previamente.");
+        }
+    }
+
+    public void validarCorreoDuplicadoProveedor (String correo, Long idExcluido){
+        Optional<Proveedor> existeCorreo = proveedorRepository.findByCorreoProveedor(correo);
+        if (existeCorreo.isPresent() && !existeCorreo.get().getIdProveedor().equals(idExcluido)) {
+            throw new BusinessExceptions("El correo registrado ya ha sido utilizado para un proveedor.");
+        }
+    }
+
+//  CLIENTES
+    public void validarIdentificacionDuplicadoCliente(String identificacion, Long idExcluido) {
+        Optional<Cliente> existeIdentificacion = clienteRepository.findByIdentificacionCliente(identificacion);
+        if (existeIdentificacion.isPresent() && !existeIdentificacion.get().getIdCliente().equals(idExcluido)) {
+            throw new BusinessExceptions("El numero de identificacion ya ha sido registrado previamente.");
+        }
+    }
+
+    public void validarCorreoDuplicadoCliente (String correo, Long idExcluido){
+        Optional<Cliente> existeCorreo = clienteRepository.findByCorreoCliente(correo);
+        if (existeCorreo.isPresent() && !existeCorreo.get().getIdCliente().equals(idExcluido)) {
+            throw new BusinessExceptions("El correo registrado ya ha sido utilizado para un cliente.");
+        }
+    }
+
 }
