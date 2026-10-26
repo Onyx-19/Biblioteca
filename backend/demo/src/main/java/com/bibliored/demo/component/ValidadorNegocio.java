@@ -16,18 +16,21 @@ public class ValidadorNegocio {
     private final CategoriaRepository categoriaRepository;
     private final ProveedorRepository proveedorRepository;
     private final ClienteRepository clienteRepository;
+    private final LibroRepository libroRepository;
 
 
     public ValidadorNegocio (SucursalRepository sucursalRepository,
                              UsuarioRepository usuarioRepository,
                              CategoriaRepository categoriaRepository,
                              ProveedorRepository proveedorRepository,
-                             ClienteRepository clienteRepository){
+                             ClienteRepository clienteRepository,
+                             LibroRepository libroRepository){
         this.sucursalRepository = sucursalRepository;
         this.usuarioRepository = usuarioRepository;
         this.categoriaRepository = categoriaRepository;
         this.proveedorRepository = proveedorRepository;
         this.clienteRepository = clienteRepository;
+        this.libroRepository = libroRepository;
     }
 
 //  GLOBALES
@@ -111,4 +114,11 @@ public class ValidadorNegocio {
         }
     }
 
+//  LIBROS
+    public void validarIsbnDuplicado (String isbn, Long idExcluido){
+        Optional<Libro> existeIsbn = libroRepository.findByIsbn(isbn);
+        if (existeIsbn.isPresent() && !existeIsbn.get().getIdLibro().equals(idExcluido)) {
+            throw new BusinessExceptions("El codigo ISNB ha sido registrado previamente.");
+        }
+    }
 }

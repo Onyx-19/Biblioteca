@@ -6,13 +6,10 @@ public record LibroResponseDTO(
         String editorial,
         String isbn,
         Integer annoPublicacion,
-        Integer stock,
         Integer valorLibro,
         Long idAutor,
         String nombreAutor,
         Long idCategoria,
-        String nombreCategoria,
-        Long idSucursal,
-        String nombreSucursal
+        String nombreCategoria
 ) {
 }

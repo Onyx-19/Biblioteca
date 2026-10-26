@@ -263,3 +263,41 @@ th, td{
     border-radius: 8px;
     min-width: 400px;
 }
+
+
+
+/* Input/select de autor */
+.ts-control,
+.ts-wrapper.single .ts-control,
+.ts-wrapper.locked .ts-control {
+    background: var(--alt1) !important;
+    border: 2px solid var(--alt3);
+    border-radius: 6px;
+    padding: 10px;
+    box-shadow: none;
+    color: red;
+}
+
+.ts-wrapper.input-active .ts-control,
+.ts-wrapper.focus .ts-control,
+.ts-control.focus,
+.ts-control input {
+    background: var(--alt1) !important;
+    color: var(--alt3) !important; 
+}
+
+.ts-control input,
+.ts-control .item { 
+    color: var(--alt4); 
+}
+
+.ts-dropdown {
+    background: var(--alt2);
+    color: var(--alt4);
+    border: 1px solid var(--alt3);
+}
+
+.ts-dropdown .active { 
+    background: var(--alt1); 
+    color: var(--alt3); 
+}

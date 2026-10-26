@@ -4,8 +4,10 @@ import com.bibliored.demo.exceptions.BusinessExceptions;
 import com.bibliored.demo.exceptions.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import tools.jackson.databind.exc.InvalidFormatException;
 
 import java.util.Map;
 
@@ -34,6 +36,23 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(
                 Map.of("mensaje", e.getMessage())
         );
+    }
+
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, String>> handleJsonInvalido(HttpMessageNotReadableException ex) {
+        String mensaje = "El cuerpo de la petición es invalido";
+
+        if (ex.getCause() instanceof InvalidFormatException ife && !ife.getPath().isEmpty()) {
+            String campo = ife.getPath().get(ife.getPath().size() - 1).getPropertyName();
+
+            if (Number.class.isAssignableFrom(ife.getTargetType())) {
+                mensaje = "El campo '" + campo + "' debe ser un número válido";
+            } else {
+                mensaje = "El campo '" + campo + "' tiene un valor inválido";
+            }
+        }
+        return ResponseEntity.badRequest().body(Map.of("mensaje", mensaje));
     }
 }
 

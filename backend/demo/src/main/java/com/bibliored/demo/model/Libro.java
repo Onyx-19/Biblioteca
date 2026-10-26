@@ -13,12 +13,10 @@ public class Libro {
     private String tituloLibro;
     @Column (name = "editorial", length = 100)
     private String editorial;
-    @Column (name = "isbn", length = 15)
+    @Column (name = "isbn", length = 30)
     private String isbn;
     @Column (name = "anno_publicacion")
     private Integer annoPublicacion;
-    @Column (name = "stock")
-    private Integer stock;
     @Column(name = "valor_libro", nullable = false)
     private Integer valorLibro;
 
@@ -28,22 +26,17 @@ public class Libro {
     @ManyToOne
     @JoinColumn (name = "id_categoria")
     private Categoria categoria;
-    @ManyToOne
-    @JoinColumn(name = "id_sucursal")
-    private Sucursal sucursal;
 
 
-    public Libro(Long idLibro, String tituloLibro, String editorial, String isbn, Integer annoPublicacion, Integer stock, Integer valorLibro, Autor autor, Categoria categoria, Sucursal sucursal) {
+    public Libro(Long idLibro, String tituloLibro, String editorial, String isbn, Integer annoPublicacion,                 Integer valorLibro, Autor autor, Categoria categoria) {
         this.idLibro = idLibro;
         this.tituloLibro = tituloLibro;
         this.editorial = editorial;
         this.isbn = isbn;
         this.annoPublicacion = annoPublicacion;
-        this.stock = stock;
         this.valorLibro = valorLibro;
         this.autor = autor;
         this.categoria = categoria;
-        this.sucursal = sucursal;
     }
 
     public Libro(){
@@ -89,13 +82,6 @@ public class Libro {
         this.annoPublicacion = annoPublicacion;
     }
 
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
     public Integer getValorLibro() {
         return valorLibro;
     }
@@ -120,11 +106,4 @@ public class Libro {
         this.categoria = categoria;
     }
 
-    public Sucursal getSucursal() {
-        return sucursal;
-    }
-
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
-    }
 };
