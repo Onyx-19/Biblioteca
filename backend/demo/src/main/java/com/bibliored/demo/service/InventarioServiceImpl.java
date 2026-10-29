@@ -7,7 +7,7 @@ import com.bibliored.demo.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,19 +15,16 @@ public class InventarioServiceImpl implements InventarioService{
     private final InventarioRepository inventarioRepository;
     private final SucursalRepository sucursalRepository;
     private final UsuarioRepository usuarioRepository;
-    private final LibroRepository libroRepository;
     private final ProveedorRepository proveedorRepository;
 
     public InventarioServiceImpl(InventarioRepository inventarioRepository,
                                  SucursalRepository sucursalRepository,
                                  UsuarioRepository usuarioRepository,
-                                 LibroRepository libroRepository,
                                  ProveedorRepository proveedorRepository
     ) {
         this.inventarioRepository = inventarioRepository;
         this.sucursalRepository = sucursalRepository;
         this.usuarioRepository = usuarioRepository;
-        this.libroRepository = libroRepository;
         this.proveedorRepository = proveedorRepository;
     }
 
@@ -37,16 +34,13 @@ public class InventarioServiceImpl implements InventarioService{
         Inventario inventario = new Inventario();
         Sucursal sucursal = buscarSucursal(request.idSucursal());
         Usuario usuario = buscarUsuario(request.idUsuario());
-        Libro libro = buscarLibro(request.idLibro());
         Proveedor proveedor = buscarProveedor(request.idProveedor());
 
         inventario.setMovimientoInventario(request.movimientoInventario());
         inventario.setMotivoMovimiento(request.motivoMovimiento());
-        inventario.setUnidades(request.unidades());
-        inventario.setFechaHora(LocalDateTime.now());
+        inventario.setFechaHora(LocalDate.now());
         inventario.setSucursal(sucursal);
         inventario.setUsuario(usuario);
-        inventario.setLibro(libro);
         inventario.setProveedor(proveedor);
 
         Inventario guardado = inventarioRepository.save(inventario);
@@ -71,17 +65,14 @@ public class InventarioServiceImpl implements InventarioService{
     public InventarioResponseDTO actualizar(Long id, InventarioRequestDTO request) {
         Sucursal sucursal = buscarSucursal(request.idSucursal());
         Usuario usuario = buscarUsuario(request.idUsuario());
-        Libro libro = buscarLibro(request.idLibro());
         Proveedor proveedor = buscarProveedor(request.idProveedor());
         Inventario inventario = validacionPorId(id);
 
         inventario.setMovimientoInventario(request.movimientoInventario());
         inventario.setMotivoMovimiento(request.motivoMovimiento());
-        inventario.setUnidades(request.unidades());
-        inventario.setFechaHora(LocalDateTime.now());
+        inventario.setFechaHora(request.fechaHora());
         inventario.setSucursal(sucursal);
         inventario.setUsuario(usuario);
-        inventario.setLibro(libro);
         inventario.setProveedor(proveedor);
 
         Inventario actualizado = inventarioRepository.save(inventario);
@@ -110,11 +101,6 @@ public class InventarioServiceImpl implements InventarioService{
                 .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado una usuario con id: " + id));
     }
 
-    private Libro buscarLibro (Long id) {
-        return libroRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado un libro con id: " + id));
-    }
-
     private Proveedor buscarProveedor (Long id) {
         return proveedorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado un proveedor con id: " + id));
@@ -126,14 +112,11 @@ public class InventarioServiceImpl implements InventarioService{
                 inventario.getIdTransaccion(),
                 inventario.getMovimientoInventario(),
                 inventario.getMotivoMovimiento(),
-                inventario.getUnidades(),
                 inventario.getFechaHora(),
                 inventario.getSucursal().getIdSucursal(),
                 inventario.getSucursal().getNombreSucursal(),
                 inventario.getUsuario().getIdUsuario(),
                 inventario.getUsuario().getNombreUsuario(),
-                inventario.getLibro().getIdLibro(),
-                inventario.getLibro().getTituloLibro(),
                 inventario.getProveedor().getIdProveedor(),
                 inventario.getProveedor().getNombreProveedor()
         );

@@ -30,7 +30,7 @@
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-search"></i>Consultas</li>
                 <li class="modulo" onclick="navegar('')"><i class="bi bi-arrow-left-right"></i>Prestamos</li>
                 <li class="modulo" onclick="navegar('clientes')"><i class="bi bi-person-check"></i>Clientes</li>
-                <li class="modulo" onclick="navegar('')"><i class="bi bi-box-seam"></i>Inventarios</li>
+                <li class="modulo" onclick="navegar('inventarios')"><i class="bi bi-box-seam"></i>Inventarios</li>
                 <li class="modulo" onclick="navegar('proveedores')"><i class="bi bi-truck"></i>Proveedores</li>
                 <li class="modulo" onclick="navegar('libros')"><i class="bi bi-book"></i>Libros</li>
                 <li class="modulo" onclick="navegar('autores')"><i class="bi bi-pen"></i>Autores</li>
@@ -43,8 +43,8 @@
             <div class="perfil_mini_cont">
                 <i class="bi bi-person-gear"></i>
                 <div class="perfil">
-                    <p>Nombre.apellido</p>
-                    <p class="perfil_rol">Administrador</p>
+                    <p id="usuarioActivo"></p>
+                    <p class="perfil_rol"></p>
                 </div>
             </div>
             <button class="btn_cerrar_sesion">Cerrar sesion</button>
@@ -80,6 +80,7 @@
     <script src="archivos/js/proveedores.js"></script>
     <script src="archivos/js/clientes.js"></script>
     <script src="archivos/js/libros.js"></script>
+    <script src="archivos/js/inventarios.js"></script>
     <script src="archivos/js/index.js"></script>
 </body>
 </html>

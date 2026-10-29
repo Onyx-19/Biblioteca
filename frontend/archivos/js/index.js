@@ -14,6 +14,17 @@ async function navbarSucursales(idSelect) {
         select.appendChild(option);
     });
 }
+//NAVBAR USUARIO ACTIVO
+async function cargarUsuarioActivo() {
+    const respuesta = await fetch(`${CONFIG.API_URL}/usuarios/1`);
+    const usuario = await respuesta.json();    
+
+    document.getElementById("usuarioActivo").textContent = usuario.nombreUsuario;
+    document.querySelector(".perfil_rol").textContent = usuario.rolUsuario;
+    return usuario.idUsuario;
+}
+
+
 // --Carga los datos de sucursales en el navbar.
 navbarSucursales("selectSucursal");
 
@@ -49,6 +60,9 @@ async function navegar(modulo){
             case "libros":
                 inicializarLibros();
             break;
+            case "inventarios":
+                inicializarInventarios();
+            break;
         default:
             break;
     }
@@ -65,3 +79,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+cargarUsuarioActivo();

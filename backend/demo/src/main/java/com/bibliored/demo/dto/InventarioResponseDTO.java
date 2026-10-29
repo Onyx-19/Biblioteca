@@ -3,20 +3,17 @@ package com.bibliored.demo.dto;
 import com.bibliored.demo.enums.MotivoMovimiento;
 import com.bibliored.demo.enums.MovimientoInventario;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record InventarioResponseDTO(
         Long idTransaccion,
         MovimientoInventario movimientoInventario,
         MotivoMovimiento motivoMovimiento,
-        Integer unidades,
-        LocalDateTime fechaHora,
+        LocalDate fechaHora,
         Long idSucursal,
         String nombreSucursal,
         Long idUsuario,
         String nombreUsuario,
-        Long idLibro,
-        String tituloLibro,
         Long idProveedor,
         String nombreProveedor
 ) {

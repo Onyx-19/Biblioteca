@@ -4,7 +4,7 @@ import com.bibliored.demo.enums.MotivoMovimiento;
 import com.bibliored.demo.enums.MovimientoInventario;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "08_inventarios")
@@ -19,10 +19,8 @@ public class Inventario {
     @Enumerated(EnumType.STRING)
     @Column(name = "motivo_movimiento", nullable = false)
     private MotivoMovimiento motivoMovimiento;
-    @Column(name = "unidades", nullable = false)
-    private Integer unidades;
     @Column(name = "fecha_hora")
-    private LocalDateTime fechaHora;
+    private LocalDate fechaHora;
 
     @ManyToOne
     @JoinColumn(name = "id_sucursal")
@@ -31,21 +29,16 @@ public class Inventario {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
     @ManyToOne
-    @JoinColumn(name = "id_libro")
-    private Libro libro;
-    @ManyToOne
     @JoinColumn(name = "id_proveedor")
     private Proveedor proveedor;
 
-    public Inventario(Long idTransaccion, MovimientoInventario movimientoInventario, MotivoMovimiento motivoMovimiento, Integer unidades, LocalDateTime fechaHora, Sucursal sucursal, Usuario usuario, Libro libro, Proveedor proveedor) {
+    public Inventario(Long idTransaccion, MovimientoInventario movimientoInventario, MotivoMovimiento motivoMovimiento, LocalDate fechaHora, Sucursal sucursal, Usuario usuario, Proveedor proveedor) {
         this.idTransaccion = idTransaccion;
         this.movimientoInventario = movimientoInventario;
         this.motivoMovimiento = motivoMovimiento;
-        this.unidades = unidades;
         this.fechaHora = fechaHora;
         this.sucursal = sucursal;
         this.usuario = usuario;
-        this.libro = libro;
         this.proveedor = proveedor;
     }
 
@@ -68,15 +61,7 @@ public class Inventario {
         this.movimientoInventario = movimientoInventario;
     }
 
-    public Integer getUnidades() {
-        return unidades;
-    }
-
-    public void setUnidades(Integer unidades) {
-        this.unidades = unidades;
-    }
-
-    public LocalDateTime getFechaHora() {
+    public LocalDate getFechaHora() {
         return fechaHora;
     }
 
@@ -88,7 +73,7 @@ public class Inventario {
         this.motivoMovimiento = motivoMovimiento;
     }
 
-    public void setFechaHora(LocalDateTime fechaHora) {
+    public void setFechaHora(LocalDate fechaHora) {
         this.fechaHora = fechaHora;
     }
 
@@ -106,14 +91,6 @@ public class Inventario {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public Libro getLibro() {
-        return libro;
-    }
-
-    public void setLibro(Libro libro) {
-        this.libro = libro;
     }
 
     public Proveedor getProveedor() {

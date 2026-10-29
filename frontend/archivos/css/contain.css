@@ -42,6 +42,12 @@
     border: solid 2px var(--alt4);
 }
 
+.btn_annadir.v2{
+    width: 100%;
+    background: var(--alt1);
+    border-radius: 10px;
+}
+
 
 
 .form{
@@ -52,6 +58,13 @@
     width: 60%;
     padding: 3.5%;
     box-sizing: border-box;
+}
+
+.form.form_v2 {
+    width: 80%;
+    margin: 5% 5%;
+    overflow-y: auto;
+    max-height: 700px;
 }
 
 .form_header{
@@ -110,14 +123,27 @@
     padding: 1%;
 }
 
+.campo_formulario.v2{
+    border-bottom: solid 1px var(--alt3);
+    border: none;
+    margin: 0px;
+}
+
 .campo_formulario::placeholder{
     color: var(--alt4);
     opacity: 0.5;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Invierte el color si el ícono es negro, ajústalo según tu tono */
+    cursor: pointer;
+    opacity: 0.8;
+}
+
 .btn_guardar_cont{
     display: flex;
     justify-content: flex-end;
+    margin: 10px 0 0 0;
 }
 
 .btn_guardar{
@@ -171,6 +197,13 @@
     table-layout: fixed;
 }
 
+.list_table.v2{
+    margin: 15px 0;
+    /* box-shadow: 0px 10px 15px var(--alt1, 0.2); */
+}
+
+
+
 .table_cont::-webkit-scrollbar {
     height: 7px;
 }
@@ -189,6 +222,26 @@
 .table_cont::-webkit-scrollbar-thumb:hover {
     background: var(--alt3);
 }
+
+.contain::-webkit-scrollbar, .form.form_v2::-webkit-scrollbar {
+    width: 7px;
+}
+
+.form.form_v2::-webkit-scrollbar-track {
+    background: var(--alt2);
+    border-radius: 10px;
+}
+
+.form.form_v2::-webkit-scrollbar-thumb {
+    background: var(--alt1);
+    border: 1px solid var(--alt3);
+    border-radius: 10px;
+}
+
+.form.form_v2::-webkit-scrollbar-thumb:hover {
+    background: var(--alt3);
+}
+
 
 .col_xs{
     width: 33px;
@@ -244,7 +297,14 @@ th, td{
     background-color: var(--alt5);
     color: var(--alt1);
 }
+.btn_eliminar.v2{
+    width: 100%;
+    background-color: var(--alt1);
+}
 
+.btn_eliminar.v2:hover, .btn_eliminar.v2:focus{
+    color: var(--alt4);
+}
 
 
 .modal-overlay{
@@ -254,7 +314,6 @@ th, td{
     display: flex;
     align-items: center;
     justify-content: center;
-    /* z-index: 1000; */
 }
 
 .modal-contenido {
@@ -266,7 +325,7 @@ th, td{
 
 
 
-/* Input/select de autor */
+/* Input/select de TomSelect */
 .ts-control,
 .ts-wrapper.single .ts-control,
 .ts-wrapper.locked .ts-control {

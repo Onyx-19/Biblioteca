@@ -23,15 +23,15 @@
             </div>
             <div class="input_cont">
                 <p>ISBN 13:</p>
-                <input type="text" id="usbnLibro" class="campo_formulario" placeholder="ISBN">
+                <input type="text" id="usbnLibro" class="campo_formulario" placeholder="ISBN" required>
             </div>
             <div class="input_cont">
                 <p>Año de publicación:</p>
-                <input type="number" id="annoPublicacion" class="campo_formulario" placeholder="Año de publicación">
+                <input type="number" id="annoPublicacion" min="1600" class="campo_formulario" placeholder="Año de publicación">
             </div>
             <div class="input_cont">
                 <p>Valor del libro:</p>
-                <input type="number" id="valorLibro" class="campo_formulario" placeholder="Valor del libro" required>
+                <input type="number" id="valorLibro" min="0" class="campo_formulario" placeholder="Valor del libro" required>
             </div>
             <div class="input_cont">
                 <p>Nombre del autor:</p>
@@ -41,9 +41,6 @@
                 <p>Categoria del libro:</p>
                 <select id="categoriaLibro" class="campo_formulario" required></select>
             </div>
-
-
-
         </div>
         <div class="btn_guardar_cont">
             <button type="submit" class="btn_guardar">Guardar</button>
