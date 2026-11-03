@@ -4,6 +4,7 @@ import com.bibliored.demo.enums.MotivoMovimiento;
 import com.bibliored.demo.enums.MovimientoInventario;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record InventarioResponseDTO(
         Long idTransaccion,
@@ -15,6 +16,7 @@ public record InventarioResponseDTO(
         Long idUsuario,
         String nombreUsuario,
         Long idProveedor,
-        String nombreProveedor
+        String nombreProveedor,
+        List<InventarioDetalleResponseDTO> items
 ) {
 }

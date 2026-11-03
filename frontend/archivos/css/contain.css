@@ -124,9 +124,10 @@
 }
 
 .campo_formulario.v2{
-    border-bottom: solid 1px var(--alt3);
     border: none;
     margin: 0px;
+    align-content: center;
+    padding: 5px;
 }
 
 .campo_formulario::placeholder{

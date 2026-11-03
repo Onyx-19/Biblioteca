@@ -5,6 +5,8 @@ import com.bibliored.demo.enums.MovimientoInventario;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "08_inventarios")
@@ -19,7 +21,7 @@ public class Inventario {
     @Enumerated(EnumType.STRING)
     @Column(name = "motivo_movimiento", nullable = false)
     private MotivoMovimiento motivoMovimiento;
-    @Column(name = "fecha_hora")
+    @Column(name = "fecha_hora", nullable = false)
     private LocalDate fechaHora;
 
     @ManyToOne
@@ -32,7 +34,17 @@ public class Inventario {
     @JoinColumn(name = "id_proveedor")
     private Proveedor proveedor;
 
-    public Inventario(Long idTransaccion, MovimientoInventario movimientoInventario, MotivoMovimiento motivoMovimiento, LocalDate fechaHora, Sucursal sucursal, Usuario usuario, Proveedor proveedor) {
+    @OneToMany(mappedBy = "idTransaccion", cascade = CascadeType.ALL)
+    private List<InventarioDetalle> items = new ArrayList<>();
+
+    public Inventario(Long idTransaccion,
+                      MovimientoInventario movimientoInventario,
+                      MotivoMovimiento motivoMovimiento,
+                      LocalDate fechaHora,
+                      Sucursal sucursal,
+                      Usuario usuario,
+                      Proveedor proveedor,
+                      List<InventarioDetalle> items ) {
         this.idTransaccion = idTransaccion;
         this.movimientoInventario = movimientoInventario;
         this.motivoMovimiento = motivoMovimiento;
@@ -40,6 +52,7 @@ public class Inventario {
         this.sucursal = sucursal;
         this.usuario = usuario;
         this.proveedor = proveedor;
+        this.items = items;
     }
 
     public Inventario (){
@@ -99,5 +112,13 @@ public class Inventario {
 
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
+    }
+
+    public List<InventarioDetalle> getItems() {
+        return items;
+    }
+
+    public void setItems(List<InventarioDetalle> items) {
+        this.items = items;
     }
 }

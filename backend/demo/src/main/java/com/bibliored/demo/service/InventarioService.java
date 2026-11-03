@@ -11,8 +11,8 @@ public interface InventarioService {
     List<InventarioResponseDTO> listarTodos();
 
     InventarioResponseDTO obtenerPorId(Long id);
-
-    InventarioResponseDTO actualizar(Long id, InventarioRequestDTO request);
-
-    void eliminar(Long id);
+//
+//    InventarioResponseDTO actualizar(Long id, InventarioRequestDTO request);
+//
+//    void eliminar(Long id);
 }

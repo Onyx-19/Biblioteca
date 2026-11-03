@@ -38,17 +38,6 @@ public class InventarioController {
         return ResponseEntity.ok(inventarioService.obtenerPorId(id));
     }
 
-    @PutMapping("/{id}")
-    ResponseEntity<InventarioResponseDTO> actualizar(@PathVariable Long id, @Valid @RequestBody InventarioRequestDTO request) {
-        return ResponseEntity.ok(inventarioService.actualizar(id, request));
-    }
-
-    @DeleteMapping("/{id}")
-    ResponseEntity<InventarioResponseDTO> eliminar(@PathVariable Long id) {
-        inventarioService.eliminar(id);
-        return ResponseEntity.noContent().build();
-    }
-
     @GetMapping ("/tipos")
     public ResponseEntity<List<String>> tipos(){
         List<String> tipos = Arrays.stream(MovimientoInventario.values())

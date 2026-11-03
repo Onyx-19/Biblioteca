@@ -37,6 +37,14 @@ function inicializarInventarios() {
         const metodo = "POST";
         const url = API_INVENTARIOS;
 
+        const items = [];
+        document.querySelectorAll(".fila_item").forEach(i => {
+            items.push({
+                idLibro: Number(i.querySelector(".libro_item").value),
+                unidades: Number(i.querySelector(".unidades_item").value)                
+            });
+        });
+
         // --Captura de datos del formulario.
         const datos = {
             movimientoInventario: document.getElementById("tipoMovimiento").value,
@@ -45,8 +53,7 @@ function inicializarInventarios() {
             idSucursal: document.getElementById("sucursalDocumento").value,
             fechaHora: document.getElementById("fechaDocumento").value,
             idUsuario: document.getElementById("usuarioDocumento").value,
-            idLibro: document.querySelector(".libro_item").value,
-            unidades: document.querySelector(".unidades_item").value //temporal
+            items: items
         };
 
         // --Envio de los datos al backend.
@@ -178,7 +185,7 @@ async function capturaDocumento() {
     
     let table = document.getElementById("tableDocumento");
     table.innerHTML = `
-        <tr class="input_cont fila_item">
+        <tr class="input_cont fila_encabezado">
             <td class="col_ms">
                 <p>Sucursal:</p>
             </td>

@@ -5,6 +5,8 @@ public enum MotivoMovimiento {
     DONACION,
     VENTA,
     PRESTAMO,
-    DEVOLUCION
+    PERDIDA,
+    DANO
+//    ,    DEVOLUCION
 //    ,    AJUSTE
 }
