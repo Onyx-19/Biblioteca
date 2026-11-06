@@ -1,9 +1,11 @@
 package com.bibliored.demo.controller;
 
+import com.bibliored.demo.dto.InventarioDetalleResponseDTO;
 import com.bibliored.demo.dto.InventarioRequestDTO;
 import com.bibliored.demo.dto.InventarioResponseDTO;
 import com.bibliored.demo.enums.MotivoMovimiento;
 import com.bibliored.demo.enums.MovimientoInventario;
+import com.bibliored.demo.model.InventarioStock;
 import com.bibliored.demo.service.InventarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -52,5 +54,16 @@ public class InventarioController {
                 .map(Enum::name)
                 .toList();
         return ResponseEntity.ok(motivo);
+    }
+
+    @GetMapping("{id}/detalle")
+    public ResponseEntity<List<InventarioDetalleResponseDTO>> detalle(@PathVariable Long id) {
+        List<InventarioDetalleResponseDTO> detalles = inventarioService.consultarInventarioDetalle(id);
+        return ResponseEntity.ok(detalles);
+    }
+
+    @GetMapping("/stock")
+    public ResponseEntity<List<InventarioStock>> stock() {
+        return ResponseEntity.ok(inventarioService.consultarStock());
     }
 }

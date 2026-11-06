@@ -1,8 +1,6 @@
 package com.bibliored.demo.service;
 
-import com.bibliored.demo.dto.InventarioDetalleResponseDTO;
-import com.bibliored.demo.dto.InventarioRequestDTO;
-import com.bibliored.demo.dto.InventarioResponseDTO;
+import com.bibliored.demo.dto.*;
 import com.bibliored.demo.enums.MotivoMovimiento;
 import com.bibliored.demo.enums.MovimientoInventario;
 import com.bibliored.demo.exceptions.BusinessExceptions;
@@ -26,18 +24,24 @@ public class InventarioServiceImpl implements InventarioService{
     private final UsuarioRepository usuarioRepository;
     private final ProveedorRepository proveedorRepository;
     private final LibroRepository libroRepository;
+    private final InventarioDetalleRepository inventarioDetalleRepository;
+    private final InventarioStockRepository inventarioStockRepository;
 
     public InventarioServiceImpl(InventarioRepository inventarioRepository,
                                  SucursalRepository sucursalRepository,
                                  UsuarioRepository usuarioRepository,
                                  ProveedorRepository proveedorRepository,
-                                 LibroRepository libroRepository
+                                 LibroRepository libroRepository,
+                                 InventarioDetalleRepository inventarioDetalleRepository,
+                                 InventarioStockRepository inventarioStockRepository
     ) {
         this.inventarioRepository = inventarioRepository;
         this.sucursalRepository = sucursalRepository;
         this.usuarioRepository = usuarioRepository;
         this.proveedorRepository = proveedorRepository;
         this.libroRepository = libroRepository;
+        this.inventarioDetalleRepository = inventarioDetalleRepository;
+        this.inventarioStockRepository = inventarioStockRepository;
     }
 
     private void validarEncabezado(InventarioRequestDTO request){
@@ -57,6 +61,22 @@ public class InventarioServiceImpl implements InventarioService{
         }
     }
 
+    private void movilizarStock(Libro libro, Sucursal sucursal, int unidades, InventarioRequestDTO request) {
+        boolean entrada = request.movimientoInventario() == MovimientoInventario.ENTRADA;
+        int variacion = entrada ? unidades : -unidades;
+
+        InventarioStock stock = inventarioStockRepository.findBySucursalAndLibro(sucursal, libro)
+                .orElseGet(() -> new InventarioStock (sucursal, libro, 0));
+
+        int sinStock = stock.getDisponible() + variacion;
+        if (sinStock < 0){
+            throw new BusinessExceptions("Stock insuficiente para el libro: " + libro.getTituloLibro());
+        }
+
+        stock.setDisponible(sinStock);
+        inventarioStockRepository.save(stock);
+    }
+
     @Override
     @Transactional
     public InventarioResponseDTO crear(InventarioRequestDTO request){
@@ -69,11 +89,12 @@ public class InventarioServiceImpl implements InventarioService{
             }
         }
 
+        Sucursal sucursal = buscarSucursal(request.idSucursal());
         Inventario inventario = new Inventario();
         inventario.setMovimientoInventario(request.movimientoInventario());
         inventario.setMotivoMovimiento(request.motivoMovimiento());
         inventario.setFechaHora(request.fechaHora());
-        inventario.setSucursal(buscarSucursal(request.idSucursal()));
+        inventario.setSucursal(sucursal);
         inventario.setUsuario(buscarUsuario(request.idUsuario()));
         if(request.idProveedor() != null){
             inventario.setProveedor(buscarProveedor(request.idProveedor()));
@@ -82,13 +103,14 @@ public class InventarioServiceImpl implements InventarioService{
         for (var item : request.items()) {
             Libro libro = libroRepository.findById(item.idLibro())
                     .orElseThrow(() -> new BusinessExceptions("El libro no existe"));
+
+            movilizarStock(libro, sucursal, item.unidades(), request);
+
             InventarioDetalle detalle = new InventarioDetalle();
             detalle.setIdTransaccion(inventario);
             detalle.setIdLibro(libro);
             detalle.setUnidades(item.unidades());
             inventario.getItems().add(detalle);
-
-//            actualizarStock(libro, inventario.getSucursal(), item.unidades(), dto.motivoMovimiento());
         }
 
         return toResponseDTO(inventarioRepository.save(inventario));
@@ -106,6 +128,26 @@ public class InventarioServiceImpl implements InventarioService{
     public InventarioResponseDTO obtenerPorId(Long id) {
         Inventario inventario = validacionPorId(id);
         return toResponseDTO(inventario);
+    }
+
+
+    @Override
+    public List<InventarioDetalleResponseDTO> consultarInventarioDetalle(Long id) {
+        return inventarioDetalleRepository.findByIdTransaccion_IdTransaccion(id)
+                .stream()
+                .map(detalle -> new InventarioDetalleResponseDTO(
+                        detalle.getIdDetalleInventario(),
+                        detalle.getIdTransaccion().getIdTransaccion(),
+                        detalle.getIdLibro().getIdLibro(),
+                        detalle.getIdLibro().getTituloLibro(),
+                        detalle.getUnidades()
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<InventarioStock> consultarStock() {
+        return inventarioStockRepository.findAll();
     }
 
 
@@ -140,8 +182,6 @@ public class InventarioServiceImpl implements InventarioService{
                 inventario.getSucursal().getNombreSucursal(),
                 inventario.getUsuario().getIdUsuario(),
                 inventario.getUsuario().getNombreUsuario(),
-//                inventario.getProveedor().getIdProveedor(),
-//                inventario.getProveedor().getNombreProveedor(),
                 inventario.getProveedor() != null ? inventario.getProveedor().getIdProveedor() : null,
                 inventario.getProveedor() != null ? inventario.getProveedor().getNombreProveedor() : null,
                 inventario.getItems()

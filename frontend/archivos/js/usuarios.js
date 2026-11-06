@@ -190,7 +190,7 @@ function abrirModalUsuario() {
 
 // --Lista los roles disponibles en la creacion y modificacion de usuario.
 function selectRoles(){
-    const roles = ["Manager", "Empleado"];
+    const roles = ["Supervisor", "Manager", "Bibliotecario"];
     const select = document.getElementById("rolUsuario");
     select.innerHTML = '<option value="">-- Selecciona el rol --</option>';
 
@@ -225,17 +225,3 @@ function escModalUsuarios(e){
 }
 
 document.addEventListener("keydown", escModalUsuarios);
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Hacer un eliminacion de usuarios logica, desactivacion u ocultacion de usuario.

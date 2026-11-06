@@ -1,6 +1,5 @@
 <div class="header">
     <h2>Gestión de Inventarios</h2>
-    <!-- <input id="input_buscar" class="input_buscar" type="text" placeholder="Buscar libro"> -->
     <button type="button" class="btn_annadir" onclick="abrirModalInventario()">Añadir</button>
 </div>
 
@@ -35,7 +34,45 @@
     </form>
 </div>
 
-<div class="table_cont">
-    <!-- <table id="tabla" class="list_table"> -->
-    </table>
+<div>
+    <h2 style="margin:1% 2%">Consultas</h2>
+    <div class="btn_consulta_cont">
+        <button class="btn_consulta">Entradas</button>
+        <button class="btn_consulta">Salidas</button>
+        <button class="btn_consulta">Traslados</button>
+        <button class="btn_consulta" onclick="inventarioHistorico()">Historico</button>
+        <button class="btn_consulta" onclick="consultaStock()">Stock</button>
+    </div>
+
+    <div id="cont_table" class="table_cont">
+    </div>
+
+
+    <div id="modalDetalle" class="modal-overlay" style="display:none;">
+        <div class="form">
+            <div class="form_header">
+                <h2>Detalle del documento N° <span id="detalleDocumento"></span></h2>
+                <button type="button" class="btn_close" onclick="cerrarModalDetalle()">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+
+            <div class="form_cont">
+
+                <table class="list_table v2">
+                    <thead>
+                        <tr>
+                            <th class="col_lm">Libro</th>
+                            <th class="col_xs">Unidades</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detalleItems"></tbody>
+                </table>
+            </div>
+            <div class="btn_guardar_cont">
+                <button type="button" class="btn_cancelar" onclick="cerrarModalDetalle()">Cerrar</button>
+            </div>
+            </div>
+    </div>
+
 </div>
