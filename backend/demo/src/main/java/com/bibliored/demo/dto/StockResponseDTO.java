@@ -1,6 +1,6 @@
 package com.bibliored.demo.dto;
 
-public record InventarioStockResponseDTO(
+public record StockResponseDTO(
         Long idStock,
         Long idSucursal,
         String nombreSucursal,

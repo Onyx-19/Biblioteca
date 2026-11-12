@@ -25,7 +25,8 @@ public class InventarioServiceImpl implements InventarioService{
     private final ProveedorRepository proveedorRepository;
     private final LibroRepository libroRepository;
     private final InventarioDetalleRepository inventarioDetalleRepository;
-    private final InventarioStockRepository inventarioStockRepository;
+    private final StockService stockService;
+
 
     public InventarioServiceImpl(InventarioRepository inventarioRepository,
                                  SucursalRepository sucursalRepository,
@@ -33,7 +34,7 @@ public class InventarioServiceImpl implements InventarioService{
                                  ProveedorRepository proveedorRepository,
                                  LibroRepository libroRepository,
                                  InventarioDetalleRepository inventarioDetalleRepository,
-                                 InventarioStockRepository inventarioStockRepository
+                                 StockService stockService
     ) {
         this.inventarioRepository = inventarioRepository;
         this.sucursalRepository = sucursalRepository;
@@ -41,15 +42,15 @@ public class InventarioServiceImpl implements InventarioService{
         this.proveedorRepository = proveedorRepository;
         this.libroRepository = libroRepository;
         this.inventarioDetalleRepository = inventarioDetalleRepository;
-        this.inventarioStockRepository = inventarioStockRepository;
+        this.stockService = stockService;
     }
 
     private void validarEncabezado(InventarioRequestDTO request){
         MotivoMovimiento motivo = request.motivoMovimiento();
 
         Set<MotivoMovimiento> permitidos = request.movimientoInventario() == MovimientoInventario.ENTRADA
-                ? EnumSet.of(COMPRA, DONACION)
-                : EnumSet.of(PRESTAMO, PERDIDA, DANO);
+                ? EnumSet.of(COMPRA, DONACION, DEVOLUCION)
+                : EnumSet.of(PERDIDA, DANO, PRESTAMO);
 
         if (!permitidos.contains(motivo)){
             throw new BusinessExceptions("El motivo no corresponde al tipo de movimiento");
@@ -61,26 +62,14 @@ public class InventarioServiceImpl implements InventarioService{
         }
     }
 
-    private void movilizarStock(Libro libro, Sucursal sucursal, int unidades, InventarioRequestDTO request) {
-        boolean entrada = request.movimientoInventario() == MovimientoInventario.ENTRADA;
-        int variacion = entrada ? unidades : -unidades;
-
-        InventarioStock stock = inventarioStockRepository.findBySucursalAndLibro(sucursal, libro)
-                .orElseGet(() -> new InventarioStock (sucursal, libro, 0));
-
-        int sinStock = stock.getDisponible() + variacion;
-        if (sinStock < 0){
-            throw new BusinessExceptions("Stock insuficiente para el libro: " + libro.getTituloLibro());
-        }
-
-        stock.setDisponible(sinStock);
-        inventarioStockRepository.save(stock);
-    }
-
     @Override
     @Transactional
     public InventarioResponseDTO crear(InventarioRequestDTO request){
         validarEncabezado(request);
+
+//        if (request.motivoMovimiento() == PRESTAMO || request.motivoMovimiento() == DEVOLUCION) {
+//            throw new BusinessExceptions("Este motivo solo se genera desde el módulo de préstamos.");
+//        }
 
         Set<Long> vistos = new HashSet<>();
         for (var item : request.items()) {
@@ -104,7 +93,7 @@ public class InventarioServiceImpl implements InventarioService{
             Libro libro = libroRepository.findById(item.idLibro())
                     .orElseThrow(() -> new BusinessExceptions("El libro no existe"));
 
-            movilizarStock(libro, sucursal, item.unidades(), request);
+            stockService.movilizarStock(libro, sucursal, item.unidades(), request.movimientoInventario());
 
             InventarioDetalle detalle = new InventarioDetalle();
             detalle.setIdTransaccion(inventario);
@@ -144,12 +133,6 @@ public class InventarioServiceImpl implements InventarioService{
                 ))
                 .toList();
     }
-
-    @Override
-    public List<InventarioStock> consultarStock() {
-        return inventarioStockRepository.findAll();
-    }
-
 
     private Inventario validacionPorId(Long id) {
         return inventarioRepository.findById(id)

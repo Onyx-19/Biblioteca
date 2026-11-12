@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table (name = "10_inventario_stock")
-public class InventarioStock {
+public class Stock {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id_stock")
@@ -18,13 +18,13 @@ public class InventarioStock {
     @Column(name = "disponible")
     private Integer disponible = 0;
 
-    public InventarioStock(Sucursal sucursal, Libro libro, Integer disponible) {
+    public Stock(Sucursal sucursal, Libro libro, Integer disponible) {
         this.sucursal = sucursal;
         this.libro = libro;
         this.disponible = disponible;
     }
 
-    public InventarioStock() {
+    public Stock() {
     }
 
     public Sucursal getSucursal() {

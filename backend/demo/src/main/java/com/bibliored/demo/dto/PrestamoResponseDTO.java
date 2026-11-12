@@ -1,26 +1,28 @@
 package com.bibliored.demo.dto;
 
 import com.bibliored.demo.enums.EstadoPrestamo;
-import com.bibliored.demo.enums.TipoTransaccion;
+import com.bibliored.demo.enums.MotivoMovimiento;
+import com.bibliored.demo.enums.MovimientoInventario;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
 public record PrestamoResponseDTO (
         Long idTransaccion,
-        TipoTransaccion tipoTransaccion,
-        Integer unidades,
-        LocalDateTime fechaRegistro,
+        MovimientoInventario movimientoInventario,
+        MotivoMovimiento motivoMovimiento,
+        LocalDate fechaRegistro,
         EstadoPrestamo estadoPrestamo,
-        LocalDateTime fechaDevolucionEstimada,
-        LocalDateTime fechaDevolucion,
+        LocalDate fechaDevolucionEstimada,
+        LocalDate fechaDevolucion,
 
         Long idSucursal,
         String nombreSucursal,
         Long idUsuario,
         String nombreUsuario,
-        Long idLibro,
-        String tituloLibro,
         Long idCliente,
-        String nombreCliente
+        String nombreCliente,
+        String identificacionCliente,
+        List<PrestamoDetalleResponseDTO> items
 ){
 }

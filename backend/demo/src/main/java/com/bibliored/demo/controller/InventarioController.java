@@ -5,8 +5,9 @@ import com.bibliored.demo.dto.InventarioRequestDTO;
 import com.bibliored.demo.dto.InventarioResponseDTO;
 import com.bibliored.demo.enums.MotivoMovimiento;
 import com.bibliored.demo.enums.MovimientoInventario;
-import com.bibliored.demo.model.InventarioStock;
+import com.bibliored.demo.model.Stock;
 import com.bibliored.demo.service.InventarioService;
+import com.bibliored.demo.service.StockService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +20,12 @@ import java.util.List;
 @RequestMapping("inventarios")
 public class InventarioController {
     private InventarioService inventarioService;
+    private StockService stockService;
 
-    public InventarioController(InventarioService inventarioService) {
+    public InventarioController(InventarioService inventarioService,
+                                StockService stockService) {
         this.inventarioService = inventarioService;
+        this.stockService = stockService;
     }
 
     @PostMapping
@@ -63,7 +67,7 @@ public class InventarioController {
     }
 
     @GetMapping("/stock")
-    public ResponseEntity<List<InventarioStock>> stock() {
-        return ResponseEntity.ok(inventarioService.consultarStock());
+    public ResponseEntity<List<Stock>> stock() {
+        return ResponseEntity.ok(stockService.consultarStock());
     }
 }

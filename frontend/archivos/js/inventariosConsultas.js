@@ -10,7 +10,7 @@ async function consultaStock() {
 
     const contTable = document.getElementById("cont_table");
     contTable.innerHTML = `
-        <input id="input_buscar" class="input_buscar" type="text" placeholder="Buscar libro">
+        <input id="input_buscar" class="input_buscar" type="text" placeholder="Buscar registro" title="Busqueda por sucursal, titulo o ISBN">
         <table id="tabla" class="list_table">
             <tr>
                 <th class="col_ms">Sucursal</th>
@@ -58,7 +58,7 @@ async function inventarioHistorico() {
 
     const contTable = document.getElementById("cont_table");
     contTable.innerHTML = `
-        <input id="input_buscar" class="input_buscar" type="text" placeholder="Buscar libro">
+        <input id="input_buscar" class="input_buscar" type="text" placeholder="Buscar registro" title="Busqueda por sucursal, concepto, fecha o proveedor.">
         <table id="tabla" class="list_table">
             <tr>
                 <th class="col_xs">id</th>
@@ -97,17 +97,18 @@ async function inventarioHistorico() {
     });
 
     // FILTRADO HISTORICO
-    // --Busqueda de la disponibilidad por titulo, sucursal o codigo.
+    // --Busqueda de la disponibilidad por sucursal, concepto, fecha o proveedor.
     document.getElementById("input_buscar").addEventListener("input", function(e){
         const filtro = e.target.value.toLowerCase();
 
         const fila = document.querySelectorAll("#tabla tr:not(:first-child)");
         fila.forEach(f => {
             const sucursal = f.cells[1].textContent.toLowerCase();
+            const concepto = f.cells[3].textContent.toLowerCase();
             const fecha = f.cells[4].textContent.toLowerCase();
             const proveedor = f.cells[5].textContent.toLowerCase();
 
-            f.style.display = sucursal.includes(filtro) || fecha.includes(filtro) || proveedor.includes(filtro) ? "" : "none";
+            f.style.display = sucursal.includes(filtro) || concepto.includes(filtro) || fecha.includes(filtro) || proveedor.includes(filtro) ? "" : "none";
         })
     })
 
@@ -144,6 +145,6 @@ document.addEventListener('click', (e) => {
 
 // FUNCIONAMIENTO DE LA MODAL
 // --Cierre de la modal detalle de la consulta historica.
-function cerrarModalDetalle() {
+function cerrarModalInventarioDetalle() {
     document.getElementById("modalDetalle").style.display = "none";
 }

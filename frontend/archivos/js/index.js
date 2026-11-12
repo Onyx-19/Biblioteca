@@ -63,6 +63,9 @@ async function navegar(modulo){
             case "inventarios":
                 inicializarInventarios();
             break;
+            case "prestamos":
+                inicializarPrestamos();
+            break;
         default:
             break;
     }

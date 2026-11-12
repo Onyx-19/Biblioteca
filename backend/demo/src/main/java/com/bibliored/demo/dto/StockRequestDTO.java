@@ -1,6 +1,6 @@
 package com.bibliored.demo.dto;
 
-public record InventarioStockRequestDTO(
+public record StockRequestDTO(
         Long sucursal,
         Long idLibro,
         Integer disponible

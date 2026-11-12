@@ -57,7 +57,7 @@ function inicializarInventarios() {
 
 
 //CAPTURA DE MOVIMIENTOS
-async function encabezadoDocumento(){
+async function encabezadoDocumentoInventario(){
     const tableSelect = document.getElementById("tableSelect");
     
     tableSelect.innerHTML = `
@@ -83,7 +83,7 @@ async function encabezadoDocumento(){
 
 
 // Captura los datos de asignacion del documento de movimiento de inventario.
-async function asignacionDocumento() {    
+async function asignacionDocumentoInventario() {    
     let sucursal = document.getElementById("selectSucursal");
     let nombreSucursal = sucursal.options[sucursal.selectedIndex].text;
     let idSucursal = sucursal.value;
@@ -113,7 +113,7 @@ async function asignacionDocumento() {
 }
 
 // Permite listar los items relacionados en el documento de inventario. Tambien agrega nuevos items a la lista.
-function listarItems(){
+function listarItemsInventario(){
     const tBody = document.getElementById("registroInventario");
     tBody.insertAdjacentHTML("beforeend", `
         <tr class="input_cont fila_item">
@@ -124,12 +124,12 @@ function listarItems(){
                 <input type="number" min="1" class="campo_formulario v2 unidades_item" placeholder="unidades" required>
             </td>
             <td class="col_xs">
-                <button id="nuevoLibro" class="btn_annadir v2" type="button" onclick="adicionItem()">
+                <button id="nuevoLibro" class="btn_annadir v2" type="button" onclick="adicionItemInventario()">
                     <i class="bi bi-plus"></i>
                 </button>
             </td>
             <td class="col_xs">
-                <button type="button" class="btn_eliminar v2" onclick="eliminarItem(this)">
+                <button type="button" class="btn_eliminar v2" onclick="eliminarItemInventario(this)">
                     <i class="bi bi-dash"></i>
                 </button>
             </td>
@@ -137,14 +137,14 @@ function listarItems(){
     `);
 
     const select = tBody.lastElementChild.querySelector(".libro_item");
-    selectLibros(select);
+    selectLibrosInventario(select);
 }
 // funciona simple ciclica para añadir items interactuando con el boton +.
-function adicionItem(){
-    listarItems();
+function adicionItemInventario(){
+    listarItemsInventario();
 } 
 // funcion que permite eliminar items de la lista del documento.
-function eliminarItem(boton) {
+function eliminarItemInventario(boton) {
     const filas = document.querySelectorAll(".fila_item");
     if (filas.length > 1) {
         boton.closest("tr").remove();
@@ -217,7 +217,7 @@ function actualizarProveedor(tipo) {
 }
 
 // Funcion que permite listar y seleccionar los libros existentes.
-async function selectLibros(select) {
+async function selectLibrosInventario(select) {
     const respuesta = await fetch(`${CONFIG.API_URL}/libros`);
     const libros = await respuesta.json();
 
@@ -237,7 +237,7 @@ async function selectLibros(select) {
 // --Apertura de la modal de creacion de movimientos de inventario.
 function abrirModalInventario() {
 
-    encabezadoDocumento();
+    encabezadoDocumentoInventario();
     tipoMovimiento();
     motivoMovimiento("");   // arranca vacío hasta elegir un tipo
     document.getElementById("tipoMovimiento").addEventListener("change", e => motivoMovimiento(e.target.value));
@@ -249,8 +249,8 @@ function abrirModalInventario() {
         actualizarProveedor(e.target.value);
     });
 
-    asignacionDocumento();
-    listarItems();
+    asignacionDocumentoInventario();
+    listarItemsInventario();
 
     document.getElementById("modalInventario").style.display = "flex";
 }

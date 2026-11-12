@@ -35,15 +35,8 @@ public class PrestamoController {
         return ResponseEntity.ok(prestamoService.obtenerPorId(id));
     }
 
-    @PutMapping ("/{id}")
-    ResponseEntity<PrestamoResponseDTO> actualizar (@PathVariable Long id, @Valid @RequestBody PrestamoRequestDTO request) {
-        return ResponseEntity.ok(prestamoService.actualizar(id, request));
+    @PutMapping("/{id}/devolucion")
+    ResponseEntity<PrestamoResponseDTO> finalizarPrestamo(@PathVariable Long id){
+        return ResponseEntity.ok(prestamoService.cierrePrestamo(id));
     }
-
-    @DeleteMapping("/{id}")
-    ResponseEntity<PrestamoResponseDTO> eliminar(@PathVariable Long id) {
-        prestamoService.eliminar(id);
-        return ResponseEntity.noContent().build();
-    }
-
 }
