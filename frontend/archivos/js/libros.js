@@ -1,3 +1,8 @@
+if (!AUTH.getToken()) {
+    window.location.href = "login.html";
+}
+
+
 // PROCESO MODULAR
 // --Accede al archivo config.js para llamar al endpoint
 const API_LIBROS= `${CONFIG.API_URL}/libros`;
@@ -52,7 +57,7 @@ function inicializarLibros() {
         // --Envio de los datos al backend.
         const respuesta = await fetch(url, {
             method: metodo,
-            headers: { "Content-Type": "application/json" },
+            headers: AUTH.headers(),
             body: JSON.stringify(datos)
         });
 
@@ -75,7 +80,9 @@ function inicializarLibros() {
 // TABLA DE LIBROS
 // --Proceso encargado de acceder al endpoint, buscar y listar los libros existentes.
 async function listarLibros() {
-    const respuesta = await fetch(API_LIBROS);
+    const respuesta = await fetch(API_LIBROS, {
+        headers: AUTH.headers()
+    });
     const datos = await respuesta.json();
     
     const tabla = document.getElementById("tablaLibros");
@@ -120,7 +127,9 @@ async function selectAutores(idSelect) {
     const select = document.getElementById(idSelect);
     if (!select) return;
 
-    const respuesta = await fetch(`${CONFIG.API_URL}/autores`);
+    const respuesta = await fetch(`${CONFIG.API_URL}/autores`, {
+        headers: AUTH.headers()
+    });
     const autores = await respuesta.json();
 
     select.innerHTML = '<option value=""></option>';
@@ -144,7 +153,9 @@ async function selectAutores(idSelect) {
 // Funcion que permite listar y seleccionar las categorias existentes.
 async function selectCategorias(idSelect) {
     // --Accede a el endpoint de categorias obteniendo los datos.
-    const respuesta = await fetch(`${CONFIG.API_URL}/categorias`);
+    const respuesta = await fetch(`${CONFIG.API_URL}/categorias`, {
+        headers: AUTH.headers()
+    });
     const categorias = await respuesta.json();
     
     const select = document.getElementById(idSelect);
@@ -163,7 +174,9 @@ async function selectCategorias(idSelect) {
 // EDITAR LIBRO.
 // --Proceso de modificacion y acceso a eliminacion de libros desde el boton "editar".
 async function editarLibro(id){
-    const respuesta = await fetch (API_LIBROS + `/${id}`);
+    const respuesta = await fetch (API_LIBROS + `/${id}`, {
+        headers: AUTH.headers()
+    });
     const libro = await respuesta.json();
 
     document.getElementById("idLibro").value = libro.idLibro;
@@ -185,7 +198,10 @@ async function eliminarLibro(){
     if (!confirm("¿Eliminar este libro?")) return;
 
     const id = document.getElementById("idLibro").value;
-    const respuesta = await fetch(API_LIBROS + `/${id}`, {method: "DELETE"})
+    const respuesta = await fetch(API_LIBROS + `/${id}`, {
+        method: "DELETE",
+        headers: AUTH.headers()
+    })
 
     if (respuesta.ok){
         cerrarModalLibro();
@@ -219,9 +235,10 @@ function abrirModalLibro() {
 
 // --Proceso de cierre de modal.
 function cerrarModalLibro() {
-    document.getElementById("modalLibro").style.display = "none";
-    document.getElementById("formLibro").reset();
-    document.getElementById("idLibro").value = "";
+    const modal = document.getElementById("modalLibro");
+    const form = document.getElementById("formLibro");
+    if (modal) modal.style.display = "none";
+    if (form) form.reset();
 }
 
 // --Utilizar la tecla esc para cerrar la modal.

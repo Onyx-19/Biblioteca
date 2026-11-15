@@ -1,5 +1,7 @@
 package com.bibliored.demo.dto;
 
+import com.bibliored.demo.enums.Roles;
+
 public record UsuarioResponseDTO(
     Long idUsuario,
     String identificacionUsuario ,
@@ -7,7 +9,7 @@ public record UsuarioResponseDTO(
     String correoUsuario,
     String direccionUsuario,
     String telefonoUsuario,
-    String rolUsuario,
+    Roles rolUsuario,
     Long idSucursal,
     String nombreSucursal
 ) {

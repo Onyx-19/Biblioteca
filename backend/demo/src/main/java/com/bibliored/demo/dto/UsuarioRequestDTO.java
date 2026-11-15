@@ -1,5 +1,6 @@
 package com.bibliored.demo.dto;
 
+import com.bibliored.demo.enums.Roles;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,9 +21,8 @@ public record UsuarioRequestDTO(
         String direccionUsuario,
         @Size(max = 15)
         String telefonoUsuario,
-        @NotBlank (message = "El rol del usuario es obligatorio")
-        @Size(max = 50)
-        String rolUsuario,
+        @NotNull (message = "El rol del usuario es obligatorio")
+        Roles rolUsuario,
         @NotNull (message = "El usuario debe tener una sucursal relacionada")
         Long idSucursal
 ) {

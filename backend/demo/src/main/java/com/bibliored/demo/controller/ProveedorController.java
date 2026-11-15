@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -19,27 +20,32 @@ public class ProveedorController{
         this.proveedorService = proveedorService;
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER')")
     @PostMapping
     public ResponseEntity<ProveedorResponseDTO> crear(@Valid @RequestBody ProveedorRequestDTO request){
         ProveedorResponseDTO creacion = proveedorService.crear(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(creacion);
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER', 'BIBLIOTECARIO')")
     @GetMapping
     public ResponseEntity <List<ProveedorResponseDTO>> listarTodos (){
         return ResponseEntity.ok(proveedorService.listarTodos());
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER', 'BIBLIOTECARIO')")
     @GetMapping ("/{id}")
     public ResponseEntity<ProveedorResponseDTO> obtenerPorId(@PathVariable Long id){
         return ResponseEntity.ok(proveedorService.obtenerPorId(id));
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER')")
     @PutMapping ("/{id}")
     public ResponseEntity<ProveedorResponseDTO> actualizar (@PathVariable Long id, @Valid @RequestBody ProveedorRequestDTO request){
         return ResponseEntity.ok(proveedorService.actualizar(id, request));
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER')")
     @DeleteMapping ("/{id}")
     public ResponseEntity<ProveedorResponseDTO> eliminar (@PathVariable Long id){
         proveedorService.eliminar(id);

@@ -3,10 +3,12 @@ package com.bibliored.demo.service;
 import com.bibliored.demo.dto.*;
 import com.bibliored.demo.enums.MotivoMovimiento;
 import com.bibliored.demo.enums.MovimientoInventario;
+import com.bibliored.demo.enums.Roles;
 import com.bibliored.demo.exceptions.BusinessExceptions;
 import com.bibliored.demo.model.*;
 import com.bibliored.demo.repository.*;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,10 +69,6 @@ public class InventarioServiceImpl implements InventarioService{
     public InventarioResponseDTO crear(InventarioRequestDTO request){
         validarEncabezado(request);
 
-//        if (request.motivoMovimiento() == PRESTAMO || request.motivoMovimiento() == DEVOLUCION) {
-//            throw new BusinessExceptions("Este motivo solo se genera desde el módulo de préstamos.");
-//        }
-
         Set<Long> vistos = new HashSet<>();
         for (var item : request.items()) {
             if (!vistos.add(item.idLibro())) {
@@ -79,6 +77,20 @@ public class InventarioServiceImpl implements InventarioService{
         }
 
         Sucursal sucursal = buscarSucursal(request.idSucursal());
+
+        String identificacion = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        Usuario usuarioAuth = usuarioRepository.findByIdentificacionUsuario(identificacion)
+                .orElseThrow(() -> new BusinessExceptions("Usuario no encontrado."));
+
+        if (usuarioAuth.getRolUsuario() == Roles.MANAGER || usuarioAuth.getRolUsuario() == Roles.BIBLIOTECARIO) {
+            if (!usuarioAuth.getSucursal().getIdSucursal().equals(sucursal.getIdSucursal())) {
+                throw new BusinessExceptions("No tienes permisos para operar en esta sucursal.");
+            }
+        }
+
         Inventario inventario = new Inventario();
         inventario.setMovimientoInventario(request.movimientoInventario());
         inventario.setMotivoMovimiento(request.motivoMovimiento());

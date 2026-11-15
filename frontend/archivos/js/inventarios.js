@@ -1,3 +1,8 @@
+if (!AUTH.getToken()) {
+    window.location.href = "login.html";
+}
+
+
 // PROCESO MODULAR
 // --Accede al archivo config.js para llamar al endpoint
 const API_INVENTARIOS = `${CONFIG.API_URL}/inventarios`;
@@ -29,14 +34,14 @@ function inicializarInventarios() {
             idProveedor: document.getElementById("proveedorMovimiento").value,
             idSucursal: document.getElementById("sucursalDocumento").value,
             fechaHora: document.getElementById("fechaDocumento").value,
-            idUsuario: document.getElementById("usuarioDocumento").value,
+            idUsuario: AUTH.getIdUsuario(),
             items: items
         };
 
         // --Envio de los datos al backend.
         const respuesta = await fetch(url, {
             method: metodo,
-            headers: { "Content-Type": "application/json" },
+            headers: AUTH.headers(),
             body: JSON.stringify(datos)
         });
 
@@ -89,7 +94,11 @@ async function asignacionDocumentoInventario() {
     let idSucursal = sucursal.value;
     let idUsuario = await cargarUsuarioActivo()
 
-    let fechaActual = new Date().toISOString().split("T")[0];
+    // let fechaActual = new Date().toISOString().split("T")[0];
+
+    let fechaActual = new Date().toLocaleDateString("en-CA", {
+        timeZone: "America/Bogota"
+    });
     
     let table = document.getElementById("tableDocumento");
     table.innerHTML = `
@@ -99,7 +108,7 @@ async function asignacionDocumentoInventario() {
             </td>
             <td class="col_lg">
                 <input hidden disabled id="sucursalDocumento" value="${idSucursal}">
-                <input hidden disabled id="usuarioDocumento" value="${idUsuario}">
+                
                 <p class="campo_formulario v2">${nombreSucursal}</p>
             </td>
             <td class="col_ms">
@@ -156,7 +165,9 @@ function eliminarItemInventario(boton) {
 //SELECTS
 // Funcion que permite listar y seleccionar los tipos de movimiento inventario.
 async function tipoMovimiento(){
-    const respuesta = await fetch (API_INVENTARIOS + "/tipos");
+    const respuesta = await fetch (API_INVENTARIOS + "/tipos", {
+        headers: AUTH.headers()
+    });
     const tipos = await respuesta.json();
 
     const select = document.getElementById("tipoMovimiento");
@@ -172,7 +183,9 @@ async function tipoMovimiento(){
 
 // Funcion que permite listar y seleccionar los motivos de movimiento inventario.
 async function motivoMovimiento(tipo){
-    const respuesta = await fetch (API_INVENTARIOS + "/motivo");
+    const respuesta = await fetch (API_INVENTARIOS + "/motivo", {
+        headers: AUTH.headers()
+    });
     const motivos = await respuesta.json();
     
     const motivosPorTipo = {
@@ -193,7 +206,9 @@ async function motivoMovimiento(tipo){
 
 // Funcion que permite listar y seleccionar los proveedores existentes.
 async function cargarProveedores() {
-    const respuesta = await fetch(`${CONFIG.API_URL}/proveedores`);
+    const respuesta = await fetch(`${CONFIG.API_URL}/proveedores`, {
+        headers: AUTH.headers()
+    });
     const proveedores = await respuesta.json();
 
     const select = document.getElementById("proveedorMovimiento");
@@ -218,7 +233,9 @@ function actualizarProveedor(tipo) {
 
 // Funcion que permite listar y seleccionar los libros existentes.
 async function selectLibrosInventario(select) {
-    const respuesta = await fetch(`${CONFIG.API_URL}/libros`);
+    const respuesta = await fetch(`${CONFIG.API_URL}/libros`, {
+        headers: AUTH.headers()
+    });
     const libros = await respuesta.json();
 
     select.innerHTML = '<option value="" disabled selected>Seleccione un libro</option>'
@@ -257,8 +274,10 @@ function abrirModalInventario() {
 
 // --Proceso de cierre de modal.
 function cerrarModalInventario() {
-    document.getElementById("modalInventario").style.display = "none";
-    document.getElementById("formInventario").reset();
+    const modal = document.getElementById("modalInventario");
+    const form = document.getElementById("formInventario");
+    if (modal) modal.style.display = "none";
+    if (form) form.reset();
     document.querySelectorAll("#registroInventario .fila_item").forEach(f => f.remove());
 }
 

@@ -4,10 +4,12 @@ import com.bibliored.demo.dto.*;
 import com.bibliored.demo.enums.EstadoPrestamo;
 import com.bibliored.demo.enums.MotivoMovimiento;
 import com.bibliored.demo.enums.MovimientoInventario;
+import com.bibliored.demo.enums.Roles;
 import com.bibliored.demo.exceptions.BusinessExceptions;
 import com.bibliored.demo.model.*;
 import com.bibliored.demo.repository.*;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,6 @@ public class PrestamoServiceImpl implements PrestamoService{
     private final LibroRepository libroRepository;
     private final ClienteRepository clienteRepository;
     private final PrestamoDetalleRepository prestamoDetalleRepository;
-//    private final StockService stockService;
     private final InventarioService inventarioService;
 
 
@@ -34,7 +35,6 @@ public class PrestamoServiceImpl implements PrestamoService{
                                LibroRepository libroRepository,
                                ClienteRepository clienteRepository,
                                PrestamoDetalleRepository prestamoDetalleRepository,
-//                               StockService stockService,
                                InventarioService inventarioService
     ) {
         this.prestamoRepository = prestamoRepository;
@@ -43,7 +43,6 @@ public class PrestamoServiceImpl implements PrestamoService{
         this.libroRepository = libroRepository;
         this.clienteRepository = clienteRepository;
         this.prestamoDetalleRepository = prestamoDetalleRepository;
-//        this.stockService = stockService;
         this.inventarioService = inventarioService;
     }
 
@@ -61,6 +60,20 @@ public class PrestamoServiceImpl implements PrestamoService{
         }
 
         Sucursal sucursal = buscarSucursal(request.idSucursal());
+
+        String identificacion = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        Usuario usuarioAuth = usuarioRepository.findByIdentificacionUsuario(identificacion)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (usuarioAuth.getRolUsuario() == Roles.MANAGER || usuarioAuth.getRolUsuario() == Roles.BIBLIOTECARIO) {
+            if (!usuarioAuth.getSucursal().getIdSucursal().equals(sucursal.getIdSucursal())) {
+                throw new BusinessExceptions("No tienes permisos para operar en esta sucursal");
+            }
+        }
+
         Prestamo prestamo = new Prestamo();
         prestamo.setMovimientoInventario(MovimientoInventario.ENTRADA);
         prestamo.setMotivoMovimiento(MotivoMovimiento.PRESTAMO);

@@ -3,9 +3,14 @@ package com.bibliored.demo.service;
 import com.bibliored.demo.component.ValidadorNegocio;
 import com.bibliored.demo.dto.SucursalRequestDTO;
 import com.bibliored.demo.dto.SucursalResponseDTO;
+import com.bibliored.demo.enums.Roles;
+import com.bibliored.demo.exceptions.BusinessExceptions;
 import com.bibliored.demo.exceptions.ResourceNotFoundException;
 import com.bibliored.demo.model.Sucursal;
+import com.bibliored.demo.model.Usuario;
 import com.bibliored.demo.repository.SucursalRepository;
+import com.bibliored.demo.repository.UsuarioRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +19,14 @@ import java.util.List;
 public class SucursalServiceImpl implements SucursalService{
 
     private final SucursalRepository sucursalRepository;
+    private final UsuarioRepository usuarioRepository;
     private final ValidadorNegocio validadorNegocio;
 
-    public SucursalServiceImpl(SucursalRepository sucursalRepository, ValidadorNegocio validadorNegocio){
+    public SucursalServiceImpl(SucursalRepository sucursalRepository,
+                               UsuarioRepository usuarioRepository,
+                               ValidadorNegocio validadorNegocio){
         this.sucursalRepository = sucursalRepository;
+        this.usuarioRepository = usuarioRepository;
         this.validadorNegocio = validadorNegocio;
     }
 
@@ -41,6 +50,17 @@ public class SucursalServiceImpl implements SucursalService{
 
     @Override
     public List<SucursalResponseDTO> listarTodas() {
+        String identificacion = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        Usuario usuario = usuarioRepository.findByIdentificacionUsuario(identificacion)
+                .orElseThrow(() -> new BusinessExceptions("Usuario no encontrado."));
+
+        if(usuario.getRolUsuario() == Roles.MANAGER || usuario.getRolUsuario() == Roles.BIBLIOTECARIO) {
+            return List.of(toResponseDTO(usuario.getSucursal()));
+        }
+
         return sucursalRepository.findAll()
                 .stream()
                 .map(this::toResponseDTO)

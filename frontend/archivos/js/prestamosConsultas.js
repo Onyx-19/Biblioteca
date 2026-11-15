@@ -1,3 +1,8 @@
+if (!AUTH.getToken()) {
+    window.location.href = "login.html";
+}
+
+
 // PROCESO MODULAR
 // --Accede al archivo config.js para llamar al endpoint
 const API_CONSULTAS_PRESTAMO = `${CONFIG.API_URL}/prestamos`;
@@ -5,7 +10,9 @@ const API_CONSULTAS_PRESTAMO = `${CONFIG.API_URL}/prestamos`;
 
 // TABLA DE MOVIMIENTO HISTORICO.
 async function prestamoHistorico() {
-    const respuesta = await fetch(API_CONSULTAS_PRESTAMO);
+    const respuesta = await fetch(API_CONSULTAS_PRESTAMO, {
+        headers: AUTH.headers()
+    });
     const datos = await respuesta.json();    
 
     const contTable = document.getElementById("cont_table");
@@ -95,7 +102,7 @@ async function prestamoHistorico() {
             tbody.appendChild(fila);
         });
 
-        document.getElementById("modalDetalle").style.display = "flex";
+        document.getElementById("modalDetallePrestamo").style.display = "flex";
     }
 }
 
@@ -114,8 +121,10 @@ document.addEventListener('click', (e) => {
 async function finalizarPrestamo(id){
     if (!confirm("¿Finalizar el prestamo?")) return;
     
-    const respuesta = await fetch (`${API_PRESTAMOS}/${id}/devolucion`, {method: "PUT"});
-    console.log(id);
+    const respuesta = await fetch (`${API_PRESTAMOS}/${id}/devolucion`, {
+        method: "PUT",
+        headers: AUTH.headers()
+    });
 
     if (respuesta.ok){
         prestamoHistorico();
@@ -129,5 +138,15 @@ async function finalizarPrestamo(id){
 // FUNCIONAMIENTO DE LA MODAL
 // --Cierre de la modal detalle de la consulta historica.
 function cerrarModalPrestamosDetalle() {
-    document.getElementById("modalDetalle").style.display = "none";
+    const modal = document.getElementById("modalDetallePrestamo");
+    if (modal) modal.style.display = "none";
 }
+
+// --Utilizar la tecla esc para cerrar la modal.
+function escModalPrestamoDetalle(e){
+    if (e.key === 'Escape'){
+        cerrarModalPrestamosDetalle();
+    }
+}
+
+document.addEventListener("keydown", escModalPrestamoDetalle);

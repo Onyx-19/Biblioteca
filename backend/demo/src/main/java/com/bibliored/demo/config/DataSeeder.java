@@ -1,5 +1,6 @@
 package com.bibliored.demo.config;
 
+import com.bibliored.demo.enums.Roles;
 import com.bibliored.demo.model.Sucursal;
 import com.bibliored.demo.model.Usuario;
 import com.bibliored.demo.repository.SucursalRepository;
@@ -35,7 +36,7 @@ public class DataSeeder implements CommandLineRunner {
         usuario.setNombreUsuario("Administrador");
         usuario.setCorreoUsuario("administracion@correo.com");
         usuario.setContrasena(passwordEncoder.encode("890000001"));
-        usuario.setRolUsuario("Administrador");
+        usuario.setRolUsuario(Roles.ADMINISTRADOR);
         usuario.setCambioPassInicial(true);
         usuario.setSucursal(matrizInicial);
 

@@ -1,3 +1,8 @@
+if (!AUTH.getToken()) {
+    window.location.href = "login.html";
+}
+
+
 // PROCESO MODULAR
 // --Accede al archivo config.js para llamar al endpoint
 const API_PRESTAMOS = `${CONFIG.API_URL}/prestamos`;
@@ -24,22 +29,16 @@ function inicializarPrestamos() {
 
         // --Captura de datos del formulario.
         const datos = {
-            // Eliminar
-                motivoMovimiento: "PRESTAMO",
-                fechaRegistro: "2025-09-22T14:46:22.8828816",
-                estadoPrestamo: "ACTIVO",
-
-
             idCliente: document.getElementById("clienteMovimiento").value,
             idSucursal: document.getElementById("sucursalDocumento").value,
-            idUsuario: document.getElementById("usuarioDocumento").value,
+            idUsuario: AUTH.getIdUsuario(),
             items: items
         };
 
         // --Envio de los datos al backend.
         const respuesta = await fetch(url, {
             method: metodo,
-            headers: { "Content-Type": "application/json" },
+            headers: AUTH.headers(),
             body: JSON.stringify(datos)
         });
 
@@ -154,7 +153,9 @@ function eliminarItemPrestamo(boton) {
 // //SELECTS
 // Funcion que permite listar y seleccionar los clientes existentes.
 async function cargarClientes() {
-    const respuesta = await fetch(`${CONFIG.API_URL}/clientes`);
+    const respuesta = await fetch(`${CONFIG.API_URL}/clientes`, {
+        headers: AUTH.headers()
+    });
     const clientes = await respuesta.json();
 
     const select = document.getElementById("clienteMovimiento");
@@ -170,7 +171,9 @@ async function cargarClientes() {
 
 // Funcion que permite listar y seleccionar los libros existentes.
 async function selectLibrosPrestamo(select) {
-    const respuesta = await fetch(`${CONFIG.API_URL}/libros`);
+    const respuesta = await fetch(`${CONFIG.API_URL}/libros`, {
+        headers: AUTH.headers()
+    });
     const libros = await respuesta.json();
 
     select.innerHTML = '<option value="" disabled selected>Seleccione un libro</option>'
@@ -198,8 +201,10 @@ function abrirModalPrestamo() {
 
 // --Proceso de cierre de modal.
 function cerrarModalPrestamo() {
-    document.getElementById("modalPrestamo").style.display = "none";
-    document.getElementById("formPrestamo").reset();
+    const modal = document.getElementById("modalPrestamo");
+    const form = document.getElementById("formPrestamo");
+    if (modal) modal.style.display = "none";
+    if (form) form.reset();
     document.querySelectorAll("#registroPrestamo .fila_item").forEach(f => f.remove());
 }
 

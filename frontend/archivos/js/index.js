@@ -1,7 +1,14 @@
+if (!AUTH.getToken()) {
+    window.location.href = "login.html";
+}
+
+
 // NAVBAR SUCURSALES
 async function navbarSucursales(idSelect) {
     // --Accede a el endpoint de sucursales obteniendo los datos.
-    const respuesta = await fetch(`${CONFIG.API_URL}/sucursales`);
+    const respuesta = await fetch(`${CONFIG.API_URL}/sucursales`, {
+        headers: AUTH.headers()
+    });
     const sucursales = await respuesta.json();
     
     const select = document.getElementById(idSelect);
@@ -16,12 +23,15 @@ async function navbarSucursales(idSelect) {
 }
 //NAVBAR USUARIO ACTIVO
 async function cargarUsuarioActivo() {
-    const respuesta = await fetch(`${CONFIG.API_URL}/usuarios/1`);
-    const usuario = await respuesta.json();    
+    // const respuesta = await fetch(`${CONFIG.API_URL}/usuarios/1`);
+    // const usuario = await respuesta.json();    
 
-    document.getElementById("usuarioActivo").textContent = usuario.nombreUsuario;
-    document.querySelector(".perfil_rol").textContent = usuario.rolUsuario;
-    return usuario.idUsuario;
+    // document.getElementById("usuarioActivo").textContent = usuario.nombreUsuario;
+    // document.querySelector(".perfil_rol").textContent = usuario.rolUsuario;
+    // return usuario.idUsuario;
+
+    document.getElementById("usuarioActivo").textContent = AUTH.getNombre();
+    document.querySelector(".perfil_rol").textContent = AUTH.getRol();    
 }
 
 
@@ -31,7 +41,9 @@ navbarSucursales("selectSucursal");
 // MODULOS
 // --Accede y renderiza la "vista" del modulo activo en el apartado del contenido.
 async function navegar(modulo){
-    const respuesta = await fetch(`archivos/vistas/${modulo}.html`);
+    const respuesta = await fetch(`archivos/vistas/${modulo}.html`, {
+        headers: AUTH.headers()
+    });
     const html = await respuesta.text();
     
     const contendor = document.getElementById("contenido");
@@ -83,3 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 cargarUsuarioActivo();
+
+document.getElementById("btn_logout").addEventListener("click", () => {
+    AUTH.cerrarSesion();
+    window.location.href = "login.html";
+});

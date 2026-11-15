@@ -1,5 +1,7 @@
 package com.bibliored.demo.component;
 
+import com.bibliored.demo.enums.Roles;
+import com.bibliored.demo.exceptions.AccessDeniedException;
 import com.bibliored.demo.exceptions.BusinessExceptions;
 import com.bibliored.demo.model.*;
 import com.bibliored.demo.repository.*;
@@ -73,6 +75,19 @@ public class ValidadorNegocio {
         Optional<Usuario> existeCorreo = usuarioRepository.findByCorreoUsuario(correo);
         if (existeCorreo.isPresent() && !existeCorreo.get().getIdUsuario().equals(idExcluido)) {
             throw new BusinessExceptions("El correo registrado ya ha sido utilizado para un usuario.");
+        }
+    }
+
+    public void validarRoles (Roles rolAuth, Roles rolNuevo) {
+        if (rolAuth == Roles.MANAGER || rolAuth == Roles.BIBLIOTECARIO) {
+            if (rolNuevo == Roles.ADMINISTRADOR || rolNuevo == Roles.SUPERVISOR) {
+                throw new AccessDeniedException("No puedes asignar roles superiores al tuyo.");
+            }
+        }
+        if (rolAuth == Roles.SUPERVISOR) {
+            if (rolNuevo == Roles.ADMINISTRADOR){
+                throw new AccessDeniedException("No puedes crear usuarios con rol Administrador.");
+            }
         }
     }
 

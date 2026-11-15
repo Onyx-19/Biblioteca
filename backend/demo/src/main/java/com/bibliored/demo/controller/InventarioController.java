@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,22 +29,26 @@ public class InventarioController {
         this.stockService = stockService;
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER')")
     @PostMapping
     ResponseEntity<InventarioResponseDTO> crear (@Valid @RequestBody InventarioRequestDTO request){
         InventarioResponseDTO creacion = inventarioService.crear(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(creacion);
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER')")
     @GetMapping
     ResponseEntity <List<InventarioResponseDTO>> listarTodos () {
         return ResponseEntity.ok(inventarioService.listarTodos());
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER')")
     @GetMapping ("/{id}")
     ResponseEntity <InventarioResponseDTO> obtenerPorid(@PathVariable Long id) {
         return ResponseEntity.ok(inventarioService.obtenerPorId(id));
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER')")
     @GetMapping ("/tipos")
     public ResponseEntity<List<String>> tipos(){
         List<String> tipos = Arrays.stream(MovimientoInventario.values())
@@ -52,6 +57,7 @@ public class InventarioController {
         return ResponseEntity.ok(tipos);
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER')")
     @GetMapping ("/motivo")
     public ResponseEntity<List<String>> motivo(){
         List<String> motivo = Arrays.stream(MotivoMovimiento.values())
@@ -60,12 +66,14 @@ public class InventarioController {
         return ResponseEntity.ok(motivo);
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER')")
     @GetMapping("{id}/detalle")
     public ResponseEntity<List<InventarioDetalleResponseDTO>> detalle(@PathVariable Long id) {
         List<InventarioDetalleResponseDTO> detalles = inventarioService.consultarInventarioDetalle(id);
         return ResponseEntity.ok(detalles);
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER', 'BIBLIOTECARIO')")
     @GetMapping("/stock")
     public ResponseEntity<List<Stock>> stock() {
         return ResponseEntity.ok(stockService.consultarStock());

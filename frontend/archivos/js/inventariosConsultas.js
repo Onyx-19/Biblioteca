@@ -1,3 +1,8 @@
+if (!AUTH.getToken()) {
+    window.location.href = "login.html";
+}
+
+
 // PROCESO MODULAR
 // --Accede al archivo config.js para llamar al endpoint
 const API_CONSULTAS_INVENTARIO = `${CONFIG.API_URL}/inventarios`;
@@ -5,7 +10,9 @@ const API_CONSULTAS_INVENTARIO = `${CONFIG.API_URL}/inventarios`;
 // TABLA DE STOCK
 // --Proceso encargado de acceder al endpoint, buscar y listar el stock existente.
 async function consultaStock() {
-    const respuesta = await fetch(API_CONSULTAS_INVENTARIO + "/stock");
+    const respuesta = await fetch(API_CONSULTAS_INVENTARIO + "/stock", {
+        headers: AUTH.headers()
+    });
     const datos = await respuesta.json();
 
     const contTable = document.getElementById("cont_table");
@@ -53,7 +60,9 @@ async function consultaStock() {
 // TABLA DE MOVIMIENTO HISTORICO.
 // 
 async function inventarioHistorico() {
-    const respuesta = await fetch(API_CONSULTAS_INVENTARIO);
+    const respuesta = await fetch(API_CONSULTAS_INVENTARIO, {
+        headers: AUTH.headers()
+    });
     const datos = await respuesta.json();    
 
     const contTable = document.getElementById("cont_table");
@@ -128,7 +137,7 @@ async function inventarioHistorico() {
             tbody.appendChild(fila);
         });
 
-        document.getElementById("modalDetalle").style.display = "flex";
+        document.getElementById("modalDetalleInventario").style.display = "flex";
     }
 }
 
@@ -146,5 +155,15 @@ document.addEventListener('click', (e) => {
 // FUNCIONAMIENTO DE LA MODAL
 // --Cierre de la modal detalle de la consulta historica.
 function cerrarModalInventarioDetalle() {
-    document.getElementById("modalDetalle").style.display = "none";
+    const modal = document.getElementById("modalDetalleInventario");
+    if (modal) modal.style.display = "none";
 }
+
+// --Utilizar la tecla esc para cerrar la modal.
+function escModalInventarioDetalle(e) {
+    if (e.key === 'Escape') {
+        cerrarModalInventarioDetalle();
+    }
+}
+
+document.addEventListener("keydown", escModalInventarioDetalle);

@@ -1,3 +1,8 @@
+if (!AUTH.getToken()) {
+    window.location.href = "login.html";
+}
+
+
 // PROCESO MODULAR
 // --Accede al archivo config.js para llamar al endpoint
 const API_CATEGORIAS= `${CONFIG.API_URL}/categorias`;
@@ -41,7 +46,7 @@ function inicializarCategorias() {
         // --Envio de los datos al backend.
         const respuesta = await fetch(url, {
             method: metodo,
-            headers: { "Content-Type": "application/json" },
+            headers: AUTH.headers(),
             body: JSON.stringify(datos)
         });
 
@@ -64,7 +69,9 @@ function inicializarCategorias() {
 // TABLA DE CATEGORIAS
 // --Proceso encargado de acceder al endpoint, buscar y listar las categorias existentes.
 async function listarCategorias() {
-    const respuesta = await fetch(API_CATEGORIAS);
+    const respuesta = await fetch(API_CATEGORIAS, {
+        headers: AUTH.headers()
+    });
     const datos = await respuesta.json();
     
     const tabla = document.getElementById("tablaCategorias");
@@ -96,7 +103,9 @@ async function listarCategorias() {
 // EDITAR CATEGORIA.
 // --Proceso de modificacion y acceso a eliminacion de categorias desde el boton "editar".
 async function editarCategoria(id){
-    const respuesta = await fetch (API_CATEGORIAS + `/${id}`);
+    const respuesta = await fetch (API_CATEGORIAS + `/${id}`, {
+        headers: AUTH.headers()
+    });
     const categoria = await respuesta.json();
 
     document.getElementById("idCategoria").value = categoria.idCategoria;
@@ -111,7 +120,10 @@ async function eliminarCategoria(){
     if (!confirm("¿Eliminar esta categoria?")) return;
 
     const id = document.getElementById("idCategoria").value;
-    const respuesta = await fetch(API_CATEGORIAS + `/${id}`, {method: "DELETE"})
+    const respuesta = await fetch(API_CATEGORIAS + `/${id}`, {
+        method: "DELETE",
+        headers: AUTH.headers()
+    })
 
     if (respuesta.ok){
         cerrarModalCategoria();
@@ -143,9 +155,10 @@ function abrirModalCategoria() {
 
 // --Proceso de cierre de modal.
 function cerrarModalCategoria() {
-    document.getElementById("modalCategoria").style.display = "none";
-    document.getElementById("formCategoria").reset();
-    document.getElementById("idCategoria").value = "";
+    const modal = document.getElementById("modalCategoria");
+    const form = document.getElementById("formCategoria");
+    if (modal) modal.style.display = "none";
+    if (form) form.reset();
 }
 
 // --Utilizar la tecla esc para cerrar la modal.

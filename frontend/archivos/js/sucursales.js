@@ -1,3 +1,8 @@
+if (!AUTH.getToken()) {
+    window.location.href = "login.html";
+}
+
+
 // PROCESO MODULAR
 // --Accede al archivo config.js para llamar al endpoint
 const API_SUCURSALES = `${CONFIG.API_URL}/sucursales`;
@@ -42,7 +47,7 @@ function inicializarSucursales() {
         // --Envio de los datos al backend.
         const respuesta = await fetch(url, {
             method: metodo,
-            headers: { "Content-Type": "application/json" },
+            headers: AUTH.headers(),
             body: JSON.stringify(datos)
         });
 
@@ -65,7 +70,9 @@ function inicializarSucursales() {
 // TABLA DE SUCURSALES
 // --Proceso encargado de acceder al endpoint, buscar y listar las sucursales existentes.
 async function listarSucursales() {
-    const respuesta = await fetch(API_SUCURSALES);
+    const respuesta = await fetch(API_SUCURSALES, {
+        headers: AUTH.headers()
+    });
     const datos = await respuesta.json();
     
     const tabla = document.getElementById("tablaSucursales");
@@ -101,7 +108,9 @@ async function listarSucursales() {
 // EDITAR SUCURSAL.
 // --Proceso de modificacion y acceso a eliminacion de sucursales desde el boton "editar".
 async function editarSucursal(id){
-    const respuesta = await fetch (API_SUCURSALES + `/${id}`);
+    const respuesta = await fetch (API_SUCURSALES + `/${id}`,{
+        headers: AUTH.headers()
+    });
     const sucursal = await respuesta.json();
 
     document.getElementById("idSucursal").value = sucursal.idSucursal;
@@ -118,7 +127,10 @@ async function eliminarSucursal(){
     if (!confirm("¿Eliminar esta sucursal?")) return;
 
     const id = document.getElementById("idSucursal").value;
-    const respuesta = await fetch(API_SUCURSALES + `/${id}`, {method: "DELETE"})
+    const respuesta = await fetch(API_SUCURSALES + `/${id}`, {
+        method: "DELETE",
+        headers: AUTH.headers()
+    })
 
     if (respuesta.ok){
         cerrarModalSucursal();
@@ -150,9 +162,10 @@ function abrirModalSucursal() {
 
 // --Proceso de cierre de modal.
 function cerrarModalSucursal() {
-    document.getElementById("modalSucursal").style.display = "none";
-    document.getElementById("formSucursal").reset();
-    document.getElementById("idSucursal").value = "";
+    const modal = document.getElementById("modalSucursal");
+    const form = document.getElementById("formSucursal");
+    if (modal) modal.style.display = "none";
+    if (form) form.reset();
 }
 
 // --Utilizar la tecla esc para cerrar la modal.

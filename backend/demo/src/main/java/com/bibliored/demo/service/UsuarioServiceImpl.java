@@ -4,13 +4,17 @@ import com.bibliored.demo.component.ValidadorNegocio;
 import com.bibliored.demo.dto.UsuarioPassinicialDTO;
 import com.bibliored.demo.dto.UsuarioRequestDTO;
 import com.bibliored.demo.dto.UsuarioResponseDTO;
+import com.bibliored.demo.enums.Roles;
+import com.bibliored.demo.exceptions.BusinessExceptions;
 import com.bibliored.demo.model.Usuario;
 import com.bibliored.demo.repository.UsuarioRepository;
 import com.bibliored.demo.model.Sucursal;
 import com.bibliored.demo.repository.SucursalRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.util.List;
 
@@ -37,11 +41,17 @@ public class UsuarioServiceImpl implements UsuarioService{
         Usuario usuario = new Usuario();
         Sucursal sucursal = buscarSucursal(request.idSucursal());
         String identificacion = request.identificacionUsuario();
+
         String nombre = validadorNegocio.formatoNombre(request.nombreUsuario());
         String correo = validadorNegocio.formatoCorreo(request.correoUsuario());
 
+        String user = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario usuarioAuth = usuarioRepository.findByIdentificacionUsuario(user)
+                .orElseThrow(() -> new BusinessExceptions("Usuario no encontrado"));
+
         validadorNegocio.validarIdentificacionDuplicadoUsuario(identificacion, null);
         validadorNegocio.validarCorreoDuplicadoUsuario(correo, null);
+        validadorNegocio.validarRoles(usuarioAuth.getRolUsuario(), request.rolUsuario());
 
         usuario.setIdentificacionUsuario(identificacion);
         usuario.setNombreUsuario(nombre);
@@ -80,8 +90,17 @@ public class UsuarioServiceImpl implements UsuarioService{
         String nombre = validadorNegocio.formatoNombre(request.nombreUsuario());
         String correo = validadorNegocio.formatoCorreo(request.correoUsuario());
 
-        validadorNegocio.validarIdentificacionDuplicadoUsuario(identificacion, null);
-        validadorNegocio.validarCorreoDuplicadoUsuario(correo, null);
+        if (usuario.getRolUsuario() == Roles.ADMINISTRADOR && request.rolUsuario() != Roles.ADMINISTRADOR) {
+            throw new AccessDeniedException("No se puede modificar el rol de un Administrador.");
+        }
+
+        String user = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario usuarioAuth = usuarioRepository.findByIdentificacionUsuario(user)
+                .orElseThrow(() -> new BusinessExceptions("Usuario no encontrado"));
+
+        validadorNegocio.validarIdentificacionDuplicadoUsuario(identificacion, id);
+        validadorNegocio.validarCorreoDuplicadoUsuario(correo, id);
+        validadorNegocio.validarRoles(usuarioAuth.getRolUsuario(), request.rolUsuario());
 
         usuario.setIdentificacionUsuario(identificacion);
         usuario.setNombreUsuario(nombre);
@@ -103,6 +122,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public void cambiarPassword(Long id, UsuarioPassinicialDTO request) {
+
+        String identificacion = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        Usuario usuarioAuth = usuarioRepository.findByIdentificacionUsuario(identificacion)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (!usuarioAuth.getIdUsuario().equals(id)) {
+            throw new BusinessExceptions("No puedes cambiar la contraseña de otro usuario");
+        }
+
         Usuario usuario = validacionPorId(id);
         usuario.setContrasena(passwordEncoder.encode(request.contrasena()));
         usuario.setCambioPassInicial(false);

@@ -1,3 +1,8 @@
+if (!AUTH.getToken()) {
+    window.location.href = "login.html";
+}
+
+
 // PROCESO MODULAR
 // --Accede al archivo config.js para llamar al endpoint
 const API_USUARIOS = `${CONFIG.API_URL}/usuarios`;
@@ -52,7 +57,7 @@ function inicializarUsuarios() {
         // --Envio de los datos al backend.
         const respuesta = await fetch(url, {
             method: metodo,
-            headers: { "Content-Type": "application/json" },
+            headers: AUTH.headers(),
             body: JSON.stringify(datos)
         });
 
@@ -75,7 +80,9 @@ function inicializarUsuarios() {
 // TABLA DE USUARIOS
 // --Proceso encargado de acceder al endpoint, buscar y listar los usuarios existentes.
 async function listarUsuarios() {
-    const respuesta = await fetch(API_USUARIOS);
+    const respuesta = await fetch(API_USUARIOS, {
+        headers: AUTH.headers()
+    });
     const datos = await respuesta.json();
     
     const tabla = document.getElementById("tablaUsuarios");
@@ -117,7 +124,9 @@ async function listarUsuarios() {
 // EDITAR USUARIO.
 // --Proceso de modificacion y acceso a eliminacion de usuarios desde el boton "editar".
 async function editarUsuario(id){
-    const respuesta = await fetch (API_USUARIOS + `/${id}`);
+    const respuesta = await fetch (API_USUARIOS + `/${id}`, {
+        headers: AUTH.headers()
+    });
     const usuario = await respuesta.json();
 
     document.getElementById("idUsuario").value = usuario.idUsuario;
@@ -132,18 +141,18 @@ async function editarUsuario(id){
     rolOriginal = usuario.rolUsuario;
     const selectRol = document.getElementById("rolUsuario");
     const btnEliminar = document.querySelector(".btn_eliminar");
-
-    if (usuario.rolUsuario === "Administrador") {
+    
+    if (usuario.rolUsuario === "ADMINISTRADOR") {
         btnEliminar.style.display = "none";
-        selectRol.innerHTML = `<option value="Administrador">Administrador</option>`;
-        selectRol.value = "Administrador";
+        selectRol.innerHTML = `<option value="ADMINISTRADOR">Administrador</option>`;
+        selectRol.value = "ADMINISTRADOR";
         selectRol.disabled = true;
     } else {
         btnEliminar.style.display = "";
-        document.getElementById("rolUsuario").value = "";
         selectRoles();
-        selectRol.disabled = false;
         selectRol.value = usuario.rolUsuario;
+        // document.getElementById("rolUsuario").value = "";
+        selectRol.disabled = false;
     }
 
     abrirModalUsuario();
@@ -155,7 +164,10 @@ async function eliminarUsuario(){
     if (!confirm("¿Eliminar este usuario?")) return;
 
     const id = document.getElementById("idUsuario").value;
-    const respuesta = await fetch(API_USUARIOS + `/${id}`, {method: "DELETE"})
+    const respuesta = await fetch(API_USUARIOS + `/${id}`, {
+        method: "DELETE",
+        headers: AUTH.headers()
+    })
 
     if (respuesta.ok){
         cerrarModalUsuario();
@@ -166,6 +178,32 @@ async function eliminarUsuario(){
     }
 }
 
+// --Lista los roles disponibles en la creacion y modificacion de usuario.
+function selectRoles(){
+    const select = document.getElementById("rolUsuario");
+    select.innerHTML = '<option value="">-- Selecciona el rol --</option>';
+
+    const roles = [
+        { value: "SUPERVISOR", label: "Supervisor"},
+        { value: "MANAGER", label: "Manager"},
+        { value: "BIBLIOTECARIO", label: "Bibliotecario"}
+    ];
+
+    roles.forEach(rol => {
+        const option = document.createElement("option");
+        option.value = rol.value;
+        option.textContent = rol.label;
+        select.appendChild(option);
+    })
+}
+
+// --Lista las sucursales disponibles en la creacion y modificacion del usuario.
+function selectSucursales(idSelect){
+    const select = document.getElementById(idSelect);
+    select.innerHTML = '<option value="">-- Selecciona sucursal --</option>';
+    // --Accede a las sucursales disponibles en index.js.
+    navbarSucursales("sucursalUsuario");   
+}
 
 // FUNCIONALIDAD DE LA MODAL.
 // --Apertura de la modal de creacion y modificacion de usuario.
@@ -181,40 +219,20 @@ function abrirModalUsuario() {
             btnEliminar.style.display = "none";
         }
     } else {
+        selectRoles();
         titulo.textContent = "Creación de usuarios";
         btnEliminar.style.display = "none";
     }
 
-    document.getElementById("modal").style.display = "flex";
-}
-
-// --Lista los roles disponibles en la creacion y modificacion de usuario.
-function selectRoles(){
-    const roles = ["Supervisor", "Manager", "Bibliotecario"];
-    const select = document.getElementById("rolUsuario");
-    select.innerHTML = '<option value="">-- Selecciona el rol --</option>';
-
-    roles.forEach(rol => {
-        const option = document.createElement("option");
-        option.value = rol;
-        option.textContent = rol;
-        select.appendChild(option);
-    })
-}
-
-// --Lista las sucursales disponibles en la creacion y modificacion del usuario.
-function selectSucursales(idSelect){
-    const select = document.getElementById(idSelect);
-    select.innerHTML = '<option value="">-- Selecciona sucursal --</option>';
-    // --Accede a las sucursales disponibles en index.js.
-    navbarSucursales("sucursalUsuario");   
+    document.getElementById("modalUsuario").style.display = "flex";
 }
 
 // --Proceso de cierre de modal.
 function cerrarModalUsuario() {
-    document.getElementById("modal").style.display = "none";
-    document.getElementById("formUsuario").reset();
-    document.getElementById("idUsuario").value = "";
+    const modal = document.getElementById("modalUsuario");
+    const form = document.getElementById("formUsuario");
+    if (modal) modal.style.display = "none";
+    if (form) form.reset();
 }
 
 // --Utilizar la tecla esc para cerrar la modal.

@@ -1,5 +1,6 @@
 package com.bibliored.demo.model;
 
+import com.bibliored.demo.enums.Roles;
 import jakarta.persistence.*;
 
 @Entity
@@ -22,15 +23,16 @@ public class Usuario {
     private String direccionUsuario;
     @Column (name = "telefono_usuario", length = 15)
     private String telefonoUsuario;
-    @Column (name = "rol_usuario", nullable = false, length = 50)
-    private String rolUsuario;
+    @Column (name = "rol_usuario", nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
+    private Roles rolUsuario;
     @ManyToOne
     @JoinColumn (name = "id_sucursal")
     private Sucursal sucursal;
     @Column(name = "cambio_pass_inicial")
     private boolean cambioPassInicial = true;
 
-    public Usuario(Long idUsuario, String identificacionUsuario, String nombreUsuario, String correoUsuario, String contrasena, String direccionUsuario, String telefonoUsuario, String rolUsuario, Sucursal sucursal) {
+    public Usuario(Long idUsuario, String identificacionUsuario, String nombreUsuario, String correoUsuario, String contrasena, String direccionUsuario, String telefonoUsuario, Roles rolUsuario, Sucursal sucursal) {
         this.idUsuario = idUsuario;
         this.identificacionUsuario = identificacionUsuario;
         this.nombreUsuario = nombreUsuario;
@@ -101,11 +103,11 @@ public class Usuario {
         this.telefonoUsuario = telefonoUsuario;
     }
 
-    public String getRolUsuario() {
+    public Roles getRolUsuario() {
         return rolUsuario;
     }
 
-    public void setRolUsuario(String rolUsuario) {
+    public void setRolUsuario(Roles rolUsuario) {
         this.rolUsuario = rolUsuario;
     }
 

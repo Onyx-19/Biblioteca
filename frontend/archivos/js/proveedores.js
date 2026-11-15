@@ -45,7 +45,7 @@ function inicializarProveedores() {
         // --Envio de los datos al backend.
         const respuesta = await fetch(url, {
             method: metodo,
-            headers: { "Content-Type": "application/json" },
+            headers: AUTH.headers(),
             body: JSON.stringify(datos)
         });
 
@@ -68,7 +68,9 @@ function inicializarProveedores() {
 // TABLA DE PROVEEDORES
 // --Proceso encargado de acceder al endpoint, buscar y listar los proveedores existentes.
 async function listarProveedores() {
-    const respuesta = await fetch(API_PROVEEDORES);
+    const respuesta = await fetch(API_PROVEEDORES, {
+        headers: AUTH.headers()
+    });
     const datos = await respuesta.json();
     
     const tabla = document.getElementById("tablaProveedores");
@@ -107,7 +109,9 @@ async function listarProveedores() {
 // EDITAR PROVEEDOR.
 // --Proceso de modificacion y acceso a eliminacion de proveedores desde el boton "editar".
 async function editarProveedor(id){
-    const respuesta = await fetch (API_PROVEEDORES + `/${id}`);
+    const respuesta = await fetch (API_PROVEEDORES + `/${id}`, {
+        headers: AUTH.headers()
+    });
     const proveedor = await respuesta.json();
 
     document.getElementById("idProveedor").value = proveedor.idProveedor;
@@ -125,7 +129,10 @@ async function eliminarProveedor(){
     if (!confirm("¿Eliminar este proveedor?")) return;
 
     const id = document.getElementById("idProveedor").value;
-    const respuesta = await fetch(API_PROVEEDORES + `/${id}`, {method: "DELETE"})
+    const respuesta = await fetch(API_PROVEEDORES + `/${id}`, {
+        method: "DELETE",
+        headers: AUTH.headers()
+    })
 
     if (respuesta.ok){
         cerrarModalProveedor();
@@ -157,9 +164,10 @@ function abrirModalProveedor() {
 
 // --Proceso de cierre de modal.
 function cerrarModalProveedor() {
-    document.getElementById("modalProveedor").style.display = "none";
-    document.getElementById("formProveedor").reset();
-    document.getElementById("idProveedor").value = "";
+    const modal = document.getElementById("modalProveedor");
+    const form = document.getElementById("formProveedor");
+    if (modal) modal.style.display = "none";
+    if (form) form.reset();
 }
 
 // --Utilizar la tecla esc para cerrar la modal.

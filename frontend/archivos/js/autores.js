@@ -1,3 +1,8 @@
+if (!AUTH.getToken()) {
+    window.location.href = "login.html";
+}
+
+
 // PROCESO MODULAR
 // --Accede al archivo config.js para llamar al endpoint
 const API_AUTORES= `${CONFIG.API_URL}/autores`;
@@ -42,7 +47,7 @@ function inicializarAutores() {
         // --Envio de los datos al backend.
         const respuesta = await fetch(url, {
             method: metodo,
-            headers: { "Content-Type": "application/json" },
+            headers: AUTH.headers(),
             body: JSON.stringify(datos)
         });
 
@@ -65,7 +70,9 @@ function inicializarAutores() {
 // TABLA DE AUTORES
 // --Proceso encargado de acceder al endpoint, buscar y listar las autores existentes.
 async function listarAutores() {
-    const respuesta = await fetch(API_AUTORES);
+    const respuesta = await fetch(API_AUTORES,{
+        headers: AUTH.headers()
+    });
     const datos = await respuesta.json();
     
     const tabla = document.getElementById("tablaAutores");
@@ -99,7 +106,9 @@ async function listarAutores() {
 // EDITAR AUTOR.
 // --Proceso de modificacion y acceso a eliminacion de autores desde el boton "editar".
 async function editarAutor(id){
-    const respuesta = await fetch (API_AUTORES + `/${id}`);
+    const respuesta = await fetch (API_AUTORES + `/${id}`, {
+        headers: AUTH.headers()
+    });
     const autor = await respuesta.json();
 
     document.getElementById("idAutor").value = autor.idAutor;
@@ -116,7 +125,10 @@ async function eliminarAutor(){
     if (!confirm("¿Eliminar este autor?")) return;
 
     const id = document.getElementById("idAutor").value;
-    const respuesta = await fetch(API_AUTORES + `/${id}`, {method: "DELETE"})
+    const respuesta = await fetch(API_AUTORES + `/${id}`, {
+        method: "DELETE",
+        headers: AUTH.headers()
+    })
 
     if (respuesta.ok){
         cerrarModalAutor();
@@ -148,9 +160,10 @@ function abrirModalAutor() {
 
 // --Proceso de cierre de modal.
 function cerrarModalAutor() {
-    document.getElementById("modalAutor").style.display = "none";
-    document.getElementById("formAutor").reset();
-    document.getElementById("idAutor").value = "";
+    const modal = document.getElementById("modalAutor");
+    const form = document.getElementById("formAutor");
+    if (modal) modal.style.display = "none";
+    if (form) form.reset();
 }
 
 // --Utilizar la tecla esc para cerrar la modal.

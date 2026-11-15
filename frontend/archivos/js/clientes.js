@@ -1,3 +1,8 @@
+if (!AUTH.getToken()) {
+    window.location.href = "login.html";
+}
+
+
 // PROCESO MODULAR
 // --Accede al archivo config.js para llamar al endpoint
 const API_CLIENTES= `${CONFIG.API_URL}/clientes`;
@@ -45,7 +50,7 @@ function inicializarClientes() {
         // --Envio de los datos al backend.
         const respuesta = await fetch(url, {
             method: metodo,
-            headers: { "Content-Type": "application/json" },
+            headers: AUTH.headers(),
             body: JSON.stringify(datos)
         });
 
@@ -68,7 +73,9 @@ function inicializarClientes() {
 // TABLA DE CLIENTES
 // --Proceso encargado de acceder al endpoint, buscar y listar los clientes existentes.
 async function listarClientes() {
-    const respuesta = await fetch(API_CLIENTES);
+    const respuesta = await fetch(API_CLIENTES, {
+        headers: AUTH.headers()
+    });
     const datos = await respuesta.json();
     
     const tabla = document.getElementById("tablaClientes");
@@ -107,7 +114,9 @@ async function listarClientes() {
 // EDITAR CLIENTE.
 // --Proceso de modificacion y acceso a eliminacion de clientes desde el boton "editar".
 async function editarCliente(id){
-    const respuesta = await fetch (API_CLIENTES + `/${id}`);
+    const respuesta = await fetch (API_CLIENTES + `/${id}`, {
+        headers: AUTH.headers()
+    });
     const cliente = await respuesta.json();
 
     document.getElementById("idCliente").value = cliente.idCliente;
@@ -125,7 +134,10 @@ async function eliminarCliente(){
     if (!confirm("¿Eliminar este cliente?")) return;
 
     const id = document.getElementById("idCliente").value;
-    const respuesta = await fetch(API_CLIENTES + `/${id}`, {method: "DELETE"})
+    const respuesta = await fetch(API_CLIENTES + `/${id}`, {
+        method: "DELETE",
+        headers: AUTH.headers()
+    })
 
     if (respuesta.ok){
         cerrarModalCliente();
@@ -157,9 +169,10 @@ function abrirModalCliente() {
 
 // --Proceso de cierre de modal.
 function cerrarModalCliente() {
-    document.getElementById("modalCliente").style.display = "none";
-    document.getElementById("formCliente").reset();
-    document.getElementById("idCliente").value = "";
+    const modal = document.getElementById("modalCliente");
+    const form = document.getElementById("formCliente");
+    if (modal) modal.style.display = "none";
+    if (form) form.reset();
 }
 
 // --Utilizar la tecla esc para cerrar la modal.

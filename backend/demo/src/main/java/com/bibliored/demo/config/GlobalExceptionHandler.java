@@ -1,8 +1,10 @@
 package com.bibliored.demo.config;
 
+import com.bibliored.demo.exceptions.AccessDeniedException;
 import com.bibliored.demo.exceptions.BusinessExceptions;
 import com.bibliored.demo.exceptions.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -60,6 +62,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex) {
         String mensaje = ex.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
         return ResponseEntity.badRequest().body(Map.of("mensaje", mensaje));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, String>> handleAccessDenied(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("Mensaje: ", ex.getMessage()));
     }
 }
 
