@@ -139,7 +139,7 @@ async function eliminarCategoria(){
 // --Apertura de la modal de creacion y modificacion de categorias.
 function abrirModalCategoria() {
     let id = document.getElementById("idCategoria").value;
-    const titulo = document.querySelector(".form_header_h3");
+    const titulo = document.getElementById("tituloModalCategoria");
     const btnEliminar = document.querySelector(".btn_eliminar");
 
     if (id){
@@ -157,13 +157,17 @@ function abrirModalCategoria() {
 function cerrarModalCategoria() {
     const modal = document.getElementById("modalCategoria");
     const form = document.getElementById("formCategoria");
+    const inputId = document.getElementById("idCategoria");
+    
     if (modal) modal.style.display = "none";
     if (form) form.reset();
+    if (inputId) inputId.value = "";
 }
 
 // --Utilizar la tecla esc para cerrar la modal.
 function escModalCategoria(e){
-    if (e.key === 'Escape'){
+    const modal = document.getElementById("modalCategoria");
+    if (e.key === "Escape" && modal && modal.style.display === "flex") {
         cerrarModalCategoria();
     }
 }

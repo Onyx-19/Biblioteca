@@ -86,9 +86,16 @@ public class UsuarioServiceImpl implements UsuarioService{
         Usuario usuario = validacionPorId(id);
         Sucursal sucursal = buscarSucursal(request.idSucursal());
 
-        String identificacion = request.identificacionUsuario();
+//        String identificacion = request.identificacionUsuario();
         String nombre = validadorNegocio.formatoNombre(request.nombreUsuario());
-        String correo = validadorNegocio.formatoCorreo(request.correoUsuario());
+//        String correo = validadorNegocio.formatoCorreo(request.correoUsuario());
+
+        String identificacion = vacioOEnmascarado(request.identificacionUsuario())
+                ? usuario.getIdentificacionUsuario()
+                : request.identificacionUsuario();
+        String correo = vacioOEnmascarado(request.correoUsuario())
+                ? usuario.getCorreoUsuario()
+                : validadorNegocio.formatoCorreo(request.correoUsuario());
 
         if (usuario.getRolUsuario() == Roles.ADMINISTRADOR && request.rolUsuario() != Roles.ADMINISTRADOR) {
             throw new AccessDeniedException("No se puede modificar el rol de un Administrador.");
@@ -150,12 +157,29 @@ public class UsuarioServiceImpl implements UsuarioService{
                 .orElseThrow(() -> new EntityNotFoundException("No se encontraron sucursales con id: " + id));
     }
 
+    private boolean vacioOEnmascarado(String valor) {
+        return valor == null || valor.isBlank() || valor.contains("*");
+    }
+
+    public static String enmascararCorreo(String correo) {
+        if (correo == null || !correo.contains("@")) return correo;
+        int at = correo.indexOf("@");
+        return correo.charAt(0) + "***" + correo.substring(at);
+    }
+
+    public static String enmascararIdentificacion(String id) {
+        if (id == null || id.length() <= 4) return "****";
+        return "*".repeat(id.length() - 4) + id.substring(id.length() - 4);
+    }
+
     private UsuarioResponseDTO toResponseDTO (Usuario usuario){
         return new UsuarioResponseDTO(
                 usuario.getIdUsuario(),
-                usuario.getIdentificacionUsuario(),
+//                usuario.getIdentificacionUsuario(),
+                enmascararIdentificacion(usuario.getIdentificacionUsuario()),
                 usuario.getNombreUsuario(),
-                usuario.getCorreoUsuario(),
+//                usuario.getCorreoUsuario(),
+                enmascararCorreo(usuario.getCorreoUsuario()),
                 usuario.getDireccionUsuario(),
                 usuario.getTelefonoUsuario(),
                 usuario.getRolUsuario(),

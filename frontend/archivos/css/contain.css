@@ -82,6 +82,7 @@
     width: 60%;
     padding: 3.5%;
     box-sizing: border-box;
+        color: var(--alt4);
 }
 
 .form.form_v2 {
@@ -337,10 +338,10 @@ th, td{
 
 
 .modal-overlay{
+    display: none;
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.7);
-    display: flex;
     align-items: center;
     justify-content: center;
 }

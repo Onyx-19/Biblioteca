@@ -2,9 +2,7 @@ if (AUTH.getToken()) {
     window.location.href = "index.html";
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    // todo el código del login aquí
-    
+document.addEventListener("DOMContentLoaded", () => {    
     document.getElementById("btn_login").addEventListener("click", async (e) => {
         e.preventDefault();
 
@@ -28,5 +26,4 @@ document.addEventListener("DOMContentLoaded", () => {
             alert(error.message);
         }
     });
-
 });

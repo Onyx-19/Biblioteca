@@ -153,7 +153,7 @@ async function eliminarCliente(){
 // --Apertura de la modal de creacion y modificacion de clientes.
 function abrirModalCliente() {
     let id = document.getElementById("idCliente").value;
-    const titulo = document.querySelector(".form_header_h3");
+    const titulo = document.getElementById("tituloModalCliente");
     const btnEliminar = document.querySelector(".btn_eliminar");
 
     if (id){
@@ -171,13 +171,17 @@ function abrirModalCliente() {
 function cerrarModalCliente() {
     const modal = document.getElementById("modalCliente");
     const form = document.getElementById("formCliente");
-    if (modal) modal.style.display = "none";
+    const inputId = document.getElementById("idCliente");
+
     if (form) form.reset();
+    if (modal) modal.style.display = "none";
+    if (inputId) inputId.value = "";
 }
 
 // --Utilizar la tecla esc para cerrar la modal.
-function escModalCliente(e){
-    if (e.key === 'Escape'){
+function escModalCliente(e) {
+    const modal = document.getElementById("modalCliente");
+    if (e.key === "Escape" && modal && modal.style.display === "flex") {
         cerrarModalCliente();
     }
 }

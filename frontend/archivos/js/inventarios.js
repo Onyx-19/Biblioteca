@@ -92,9 +92,6 @@ async function asignacionDocumentoInventario() {
     let sucursal = document.getElementById("selectSucursal");
     let nombreSucursal = sucursal.options[sucursal.selectedIndex].text;
     let idSucursal = sucursal.value;
-    let idUsuario = await cargarUsuarioActivo()
-
-    // let fechaActual = new Date().toISOString().split("T")[0];
 
     let fechaActual = new Date().toLocaleDateString("en-CA", {
         timeZone: "America/Bogota"

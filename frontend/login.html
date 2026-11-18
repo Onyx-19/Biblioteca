@@ -22,13 +22,35 @@
                 <p class="text">Contraseña</p>
                 <input class="input_login" id="password" type="password" placeholder="Contraseña">
             </div>
-            <a href="" class="reset_pass">¿Olvidaste tu contraseña?</a>
+            <a href="#" class="reset_pass" id="reset_pass" onclick="resetPass()">¿Olvidaste tu contraseña?</a>
             <div class="input_cont_login">
                 <button class="btn_login" id="btn_login" type="button">Ingresar</button>
             </div>
         </form>
     </div>
+
+    <div id="modalReset" class="modal-overlay">
+        <form id="formReset" class="form">
+            <div class="form_header">
+                <h3 class="form_header_h3">Cambio de contraseña</h3>
+            </div>
+            <div class="form_cont">
+                <div class="input_cont">
+                    <p>Usuario:</p>
+                    <input type="text" id="userReset" class="campo_formulario" placeholder="Usuario" required>
+                </div>
+                <div class="input_cont">
+                    <p>Correo:</p>
+                    <input type="email" id="mailReset" class="campo_formulario" placeholder="Correo" required>
+                </div>
+            </div>
+            <div class="btn_guardar_cont">
+                <button type="submit" class="btn_guardar">Guardar</button>
+            </div>
+        </form>
+    </div>
     <script src="archivos/js/config.js"></script>
+    <script src="archivos/js/password.js"></script>
     <script src="archivos/js/login.js"></script>
 </body>
 </html>

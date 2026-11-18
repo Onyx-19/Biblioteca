@@ -80,8 +80,8 @@ async function listarAutores() {
         <tr>
             <th class="col_xs">Id</th>
             <th class="col_lm">Nombre</th>
-            <th class="col_lm">Año nacimiento</th>
-            <th class="col_lm">Año deceso</th>
+            <th class="col_ml">Año nacimiento</th>
+            <th class="col_ml">Año deceso</th>
             <th class="col_ms">Acciones</th>           
         </tr>
     `;
@@ -144,7 +144,7 @@ async function eliminarAutor(){
 // --Apertura de la modal de creacion y modificacion de autores.
 function abrirModalAutor() {
     let id = document.getElementById("idAutor").value;
-    const titulo = document.querySelector(".form_header_h3");
+    const titulo = document.getElementById("tituloModalAutor");
     const btnEliminar = document.querySelector(".btn_eliminar");
 
     if (id){
@@ -162,8 +162,11 @@ function abrirModalAutor() {
 function cerrarModalAutor() {
     const modal = document.getElementById("modalAutor");
     const form = document.getElementById("formAutor");
+    const inputId = document.getElementById("idAutor");
+    
     if (modal) modal.style.display = "none";
     if (form) form.reset();
+    if (inputId) inputId.value = "";
 }
 
 // --Utilizar la tecla esc para cerrar la modal.

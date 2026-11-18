@@ -4,6 +4,7 @@ public record UsuarioAuthResponseDTO(
         String token,
         Long idUsuario,
         String nombre,
-        String rol
+        String rol,
+        Boolean cambioPassInicial
 ) {
 }

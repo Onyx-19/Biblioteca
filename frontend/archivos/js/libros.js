@@ -217,7 +217,7 @@ async function eliminarLibro(){
 // --Apertura de la modal de creacion y modificacion de libros.
 function abrirModalLibro() {
     let id = document.getElementById("idLibro").value;
-    const titulo = document.querySelector(".form_header_h3");
+    const titulo = document.getElementById("tituloModalLibro");
     const btnEliminar = document.querySelector(".btn_eliminar");
     
     
@@ -237,13 +237,17 @@ function abrirModalLibro() {
 function cerrarModalLibro() {
     const modal = document.getElementById("modalLibro");
     const form = document.getElementById("formLibro");
+    const inputId = document.getElementById("idLibro");
+
     if (modal) modal.style.display = "none";
     if (form) form.reset();
+    if (inputId) inputId.value = "";
 }
 
 // --Utilizar la tecla esc para cerrar la modal.
-function escModalLibro(e){
-    if (e.key === 'Escape'){
+function escModalLibro(e) {
+    const modal = document.getElementById("modalLibro");
+    if (e.key === "Escape" && modal && modal.style.display === "flex") {
         cerrarModalLibro();
     }
 }

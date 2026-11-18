@@ -23,17 +23,9 @@ async function navbarSucursales(idSelect) {
 }
 //NAVBAR USUARIO ACTIVO
 async function cargarUsuarioActivo() {
-    // const respuesta = await fetch(`${CONFIG.API_URL}/usuarios/1`);
-    // const usuario = await respuesta.json();    
-
-    // document.getElementById("usuarioActivo").textContent = usuario.nombreUsuario;
-    // document.querySelector(".perfil_rol").textContent = usuario.rolUsuario;
-    // return usuario.idUsuario;
-
     document.getElementById("usuarioActivo").textContent = AUTH.getNombre();
     document.querySelector(".perfil_rol").textContent = AUTH.getRol();    
 }
-
 
 // --Carga los datos de sucursales en el navbar.
 navbarSucursales("selectSucursal");
@@ -100,3 +92,44 @@ document.getElementById("btn_logout").addEventListener("click", () => {
     AUTH.cerrarSesion();
     window.location.href = "login.html";
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    cambioInicialPass();
+});
+
+// function modalCambioPass() {
+//     const id = document.getElementById("idUsuario").value;
+//     const titulo = document.querySelector(".form_header_h3");
+//     const btnEliminar = document.querySelector(".btn_eliminar");
+
+//     if (id){
+//         titulo.textContent = "Modificación de usuarios";
+//         btnEliminar.style.display = "block";
+//         if(id == 1){
+//             btnEliminar.style.display = "none";
+//         }
+//     } else {
+//         selectRoles();
+//         titulo.textContent = "Creación de usuarios";
+//         btnEliminar.style.display = "none";
+//     }
+
+//     document.getElementById("modalUsuario").style.display = "flex";
+// }
+
+// // --Proceso de cierre de modal.
+// function cerrarModalUsuario() {
+//     const modal = document.getElementById("modalUsuario");
+//     const form = document.getElementById("formUsuario");
+//     if (modal) modal.style.display = "none";
+//     if (form) form.reset();
+// }
+
+// // --Utilizar la tecla esc para cerrar la modal.
+// function escModalUsuarios(e){
+//     if (e.key === 'Escape'){
+//         cerrarModalUsuario();
+//     }
+// }
+
+// document.addEventListener("keydown", escModalUsuarios);

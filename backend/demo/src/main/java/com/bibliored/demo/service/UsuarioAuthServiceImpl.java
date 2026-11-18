@@ -3,6 +3,7 @@ package com.bibliored.demo.service;
 import com.bibliored.demo.config.JwtService;
 import com.bibliored.demo.dto.UsuarioAuthRequestDTO;
 import com.bibliored.demo.dto.UsuarioAuthResponseDTO;
+import com.bibliored.demo.dto.UsuarioResetPassRequestDTO;
 import com.bibliored.demo.exceptions.BusinessExceptions;
 import com.bibliored.demo.model.Usuario;
 import com.bibliored.demo.repository.UsuarioRepository;
@@ -55,6 +56,20 @@ public class UsuarioAuthServiceImpl implements UsuarioAuthService, UserDetailsSe
         UserDetails userDetails = loadUserByUsername(request.identificacionUsuario());
         String token = jwtService.generarToken(userDetails);
 
-        return new UsuarioAuthResponseDTO(token, usuario.getIdUsuario(), usuario.getNombreUsuario(), usuario.getRolUsuario().name());
+        return new UsuarioAuthResponseDTO(token, usuario.getIdUsuario(), usuario.getNombreUsuario(), usuario.getRolUsuario().name(), usuario.isCambioPassInicial());
+    }
+
+    @Override
+    public void reset(UsuarioResetPassRequestDTO request) {
+        Usuario usuario = usuarioRepository.findByIdentificacionUsuario(request.identificacionUsuario())
+                .orElseThrow(() -> new BusinessExceptions("Usuario no encontrado"));
+
+        if(!usuario.getCorreoUsuario().equals(request.correoUsuario())) {
+            throw new BusinessExceptions("Los datos no coinciden");
+        }
+
+        usuario.setContrasena(passwordEncoder.encode(request.identificacionUsuario()));
+        usuario.setCambioPassInicial(true);
+        usuarioRepository.save(usuario);
     }
 }

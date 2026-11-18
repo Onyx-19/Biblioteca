@@ -146,7 +146,7 @@ async function eliminarSucursal(){
 // --Apertura de la modal de creacion y modificacion de sucursal.
 function abrirModalSucursal() {
     let id = document.getElementById("idSucursal").value;
-    const titulo = document.querySelector(".form_header_h3");
+    const titulo = document.getElementById("tituloModalSucursal");
     const btnEliminar = document.querySelector(".btn_eliminar");
 
     if (id){
@@ -164,13 +164,17 @@ function abrirModalSucursal() {
 function cerrarModalSucursal() {
     const modal = document.getElementById("modalSucursal");
     const form = document.getElementById("formSucursal");
-    if (modal) modal.style.display = "none";
+    const inputId = document.getElementById("idSucursal");
+
     if (form) form.reset();
+    if (modal) modal.style.display = "none";
+    if (inputId) inputId.value = "";
 }
 
 // --Utilizar la tecla esc para cerrar la modal.
-function escModalSucursal(e){
-    if (e.key === 'Escape'){
+function escModalSucursal(e) {
+    const modal = document.getElementById("modalSucursal");
+    if (e.key === "Escape" && modal && modal.style.display === "flex") {
         cerrarModalSucursal();
     }
 }

@@ -148,7 +148,7 @@ async function eliminarProveedor(){
 // --Apertura de la modal de creacion y modificacion de proveedores.
 function abrirModalProveedor() {
     let id = document.getElementById("idProveedor").value;
-    const titulo = document.querySelector(".form_header_h3");
+    const titulo = document.getElementById("tituloModalProveedor");
     const btnEliminar = document.querySelector(".btn_eliminar");
 
     if (id){
@@ -166,13 +166,17 @@ function abrirModalProveedor() {
 function cerrarModalProveedor() {
     const modal = document.getElementById("modalProveedor");
     const form = document.getElementById("formProveedor");
-    if (modal) modal.style.display = "none";
+    const inputId = document.getElementById("idProveedor");
+
     if (form) form.reset();
+    if (modal) modal.style.display = "none";
+    if (inputId) inputId.value = "";
 }
 
 // --Utilizar la tecla esc para cerrar la modal.
-function escModalProveedor(e){
-    if (e.key === 'Escape'){
+function escModalProveedor(e) {
+    const modal = document.getElementById("modalProveedor");
+    if (e.key === "Escape" && modal && modal.style.display === "flex") {
         cerrarModalProveedor();
     }
 }

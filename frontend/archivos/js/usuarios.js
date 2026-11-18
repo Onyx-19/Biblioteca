@@ -89,9 +89,7 @@ async function listarUsuarios() {
     tabla.innerHTML = `
         <tr>
             <th class="col_xs">Id</th>
-            <th class="col_ml">Identificación</th>
             <th class="col_lm">Nombre</th>
-            <th class="col_lg">Correo</th>
             <th class="col_ml">Rol</th>
             <th class="col_ml">Teléfono</th>
             <th class="col_ml">Dirección</th>
@@ -103,9 +101,7 @@ async function listarUsuarios() {
         const fila = document.createElement("tr");
         fila.innerHTML = `
             <td class="col_xs">${u.idUsuario ?? ""}</td>
-            <td class="col_ml">${u.identificacionUsuario ?? ""}</td>
             <td class="col_lm">${u.nombreUsuario ?? ""}</td>
-            <td class="col_lg">${u.correoUsuario ?? ""}</td>
             <td class="col_ml">${u.rolUsuario ?? ""}</td>
             <td class="col_ml">${u.telefonoUsuario ?? ""}</td>
             <td class="col_ml">${u.direccionUsuario ?? ""}</td>
@@ -209,7 +205,7 @@ function selectSucursales(idSelect){
 // --Apertura de la modal de creacion y modificacion de usuario.
 function abrirModalUsuario() {
     const id = document.getElementById("idUsuario").value;
-    const titulo = document.querySelector(".form_header_h3");
+    const titulo = document.getElementById("tituloModalUsuario");
     const btnEliminar = document.querySelector(".btn_eliminar");
 
     if (id){
@@ -217,7 +213,7 @@ function abrirModalUsuario() {
         btnEliminar.style.display = "block";
         if(id == 1){
             btnEliminar.style.display = "none";
-        }
+        } 
     } else {
         selectRoles();
         titulo.textContent = "Creación de usuarios";
@@ -231,6 +227,8 @@ function abrirModalUsuario() {
 function cerrarModalUsuario() {
     const modal = document.getElementById("modalUsuario");
     const form = document.getElementById("formUsuario");
+    document.getElementById("idUsuario").value = "";
+    document.getElementById("rolUsuario").disabled = false;
     if (modal) modal.style.display = "none";
     if (form) form.reset();
 }

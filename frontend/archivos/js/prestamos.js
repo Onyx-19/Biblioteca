@@ -80,7 +80,7 @@ async function asignacionDocumentoPrestamo() {
     let sucursal = document.getElementById("selectSucursal");
     let nombreSucursal = sucursal.options[sucursal.selectedIndex].text;
     let idSucursal = sucursal.value;
-    let idUsuario = await cargarUsuarioActivo()
+    // let idUsuario = await cargarUsuarioActivo()
 
     let fechaDevolucion = new Date();
     fechaDevolucion.setDate(fechaDevolucion.getDate() + 15);
@@ -94,7 +94,6 @@ async function asignacionDocumentoPrestamo() {
             </td>
             <td class="col_lg">
                 <input hidden disabled id="sucursalDocumento" value="${idSucursal}">
-                <input hidden disabled id="usuarioDocumento" value="${idUsuario}">
                 <p class="campo_formulario v2">${nombreSucursal}</p>
             </td>
             <td class="col_ml">

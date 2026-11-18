@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">    
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
     <link rel="stylesheet" href="archivos/css/index.css">
     <title>Bibliored</title>
 </head>
+
 <body>
     <nav class="nav">
         <div class="logo_cont">
@@ -50,6 +52,32 @@
             <button id="btn_logout" class="btn_cerrar_sesion">Cerrar sesion</button>
         </div>
     </nav>
+
+    <div id="modalPass" class="modal-overlay">
+        <form id="formPass" class="form">
+            <div class="form_header">
+                <h3 class="form_header_h3">Cambio de contraseña</h3>
+            </div>
+            <div class="form_cont">
+                <div class="input_cont">
+                    <p>Usuario:</p>
+                    <input type="text" id="user" class="campo_formulario" placeholder="Usuario" required>
+                </div>
+                <div class="input_cont">
+                    <p>Contraseña:</p>
+                    <input type="password" id="password" class="campo_formulario" placeholder="Nueva contraseña" required>
+                </div>
+                <div class="input_cont">
+                    <p>Confirmación contraseña:</p>
+                    <input type="password" id="confirmacion" class="campo_formulario" placeholder="Confirmacion contraseña" required>
+                </div>
+            </div>
+            <div class="btn_guardar_cont">
+                <button type="submit" class="btn_guardar">Guardar</button>
+            </div>
+        </form>
+    </div>
+
     <div class="contain" id="contenido">
         <h3 class="h3">A quien corresponda.
             <br><br>
@@ -68,11 +96,14 @@
             <br><br>- 08 Inventarios (Sucursales, usuarios, proveedores y libros)
             <br><br>- 09 Prestamos (dependiente de sucursales, usuarios, libros y clientes)
             <br><br>- 10 Consultas (Tecnicamente depende de los demas modulos aunque no esta confirmado su desarrollo)
-            <br><br> PD: Durante el desarrollo se ha implementado H2 como base de datos temporal, para ejecutarla es necesario inicializar el backend permitiendo almacenar los datos correspondientes, asi mismo esta sera eliminada una vez el back sea detenido.
+            <br><br> PD: Durante el desarrollo se ha implementado H2 como base de datos temporal, para ejecutarla es
+            necesario inicializar el backend permitiendo almacenar los datos correspondientes, asi mismo esta sera
+            eliminada una vez el back sea detenido.
         </h3>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script src="archivos/js/config.js"></script>
+    <script src="archivos/js/password.js"></script>
     <script src="archivos/js/sucursales.js"></script>
     <script src="archivos/js/usuarios.js"></script>
     <script src="archivos/js/categorias.js"></script>
@@ -86,4 +117,5 @@
     <script src="archivos/js/prestamosConsultas.js"></script>
     <script src="archivos/js/index.js"></script>
 </body>
+
 </html>
