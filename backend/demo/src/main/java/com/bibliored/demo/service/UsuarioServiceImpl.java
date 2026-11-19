@@ -1,9 +1,7 @@
 package com.bibliored.demo.service;
 
 import com.bibliored.demo.component.ValidadorNegocio;
-import com.bibliored.demo.dto.UsuarioPassinicialDTO;
-import com.bibliored.demo.dto.UsuarioRequestDTO;
-import com.bibliored.demo.dto.UsuarioResponseDTO;
+import com.bibliored.demo.dto.*;
 import com.bibliored.demo.enums.Roles;
 import com.bibliored.demo.exceptions.BusinessExceptions;
 import com.bibliored.demo.model.Usuario;
@@ -128,7 +126,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public void cambiarPassword(Long id, UsuarioPassinicialDTO request) {
+    public void cambiarPasswordInicial(Long id, UsuarioPassInicialRequestDTO request) {
 
         String identificacion = SecurityContextHolder.getContext()
                 .getAuthentication()
@@ -143,6 +141,52 @@ public class UsuarioServiceImpl implements UsuarioService{
 
         Usuario usuario = validacionPorId(id);
         usuario.setContrasena(passwordEncoder.encode(request.contrasena()));
+
+        if (request.contrasena() == null || request.contrasena().length() < 8) {
+            throw new BusinessExceptions("La nueva contraseña debe tener al menos 8 caracteres.");
+        }
+        usuario.setCambioPassInicial(false);
+        usuarioRepository.save(usuario);
+    }
+
+    private Usuario usuarioActivo() {
+        String identificacion = SecurityContextHolder.getContext().getAuthentication().getName();
+        return usuarioRepository.findByIdentificacionUsuario(identificacion)
+                .orElseThrow(() -> new BusinessExceptions("Usuario no encontrado"));
+    }
+
+    @Override
+    public UsuarioResponseDTO perfil() {
+        return toPerfilDTO(usuarioActivo());
+    }
+
+    @Override
+    public UsuarioResponseDTO actualizarPerfil(UsuarioPerfilRequestDTO request) {
+        Usuario usuario = usuarioActivo();
+
+        String nombre = validadorNegocio.formatoNombre(request.nombreUsuario());
+        String correo = validadorNegocio.formatoCorreo(request.correoUsuario());
+
+        validadorNegocio.validarCorreoDuplicadoUsuario(correo, usuario.getIdUsuario());
+
+        usuario.setNombreUsuario(nombre);
+        usuario.setCorreoUsuario(correo);
+        usuario.setTelefonoUsuario(request.telefonoUsuario());
+        usuario.setDireccionUsuario(request.direccionUsuario());
+
+        return toPerfilDTO(usuarioRepository.save(usuario));
+    }
+
+    @Override
+    public void cambioContrasena(UsuarioCambioPassRequestDTO request) {
+        Usuario usuario = usuarioActivo();
+        if (!passwordEncoder.matches(request.actual(), usuario.getContrasena())) {
+            throw new BusinessExceptions("La contraseña actual no es correcta");
+        }
+        if (request.nueva() == null || request.nueva().length() < 8) {
+            throw new BusinessExceptions("La nueva contraseña debe tener al menos 8 caracteres.");
+        }
+        usuario.setContrasena(passwordEncoder.encode(request.nueva()));
         usuario.setCambioPassInicial(false);
         usuarioRepository.save(usuario);
     }
@@ -175,11 +219,23 @@ public class UsuarioServiceImpl implements UsuarioService{
     private UsuarioResponseDTO toResponseDTO (Usuario usuario){
         return new UsuarioResponseDTO(
                 usuario.getIdUsuario(),
-//                usuario.getIdentificacionUsuario(),
                 enmascararIdentificacion(usuario.getIdentificacionUsuario()),
                 usuario.getNombreUsuario(),
-//                usuario.getCorreoUsuario(),
                 enmascararCorreo(usuario.getCorreoUsuario()),
+                usuario.getDireccionUsuario(),
+                usuario.getTelefonoUsuario(),
+                usuario.getRolUsuario(),
+                usuario.getSucursal().getIdSucursal(),
+                usuario.getSucursal().getNombreSucursal()
+        );
+    }
+
+    private UsuarioResponseDTO toPerfilDTO(Usuario usuario) {
+        return new UsuarioResponseDTO(
+                usuario.getIdUsuario(),
+                usuario.getIdentificacionUsuario(),
+                usuario.getNombreUsuario(),
+                usuario.getCorreoUsuario(),
                 usuario.getDireccionUsuario(),
                 usuario.getTelefonoUsuario(),
                 usuario.getRolUsuario(),

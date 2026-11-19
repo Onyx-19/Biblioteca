@@ -54,6 +54,7 @@ function inicializarCategorias() {
         if(respuesta.ok){
             cerrarModalCategoria();
             listarCategorias();
+            alert("Proceso exitoso.")
         };
 
         // --Respuesta si el backend retorna algun error.
@@ -128,6 +129,7 @@ async function eliminarCategoria(){
     if (respuesta.ok){
         cerrarModalCategoria();
         listarCategorias();
+        alert("Proceso exitoso.")
     } else {
         const error = await respuesta.json();
         alert("Error: " + error.mensaje || "No se pudo eliminar la categoria");

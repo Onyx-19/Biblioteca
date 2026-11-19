@@ -65,6 +65,7 @@ function inicializarUsuarios() {
         if(respuesta.ok){
             cerrarModalUsuario();
             listarUsuarios();
+            alert("Proceso exitoso.")
         }
 
         // --Respuesta si el backend retorna algun error.
@@ -168,6 +169,7 @@ async function eliminarUsuario(){
     if (respuesta.ok){
         cerrarModalUsuario();
         listarUsuarios();
+        alert("Proceso exitoso.")
     } else {
         const error = await respuesta.json();
         alert("Error: " + error.mensaje || "No se pudo eliminar el usuario");

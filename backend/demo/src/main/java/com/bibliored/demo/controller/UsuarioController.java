@@ -56,8 +56,8 @@ public class UsuarioController {
 
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'SUPERVISOR', 'MANAGER', 'BIBLIOTECARIO')")
     @PatchMapping("/{id}/password")
-    public ResponseEntity<Void> cambiarPassword(@PathVariable Long id, @Valid @RequestBody UsuarioPassinicialDTO request){
-        usuarioService.cambiarPassword(id, request);
+    public ResponseEntity<Void> cambiarPassword(@PathVariable Long id, @Valid @RequestBody UsuarioPassInicialRequestDTO request){
+        usuarioService.cambiarPasswordInicial(id, request);
         return ResponseEntity.noContent().build();
     }
 
@@ -68,5 +68,22 @@ public class UsuarioController {
                 .map(Enum::name)
                 .toList();
         return ResponseEntity.ok(roles);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UsuarioResponseDTO> perfil() {
+        return ResponseEntity.ok(usuarioService.perfil());
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<UsuarioResponseDTO> actualizarPerfil(
+            @Valid @RequestBody UsuarioPerfilRequestDTO request) {
+        return ResponseEntity.ok(usuarioService.actualizarPerfil(request));
+    }
+
+    @PutMapping("/me/contrasena")
+    public ResponseEntity<Void> cambioContrasena(@Valid @RequestBody UsuarioCambioPassRequestDTO request) {
+        usuarioService.cambioContrasena(request);
+        return ResponseEntity.noContent().build();
     }
 }

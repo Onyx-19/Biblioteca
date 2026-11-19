@@ -48,6 +48,7 @@ function inicializarInventarios() {
         // --Respuesta si el backend procesa la peticion con exito.
         if(respuesta.ok){
             cerrarModalInventario();
+            alert("Proceso exitoso.")
         };
 
         // --Respuesta si el backend retorna algun error.

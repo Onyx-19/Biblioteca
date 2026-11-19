@@ -1,8 +1,6 @@
 package com.bibliored.demo.service;
 
-import com.bibliored.demo.dto.UsuarioPassinicialDTO;
-import com.bibliored.demo.dto.UsuarioRequestDTO;
-import com.bibliored.demo.dto.UsuarioResponseDTO;
+import com.bibliored.demo.dto.*;
 
 import java.util.List;
 
@@ -18,5 +16,12 @@ public interface UsuarioService {
 
     void eliminar(Long id);
 
-    void cambiarPassword(Long id, UsuarioPassinicialDTO request);
+    void cambiarPasswordInicial(Long id, UsuarioPassInicialRequestDTO request);
+
+    UsuarioResponseDTO perfil();
+
+    UsuarioResponseDTO actualizarPerfil(UsuarioPerfilRequestDTO request);
+
+    void cambioContrasena(UsuarioCambioPassRequestDTO request);
+
 }

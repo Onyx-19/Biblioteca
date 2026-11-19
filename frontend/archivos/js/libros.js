@@ -65,6 +65,7 @@ function inicializarLibros() {
         if(respuesta.ok){
             cerrarModalLibro();
             listarLibros();
+            alert("Proceso exitoso.")
         };
 
         // --Respuesta si el backend retorna algun error.
@@ -206,6 +207,7 @@ async function eliminarLibro(){
     if (respuesta.ok){
         cerrarModalLibro();
         listarLibros();
+        alert("Proceso exitoso.")
     } else {
         const error = await respuesta.json();
         alert("Error: " + error.mensaje || "No se pudo eliminar el libro.");

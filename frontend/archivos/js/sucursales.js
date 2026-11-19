@@ -55,6 +55,7 @@ function inicializarSucursales() {
         if(respuesta.ok){
             cerrarModalSucursal();
             listarSucursales();
+            alert("Proceso exitoso.")
         }
 
         // --Respuesta si el backend retorna algun error.
@@ -135,6 +136,7 @@ async function eliminarSucursal(){
     if (respuesta.ok){
         cerrarModalSucursal();
         listarSucursales();
+        alert("Proceso exitoso.")
     } else {
         const error = await respuesta.json();
         alert("Error: " + error.mensaje || "No se pudo eliminar la sucursal");

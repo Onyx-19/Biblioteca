@@ -58,6 +58,7 @@ function inicializarClientes() {
         if(respuesta.ok){
             cerrarModalCliente();
             listarClientes();
+            alert("Proceso exitoso.")
         };
 
         // --Respuesta si el backend retorna algun error.
@@ -142,6 +143,7 @@ async function eliminarCliente(){
     if (respuesta.ok){
         cerrarModalCliente();
         listarClientes();
+        alert("Proceso exitoso.")
     } else {
         const error = await respuesta.json();
         alert("Error: " + error.mensaje || "No se pudo eliminar el cliente.");

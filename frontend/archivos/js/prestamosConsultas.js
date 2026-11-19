@@ -128,6 +128,7 @@ async function finalizarPrestamo(id){
 
     if (respuesta.ok){
         prestamoHistorico();
+        alert("Proceso exitoso.")
     } else {
         const error = await respuesta.json();
         alert("Error: " + error.mensaje || "No se pudo finalizar el prestamo.");

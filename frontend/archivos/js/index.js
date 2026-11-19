@@ -86,50 +86,104 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+// VALIDACIONES DE USUARIO AUTH
 cargarUsuarioActivo();
 
+// Cambio de contraseña obligatorio al iniciar sesion por primera vez.
+document.addEventListener("DOMContentLoaded", () => {
+    cambioInicialPass();
+});
+
+// Proceso que ejecuta el Logout
 document.getElementById("btn_logout").addEventListener("click", () => {
     AUTH.cerrarSesion();
     window.location.href = "login.html";
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    cambioInicialPass();
+
+
+// MENU DE USUARIO
+// Funcion que habilita la modal para acceder a la modificacion del perfil activo.
+async function configPerfil() {
+    const respuesta = await fetch (API_USUARIOS + `/me`, {
+        headers: AUTH.headers()
+    });
+
+    const usuario = await respuesta.json();
+    document.getElementById("idPerfil").value = usuario.idUsuario;
+    document.getElementById("identificacionPerfil").value = usuario.identificacionUsuario;
+    document.getElementById("nombrePerfil").value = usuario.nombreUsuario;
+    document.getElementById("correoPerfil").value = usuario.correoUsuario;
+    document.getElementById("direccionPerfil").value = usuario.direccionUsuario;
+    document.getElementById("telefonoPerfil").value = usuario.telefonoUsuario;
+
+    document.getElementById("modalConfigPerfil").style.display = "flex";
+}
+
+
+// Actualiza los datos en el perfil del usuario activo
+document.getElementById("formConfig").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const metodo = "PUT";
+    const url = API_USUARIOS + `/me`;
+    // --Captura de datos del formulario.
+    const datos = {
+        identificacionUsuario: document.getElementById("identificacionPerfil").value,
+        nombreUsuario: document.getElementById("nombrePerfil").value,
+        correoUsuario: document.getElementById("correoPerfil").value,
+        direccionUsuario: document.getElementById("direccionPerfil").value,
+        telefonoUsuario: document.getElementById("telefonoPerfil").value,
+    };
+
+    // --Envio de los datos al backend.
+    const respuesta = await fetch(url, {
+        method: metodo,
+        headers: AUTH.headers(),
+        body: JSON.stringify(datos)
+    });
+
+    // --Respuesta si el backend procesa la peticion con exito.
+    if(respuesta.ok) {
+        cerrarModalConfig();
+        alert("Proceso exitoso.")
+    }
+
+    // --Respuesta si el backend retorna algun error.
+    if (!respuesta.ok) {
+        const error = await respuesta.json();
+        alert(error.mensaje); // muestra solo el mensaje legible
+        return;
+    }
 });
 
-// function modalCambioPass() {
-//     const id = document.getElementById("idUsuario").value;
-//     const titulo = document.querySelector(".form_header_h3");
-//     const btnEliminar = document.querySelector(".btn_eliminar");
 
-//     if (id){
-//         titulo.textContent = "Modificación de usuarios";
-//         btnEliminar.style.display = "block";
-//         if(id == 1){
-//             btnEliminar.style.display = "none";
-//         }
-//     } else {
-//         selectRoles();
-//         titulo.textContent = "Creación de usuarios";
-//         btnEliminar.style.display = "none";
-//     }
+// Reutiliza la modal del cambio obligatorio de contraseña y permite modificar la contraseña desde la modificacion del perfil activo.
+function cambioPassConfig(){
+    document.getElementById("modalPass").style.display = "flex";
+    prepararModalPass();
+}
 
-//     document.getElementById("modalUsuario").style.display = "flex";
-// }
 
-// // --Proceso de cierre de modal.
-// function cerrarModalUsuario() {
-//     const modal = document.getElementById("modalUsuario");
-//     const form = document.getElementById("formUsuario");
-//     if (modal) modal.style.display = "none";
-//     if (form) form.reset();
-// }
+// MODAL
+// --Proceso de cierre de modal configuiracion de perfil.
+function cerrarModalConfig() {
+    const modal = document.getElementById("modalConfigPerfil");
+    const form = document.getElementById("formConfig");
+    const modalPass = document.getElementById("modalPass")
 
-// // --Utilizar la tecla esc para cerrar la modal.
-// function escModalUsuarios(e){
-//     if (e.key === 'Escape'){
-//         cerrarModalUsuario();
-//     }
-// }
+    if (modalPass && modalPass.style.display === "flex") return;
 
-// document.addEventListener("keydown", escModalUsuarios);
+    if (modal) modal.style.display = "none";
+    if (form) form.reset();
+}
+
+// --Utilizar la tecla esc para cerrar la modal configuiracion de perfil.
+function escModalConfig(e){
+    if (e.key === 'Escape'){
+        cerrarModalConfig();
+    }
+}
+
+document.addEventListener("keydown", escModalConfig);

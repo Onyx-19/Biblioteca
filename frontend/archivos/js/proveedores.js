@@ -53,6 +53,7 @@ function inicializarProveedores() {
         if(respuesta.ok){
             cerrarModalProveedor();
             listarProveedores();
+            alert("Proceso exitoso.")
         };
 
         // --Respuesta si el backend retorna algun error.
@@ -137,6 +138,7 @@ async function eliminarProveedor(){
     if (respuesta.ok){
         cerrarModalProveedor();
         listarProveedores();
+        alert("Proceso exitoso.")
     } else {
         const error = await respuesta.json();
         alert("Error: " + error.mensaje || "No se pudo eliminar el proveedor.");

@@ -42,26 +42,75 @@
             </ul>
         </div>
         <div class="perfil_cont">
-            <div class="perfil_mini_cont">
+            <button class="perfil_mini_cont" onclick="configPerfil()">
                 <i class="bi bi-person-gear"></i>
                 <div class="perfil">
                     <p id="usuarioActivo"></p>
                     <p class="perfil_rol"></p>
                 </div>
-            </div>
+            </button>
             <button id="btn_logout" class="btn_cerrar_sesion">Cerrar sesion</button>
         </div>
     </nav>
 
-    <div id="modalPass" class="modal-overlay">
+    
+
+    <div id="modalConfigPerfil" class="modal-overlay" style="display: none;">
+        <form id="formConfig" class="form">
+            <div class="form_header">
+                <h3 id="tituloModalPerfil" class="form_header_h3">Actualizar información del perfil</h3>
+                <button type="button" class="btn_close" onclick="cerrarModalConfig()"><i class="bi bi-x"></i></button>
+            </div>
+            <div class="form_cont">
+                <input id="idPerfil" class="campo_formulario" type="hidden">
+                <div class="input_cont">
+                    <p>Numero de identificación:</p>
+                    <input type="text" id="identificacionPerfil" class="campo_formulario"
+                        placeholder="N° identificacion" required>
+                </div>
+                <div class="input_cont">
+                    <p>Nombre:</p>
+                    <input type="text" id="nombrePerfil" class="campo_formulario" placeholder="Nombre" required>
+                </div>
+                <div class="input_cont">
+                    <p>Correo:</p>
+                    <input type="email" id="correoPerfil" class="campo_formulario" placeholder="Correo" required>
+                </div>
+                <div class="input_cont">
+                    <p>Dirección:</p>
+                    <input type="text" id="direccionPerfil" class="campo_formulario" placeholder="Direccion">
+                </div>
+                <div class="input_cont">
+                    <p>Teléfono:</p>
+                    <input type="text" id="telefonoPerfil" class="campo_formulario" placeholder="Telefono">
+                </div>
+                <div class="input_cont">
+                    <p>Cambiar contraseña:</p>
+                    <button type="button" class="btn_cambio_pass" onclick="cambioPassConfig()">Actualizar contraseña</button>
+                </div>
+            </div>
+            <div class="btn_guardar_cont">
+                <button type="submit" class="btn_guardar">Guardar</button>
+                <button type="button" class="btn_cancelar" onclick="cerrarModalConfig()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+
+
+    <div id="modalPass" class="modal-overlay top">
         <form id="formPass" class="form">
             <div class="form_header">
                 <h3 class="form_header_h3">Cambio de contraseña</h3>
+                <button id="cierreModalPass" type="button" class="btn_close" onclick="cerrarModalPass()">
+                    <i class="bi bi-x"></i>
+                </button>
             </div>
+            <p>Se debe establecer una contraseña con al menos 8 caracteres.</p>
             <div class="form_cont">
-                <div class="input_cont">
-                    <p>Usuario:</p>
-                    <input type="text" id="user" class="campo_formulario" placeholder="Usuario" required>
+                <div id="campoActual" class="input_cont">
+                    <p>Contraseña Actual:</p>
+                    <input type="password" id="actual" class="campo_formulario" placeholder="Contraseña actual">
                 </div>
                 <div class="input_cont">
                     <p>Contraseña:</p>
@@ -74,9 +123,13 @@
             </div>
             <div class="btn_guardar_cont">
                 <button type="submit" class="btn_guardar">Guardar</button>
+                <button id="cancelModalPass" type="button" class="btn_cancelar" onclick="cerrarModalPass()">Cancelar</button>
             </div>
         </form>
     </div>
+
+
+
 
     <div class="contain" id="contenido">
         <h3 class="h3">A quien corresponda.
